@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Sat, 24 Aug 2024 09:20:35 +0200
+Subject: [PATCH] Let the air flow!
+
+
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index a04996425a087f8625f13d43d4cdf5804d963ded..600d630c0b41bb09dafb51504d18f62fadd64c47 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -259,6 +259,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     private final PotionBrewing potionBrewing;
+     private volatile boolean isSaving;
+     private static final AtomicReference<RuntimeException> fatalException = new AtomicReference<>();
++    private final me.glicz.airflow.AirServer airServer; // Airflow
+ 
+     public static <S extends MinecraftServer> S spin(Function<Thread, S> threadFunction) {
+         AtomicReference<S> atomicReference = new AtomicReference<>();
+@@ -314,6 +315,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             this.serverThread = serverThread;
+             this.executor = Util.backgroundExecutor();
+             this.potionBrewing = PotionBrewing.bootstrap(this.worldData.enabledFeatures());
++            this.airServer = new me.glicz.airflow.AirServer(this); // Airflow
+         }
+     }
+ 
+@@ -1119,7 +1121,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+ 
+     @DontObfuscate
+     public String getServerModName() {
+-        return "vanilla";
++        return "Airflow"; // Airflow
+     }
+ 
+     public SystemReport fillSystemReport(SystemReport systemReport) {

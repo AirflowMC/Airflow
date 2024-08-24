@@ -1,0 +1,14 @@
+[versions]
+adventure-api = "4.17.0"
+guice = "6.0.0"
+configurate = "4.2.0-SNAPSHOT"
+
+[libraries]
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure-api" }
+adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure-api" }
+adventure-text-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure-api" }
+configurate = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+
+[bundles]
+adventure = ["adventure-api", "adventure-text-serializer-gson", "adventure-text-minimessage"]

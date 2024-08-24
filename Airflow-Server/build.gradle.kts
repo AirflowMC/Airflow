@@ -1,7 +1,6 @@
 import me.glicz.airflow.plugin.papierMache
 
 plugins {
-    id("java")
     id("me.glicz.airflow.plugin")
 }
 

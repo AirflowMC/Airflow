@@ -26,6 +26,11 @@ public class AirPluginMeta implements PluginMeta {
     }
 
     @Override
+    public String getMainClass() {
+        return mainClass;
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }

@@ -1,12 +1,15 @@
 package me.glicz.airflow.api;
 
 import me.glicz.airflow.api.command.ServerCommandSource;
-import me.glicz.airflow.api.util.Version;
+import org.jetbrains.annotations.NotNull;
 
-public interface Server {
-    Version getVersion();
+public interface Server extends ServerAware, ServerInfoProvider {
+    @NotNull String getServerBrandName();
 
-    String getServerBrandName();
+    @NotNull ServerCommandSource getServerCommandSource();
 
-    ServerCommandSource getServerCommandSource();
+    @Override
+    default Server getServer() {
+        return this;
+    }
 }

@@ -9,3 +9,7 @@ dependencies {
     api("com.google.guava:guava:32.1.2-jre")
     api("org.slf4j:slf4j-api:2.0.9")
 }
+
+java {
+    withJavadocJar()
+}

@@ -4,27 +4,33 @@ Date: Sat, 24 Aug 2024 09:20:35 +0200
 Subject: [PATCH] Let the air flow!
 
 
+diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
+index 3cde0044772e568e2d5f89f2f946d49629725484..678350d0461ed1f7420376ebd69a4371c1fb0559 100644
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -119,6 +119,8 @@ public class Main {
+                 return;
+             }
+ 
++            me.glicz.airflow.Airflow airflow = new me.glicz.airflow.Airflow(dedicatedServerSettings); // Airflow
++
+             File file = new File(optionSet.valueOf(optionSpec9));
+             Services services = Services.create(new YggdrasilAuthenticationService(Proxy.NO_PROXY), file);
+             String string = Optional.ofNullable(optionSet.valueOf(optionSpec10)).orElse(dedicatedServerSettings.getProperties().levelName);
+@@ -251,7 +253,7 @@ public class Main {
+                         dedicatedServerSettings,
+                         DataFixers.getDataFixer(),
+                         services,
+-                        LoggerChunkProgressListener::createFromGameruleRadius
++                        LoggerChunkProgressListener::createFromGameruleRadius, airflow // Airflow
+                     );
+                     dedicatedServer1.setPort(optionSet.valueOf(optionSpec11));
+                     dedicatedServer1.setDemo(optionSet.has(optionSpec2));
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index a04996425a087f8625f13d43d4cdf5804d963ded..600d630c0b41bb09dafb51504d18f62fadd64c47 100644
+index a04996425a087f8625f13d43d4cdf5804d963ded..8875c194fad27cff3f13a32a7f1d004c240abb7a 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -259,6 +259,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-     private final PotionBrewing potionBrewing;
-     private volatile boolean isSaving;
-     private static final AtomicReference<RuntimeException> fatalException = new AtomicReference<>();
-+    private final me.glicz.airflow.AirServer airServer; // Airflow
- 
-     public static <S extends MinecraftServer> S spin(Function<Thread, S> threadFunction) {
-         AtomicReference<S> atomicReference = new AtomicReference<>();
-@@ -314,6 +315,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-             this.serverThread = serverThread;
-             this.executor = Util.backgroundExecutor();
-             this.potionBrewing = PotionBrewing.bootstrap(this.worldData.enabledFeatures());
-+            this.airServer = new me.glicz.airflow.AirServer(this); // Airflow
-         }
-     }
- 
-@@ -1119,7 +1121,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1119,7 +1119,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -33,3 +39,34 @@ index a04996425a087f8625f13d43d4cdf5804d963ded..600d630c0b41bb09dafb51504d18f62f
      }
  
      public SystemReport fillSystemReport(SystemReport systemReport) {
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index a517582912bf1b16b69a3ef699103d0d375f46c5..68e14665f57d50a4c562ddc0ecf6217b0645bcb7 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -80,6 +80,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+     @Nullable
+     private DebugSampleSubscriptionTracker debugSampleSubscriptionTracker;
+     private final ServerLinks serverLinks;
++    public final me.glicz.airflow.Airflow airflow; // Airflow
+ 
+     public DedicatedServer(
+         Thread serverThread,
+@@ -89,13 +90,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         DedicatedServerSettings settings,
+         DataFixer fixerUpper,
+         Services services,
+-        ChunkProgressListenerFactory progressListenerFactory
++        ChunkProgressListenerFactory progressListenerFactory, me.glicz.airflow.Airflow airflow // Airflow
+     ) {
+         super(serverThread, storageSource, packRepository, worldStem, Proxy.NO_PROXY, fixerUpper, services, progressListenerFactory);
+         this.settings = settings;
+         this.rconConsoleSource = new RconConsoleSource(this);
+         this.textFilterClient = TextFilterClient.createFromConfig(settings.getProperties().textFilteringConfig);
+         this.serverLinks = createServerLinks(settings);
++        // Airflow start
++        this.airflow = airflow;
++        this.airflow.createServer(this);
++        // Airflow end
+     }
+ 
+     @Override

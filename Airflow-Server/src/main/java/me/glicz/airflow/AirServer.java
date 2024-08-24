@@ -2,38 +2,44 @@ package me.glicz.airflow;
 
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.ServerCommandSource;
+import me.glicz.airflow.api.properties.ServerProperties;
 import me.glicz.airflow.api.util.Version;
 import me.glicz.airflow.command.AirServerCommandSource;
 import me.glicz.airflow.util.AdventureSerializer;
-import me.glicz.airflow.util.AirVersion;
-import net.minecraft.SharedConstants;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import org.jetbrains.annotations.NotNull;
 
 public class AirServer implements Server {
-    public final MinecraftServer minecraftServer;
+    public final Airflow airflow;
+    public final DedicatedServer minecraftServer;
     public final AdventureSerializer adventureSerializer;
-    private final Version version;
     private final ServerCommandSource serverCommandSource;
 
-    public AirServer(MinecraftServer minecraftServer) {
+    public AirServer(Airflow airflow, DedicatedServer minecraftServer) {
+        this.airflow = airflow;
         this.minecraftServer = minecraftServer;
+
         this.adventureSerializer = new AdventureSerializer(this);
-        this.version = new AirVersion(SharedConstants.getCurrentVersion());
         this.serverCommandSource = new AirServerCommandSource(this);
     }
 
     @Override
-    public Version getVersion() {
-        return this.version;
-    }
-
-    @Override
-    public String getServerBrandName() {
+    public @NotNull String getServerBrandName() {
         return this.minecraftServer.getServerModName();
     }
 
     @Override
-    public ServerCommandSource getServerCommandSource() {
+    public @NotNull ServerCommandSource getServerCommandSource() {
         return this.serverCommandSource;
+    }
+
+    @Override
+    public @NotNull Version getServerVersion() {
+        return this.airflow.version;
+    }
+
+    @Override
+    public @NotNull ServerProperties getServerProperties() {
+        return this.airflow.serverProperties;
     }
 }

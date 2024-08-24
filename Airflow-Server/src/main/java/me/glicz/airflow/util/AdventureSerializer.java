@@ -4,7 +4,7 @@ import me.glicz.airflow.AirServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
-public class AdventureSerializer {
+public class AdventureSerializer { // TODO Adventure codecs?
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.gson();
     private final AirServer server;
 
@@ -13,6 +13,10 @@ public class AdventureSerializer {
     }
 
     public net.minecraft.network.chat.Component toMinecraft(Component component) {
+        if (component == null) {
+            return null;
+        }
+
         return net.minecraft.network.chat.Component.Serializer.fromJson(
                 GSON_SERIALIZER.serializeToTree(component),
                 server.minecraftServer.registryAccess()

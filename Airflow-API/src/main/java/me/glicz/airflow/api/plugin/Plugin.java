@@ -2,12 +2,17 @@ package me.glicz.airflow.api.plugin;
 
 import com.google.inject.Inject;
 import me.glicz.airflow.api.Server;
+import me.glicz.airflow.api.ServerAware;
+import me.glicz.airflow.api.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.event.bus.EventBus;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-public abstract class Plugin {
+import java.util.concurrent.atomic.AtomicReference;
+
+public abstract class Plugin implements ServerAware {
     @Inject
-    private Server server;
+    private AtomicReference<Server> server;
     @Inject
     private PluginMeta pluginMeta;
     @Inject
@@ -15,20 +20,24 @@ public abstract class Plugin {
     @Inject
     private Logger logger;
 
+    @Override
     public Server getServer() {
-        return this.server;
+        return this.server.get();
     }
 
-    public PluginMeta getPluginMeta() {
+    public @NotNull PluginMeta getPluginMeta() {
         return this.pluginMeta;
     }
 
-    public EventBus getEventBus() {
+    public @NotNull EventBus getEventBus() {
         return eventBus;
     }
 
-    public Logger getLogger() {
+    public @NotNull Logger getLogger() {
         return this.logger;
+    }
+
+    public void bootstrap(@NotNull BootstrapContext ctx) {
     }
 
     public void onLoad() {

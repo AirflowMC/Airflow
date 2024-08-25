@@ -1,6 +1,7 @@
 package me.glicz.airflow.plugin.bootstrap;
 
 import me.glicz.airflow.Airflow;
+import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.plugin.PluginsLoader;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.properties.ServerProperties;
@@ -27,5 +28,10 @@ public class AirBootstrapContext implements BootstrapContext {
     @Override
     public @NotNull PluginsLoader getPluginsLoader() {
         return this.airflow.pluginLoader;
+    }
+
+    @Override
+    public @NotNull ServerEventBus getServerEventBus() {
+        return this.airflow.serverEventBus;
     }
 }

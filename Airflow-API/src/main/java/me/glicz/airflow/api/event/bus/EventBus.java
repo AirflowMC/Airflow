@@ -2,15 +2,18 @@ package me.glicz.airflow.api.event.bus;
 
 import me.glicz.airflow.api.event.Event;
 import me.glicz.airflow.api.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 public interface EventBus {
     Plugin getPlugin();
 
-    default <E extends Event> void subscribe(Class<E> event, EventHandler<E> handler) {
-        subscribe(event, Event.Priority.NORMAL, handler);
+    default <E extends Event> EventHandler<E> subscribe(@NotNull Class<E> event, @NotNull EventHandler<E> handler) {
+        return subscribe(event, Event.Priority.NORMAL, handler);
     }
 
-    <E extends Event> void subscribe(Class<E> event, Event.Priority priority, EventHandler<E> handler);
+    <E extends Event> EventHandler<E> subscribe(@NotNull Class<E> event, @NotNull Event.Priority priority, @NotNull EventHandler<E> handler);
 
-    <E extends Event> void dispatch(E event);
+    <E extends Event> void unsubscribe(@NotNull Class<E> event, @NotNull EventHandler<E> handler);
+
+    <E extends Event> E dispatch(@NotNull E event);
 }

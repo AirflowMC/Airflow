@@ -1,7 +1,7 @@
 package me.glicz.airflow.api.event;
 
-public interface Event {
-    enum Priority {
+public abstract class Event {
+    public enum Priority {
         LOW,
         LOWEST,
         NORMAL,

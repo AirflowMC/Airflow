@@ -16,10 +16,7 @@ import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class AirPluginsLoader implements PluginsLoader {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -40,6 +37,11 @@ public class AirPluginsLoader implements PluginsLoader {
     @Override
     public @Nullable Plugin getPlugin(String name) {
         return this.plugins.get(name);
+    }
+
+    @Override
+    public @NotNull Collection<Plugin> getPlugins() {
+        return List.copyOf(plugins.values());
     }
 
     @Override

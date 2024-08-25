@@ -2,6 +2,7 @@ package me.glicz.airflow;
 
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.ServerCommandSender;
+import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.plugin.PluginsLoader;
 import me.glicz.airflow.api.properties.ServerProperties;
 import me.glicz.airflow.api.util.Version;
@@ -47,5 +48,10 @@ public class AirServer implements Server {
     @Override
     public @NotNull PluginsLoader getPluginsLoader() {
         return this.airflow.pluginLoader;
+    }
+
+    @Override
+    public @NotNull ServerEventBus getServerEventBus() {
+        return this.airflow.serverEventBus;
     }
 }

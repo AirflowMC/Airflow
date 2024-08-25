@@ -7,3 +7,5 @@ listOf("Airflow-API", "Airflow-Server").forEach { project ->
     include(name)
     findProject(":$name")?.projectDir = file(project)
 }
+
+include("test-plugin")

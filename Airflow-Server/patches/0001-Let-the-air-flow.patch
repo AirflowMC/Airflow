@@ -5,19 +5,31 @@ Subject: [PATCH] Let the air flow!
 
 
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index 3cde0044772e568e2d5f89f2f946d49629725484..678350d0461ed1f7420376ebd69a4371c1fb0559 100644
+index 3cde0044772e568e2d5f89f2f946d49629725484..d2e7869fd3ccfa868f520b4029d6aad190ae834d 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -119,6 +119,8 @@ public class Main {
+@@ -82,6 +82,7 @@ public class Main {
+         OptionSpec<Void> optionSpec13 = optionParser.accepts("jfrProfile");
+         OptionSpec<Path> optionSpec14 = optionParser.accepts("pidFile").withRequiredArg().withValuesConvertedBy(new PathConverter());
+         OptionSpec<String> optionSpec15 = optionParser.nonOptions();
++        optionParser.allowsUnrecognizedOptions(); // Airflow
+ 
+         try {
+             OptionSet optionSet = optionParser.parse(args);
+@@ -119,6 +120,12 @@ public class Main {
                  return;
              }
  
-+            me.glicz.airflow.Airflow airflow = new me.glicz.airflow.Airflow(dedicatedServerSettings); // Airflow
++            // Airflow start
++            me.glicz.airflow.Airflow airflow = new me.glicz.airflow.Airflow(args, dedicatedServerSettings);
++            airflow.pluginLoader.preloadPlugins();
++            airflow.pluginLoader.bootstrapPlugins();
++            // Airflow end
 +
              File file = new File(optionSet.valueOf(optionSpec9));
              Services services = Services.create(new YggdrasilAuthenticationService(Proxy.NO_PROXY), file);
              String string = Optional.ofNullable(optionSet.valueOf(optionSpec10)).orElse(dedicatedServerSettings.getProperties().levelName);
-@@ -251,7 +253,7 @@ public class Main {
+@@ -251,7 +258,7 @@ public class Main {
                          dedicatedServerSettings,
                          DataFixers.getDataFixer(),
                          services,
@@ -40,7 +52,7 @@ index a04996425a087f8625f13d43d4cdf5804d963ded..8875c194fad27cff3f13a32a7f1d004c
  
      public SystemReport fillSystemReport(SystemReport systemReport) {
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index a517582912bf1b16b69a3ef699103d0d375f46c5..68e14665f57d50a4c562ddc0ecf6217b0645bcb7 100644
+index a517582912bf1b16b69a3ef699103d0d375f46c5..40939593c151deca49de19301e72f60c45a5e8f5 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -80,6 +80,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -70,3 +82,36 @@ index a517582912bf1b16b69a3ef699103d0d375f46c5..68e14665f57d50a4c562ddc0ecf6217b
      }
  
      @Override
+@@ -118,7 +123,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         thread.setDaemon(true);
+         thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER));
+         thread.start();
+-        LOGGER.info("Starting minecraft server version {}", SharedConstants.getCurrentVersion().getName());
++        LOGGER.info("Starting {} minecraft server version {}", getServerModName(), SharedConstants.getCurrentVersion().getName());
+         if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
+             LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
+         }
+@@ -178,6 +183,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             return false;
+         } else {
+             this.setPlayerList(new DedicatedPlayerList(this, this.registries(), this.playerDataStorage));
++            this.airflow.pluginLoader.loadPlugins(); // Airflow
+             this.debugSampleSubscriptionTracker = new DebugSampleSubscriptionTracker(this.getPlayerList());
+             this.tickTimeLogger = new RemoteSampleLogger(
+                 TpsDebugDimensions.values().length, this.debugSampleSubscriptionTracker, RemoteDebugSampleType.TICK_TIME
+@@ -187,6 +193,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             GameProfileCache.setUsesAuthentication(this.usesAuthentication());
+             LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
+             this.loadLevel();
++            this.airflow.pluginLoader.enablePlugins(); // Airflow
+             long l = Util.getNanos() - nanos;
+             String string = String.format(Locale.ROOT, "%.3fs", l / 1.0E9);
+             LOGGER.info("Done ({})! For help, type \"help\"", string);
+@@ -550,6 +557,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+     @Override
+     public void stopServer() {
+         super.stopServer();
++        airflow.pluginLoader.disablePlugins(); // Airflow
+         Util.shutdownExecutors();
+         SkullBlockEntity.clear();
+     }

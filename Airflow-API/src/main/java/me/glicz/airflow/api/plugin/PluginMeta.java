@@ -1,15 +1,20 @@
 package me.glicz.airflow.api.plugin;
 
-public interface PluginMeta {
-    String getMainClass();
+import org.intellij.lang.annotations.Pattern;
+import org.jetbrains.annotations.NotNull;
 
+public interface PluginMeta {
+    @NotNull String getMainClass();
+
+    @NotNull
+    @Pattern("[a-zA-Z0-9_]+")
     String getName();
+
+    @NotNull String getVersion();
 
     String getDescription();
 
-    String getVersion();
+    String @NotNull [] getAuthors();
 
-    String[] getAuthors();
-
-    String[] getContributors();
+    String @NotNull [] getContributors();
 }

@@ -1,4 +1,4 @@
-package me.glicz.airflow.api.bootstrap;
+package me.glicz.airflow.api.plugin.bootstrap;
 
 import me.glicz.airflow.api.ServerInfoProvider;
 

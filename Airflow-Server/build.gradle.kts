@@ -28,3 +28,15 @@ airflow {
     sourcesDir = File(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
 }
+
+afterEvaluate {
+    tasks {
+        "runServer" {
+            project(":test-plugin").tasks.jar.let { testPluginJar ->
+                dependsOn(testPluginJar)
+
+                testPluginJar.get().destinationDirectory.set(project.rootDir.resolve("run/plugins"))
+            }
+        }
+    }
+}

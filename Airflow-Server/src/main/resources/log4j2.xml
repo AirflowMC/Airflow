@@ -1,0 +1,37 @@
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] %highlight{%-5level} [%logger{36}] %msg%n%throwable{full}"/>
+        </Console>
+
+        <Console name="SIMPLE_STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] %highlight{%-5level} %msg%n%throwable{full}"/>
+        </Console>
+
+        <Async name="ASYNC">
+            <AppenderRef ref="STDOUT"/>
+        </Async>
+
+        <Async name="SIMPLE_ASYNC">
+            <AppenderRef ref="SIMPLE_STDOUT"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="net.minecraft" level="info" additivity="false">
+            <AppenderRef ref="SIMPLE_ASYNC"/>
+        </Logger>
+
+        <Logger name="com.mojang" level="info" additivity="false">
+            <AppenderRef ref="SIMPLE_ASYNC"/>
+        </Logger>
+
+        <Logger name="me.glicz.airflow.plugin.AirPluginsLoader" level="info" additivity="false">
+            <AppenderRef ref="SIMPLE_ASYNC"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ASYNC"/>
+        </Root>
+    </Loggers>
+</Configuration>

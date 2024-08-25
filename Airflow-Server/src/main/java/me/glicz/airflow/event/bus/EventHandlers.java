@@ -3,6 +3,7 @@ package me.glicz.airflow.event.bus;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import me.glicz.airflow.api.event.Event;
+import me.glicz.airflow.api.event.EventPriority;
 import me.glicz.airflow.api.event.bus.EventHandler;
 import me.glicz.airflow.api.plugin.Plugin;
 
@@ -10,8 +11,8 @@ import java.util.List;
 
 public class EventHandlers<E extends Event> {
     final Plugin plugin;
-    private final Multimap<Event.Priority, EventHandler<E>> handlerMap = MultimapBuilder
-            .enumKeys(Event.Priority.class)
+    private final Multimap<EventPriority, EventHandler<E>> handlerMap = MultimapBuilder
+            .enumKeys(EventPriority.class)
             .arrayListValues()
             .build();
 
@@ -19,7 +20,7 @@ public class EventHandlers<E extends Event> {
         this.plugin = plugin;
     }
 
-    public void add(Event.Priority priority, EventHandler<E> handler) {
+    public void add(EventPriority priority, EventHandler<E> handler) {
         this.handlerMap.put(priority, handler);
     }
 
@@ -28,12 +29,12 @@ public class EventHandlers<E extends Event> {
     }
 
     public void dispatch(E event) {
-        for (Event.Priority priority : handlerMap.keySet()) {
+        for (EventPriority priority : handlerMap.keySet()) {
             dispatch(priority, event);
         }
     }
 
-    public void dispatch(Event.Priority priority, E event) {
+    public void dispatch(EventPriority priority, E event) {
         List.copyOf(handlerMap.get(priority)).forEach(handler -> {
             try {
                 handler.handle(event);

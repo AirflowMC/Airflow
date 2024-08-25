@@ -2,6 +2,7 @@ package me.glicz.airflow.event.bus;
 
 import me.glicz.airflow.Airflow;
 import me.glicz.airflow.api.event.Event;
+import me.glicz.airflow.api.event.EventPriority;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class AirServerEventBus implements ServerEventBus {
                 .filter(Objects::nonNull)
                 .toList();
 
-        for (Event.Priority priority : Event.Priority.values()) {
+        for (EventPriority priority : EventPriority.values()) {
             eventHandlers.forEach(handlers -> handlers.dispatch(priority, event));
         }
 

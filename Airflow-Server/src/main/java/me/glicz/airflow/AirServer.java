@@ -5,6 +5,7 @@ import me.glicz.airflow.api.command.ServerCommandSender;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.plugin.PluginsLoader;
 import me.glicz.airflow.api.properties.ServerProperties;
+import me.glicz.airflow.api.service.Services;
 import me.glicz.airflow.api.util.Version;
 import me.glicz.airflow.command.AirServerCommandSender;
 import me.glicz.airflow.util.AdventureSerializer;
@@ -53,5 +54,10 @@ public class AirServer implements Server {
     @Override
     public @NotNull ServerEventBus getServerEventBus() {
         return this.airflow.serverEventBus;
+    }
+
+    @Override
+    public @NotNull Services getServices() {
+        return this.airflow.services;
     }
 }

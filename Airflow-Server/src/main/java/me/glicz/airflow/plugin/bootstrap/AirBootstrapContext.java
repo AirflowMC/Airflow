@@ -5,6 +5,7 @@ import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.plugin.PluginsLoader;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.properties.ServerProperties;
+import me.glicz.airflow.api.service.Services;
 import me.glicz.airflow.api.util.Version;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,5 +34,10 @@ public class AirBootstrapContext implements BootstrapContext {
     @Override
     public @NotNull ServerEventBus getServerEventBus() {
         return this.airflow.serverEventBus;
+    }
+
+    @Override
+    public @NotNull Services getServices() {
+        return this.airflow.services;
     }
 }

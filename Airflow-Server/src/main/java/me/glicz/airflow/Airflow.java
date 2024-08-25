@@ -7,6 +7,7 @@ import me.glicz.airflow.api.properties.ServerProperties;
 import me.glicz.airflow.event.bus.AirServerEventBus;
 import me.glicz.airflow.plugin.AirPluginsLoader;
 import me.glicz.airflow.properties.AirServerProperties;
+import me.glicz.airflow.service.AirServices;
 import me.glicz.airflow.util.AirServerReference;
 import me.glicz.airflow.util.AirVersion;
 import net.minecraft.SharedConstants;
@@ -20,6 +21,7 @@ public class Airflow {
     public final AirVersion version;
     public final AirPluginsLoader pluginLoader;
     public final AirServerEventBus serverEventBus;
+    public final AirServices services;
     private final AirServerReference serverRef;
 
     public Airflow(String[] args, DedicatedServerSettings settings) {
@@ -31,10 +33,11 @@ public class Airflow {
         OptionSet optionSet = optionParser.parse(args);
 
         this.serverRef = new AirServerReference();
-        this.serverProperties = new AirServerProperties(settings);
         this.version = new AirVersion(SharedConstants.getCurrentVersion());
-        this.serverEventBus = new AirServerEventBus(this);
+        this.serverProperties = new AirServerProperties(settings);
         this.pluginLoader = new AirPluginsLoader(this, optionSet.valueOf(pluginsFolder), optionSet.has(skipPluginLoader));
+        this.serverEventBus = new AirServerEventBus(this);
+        this.services = new AirServices();
     }
 
     public AirServer getServer() {

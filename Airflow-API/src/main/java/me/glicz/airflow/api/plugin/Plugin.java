@@ -67,6 +67,7 @@ public abstract class Plugin implements Namespaced, ServerAware {
             onEnable();
         } else {
             onDisable();
+            getServer().getServices().unregister(this);
         }
     }
 

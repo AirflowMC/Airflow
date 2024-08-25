@@ -2,8 +2,12 @@ package me.glicz.testplugin;
 
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
+import me.glicz.airflow.api.service.ServicePriority;
+import me.glicz.airflow.api.service.ServiceProvider;
 import me.glicz.testplugin.event.TestEvent;
 import me.glicz.testplugin.listener.TestListener;
+import me.glicz.testplugin.service.TestService;
+import me.glicz.testplugin.service.TestServiceImpl;
 import org.jetbrains.annotations.NotNull;
 
 public class TestPlugin extends Plugin {
@@ -19,6 +23,8 @@ public class TestPlugin extends Plugin {
         new TestListener(this).register();
 
         ctx.getServerEventBus().dispatch(new TestEvent());
+
+        ctx.getServices().register(TestService.class, new TestServiceImpl(this), this, ServicePriority.NORMAL);
     }
 
     @Override
@@ -27,6 +33,10 @@ public class TestPlugin extends Plugin {
         getLogger().info("And here, in onLoad, the server is with us! Welcome {}", getServer());
 
         getEventBus().dispatch(new TestEvent());
+
+        getServer().getServices().get(TestService.class)
+                .map(ServiceProvider::getProvider)
+                .ifPresent(TestService::helloWorld);
     }
 
     @Override

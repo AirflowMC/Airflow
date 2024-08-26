@@ -1,8 +1,8 @@
-package me.glicz.airflow.command;
+package me.glicz.airflow.command.sender;
 
 import me.glicz.airflow.AirServer;
 import me.glicz.airflow.api.Server;
-import me.glicz.airflow.api.command.CommandSender;
+import me.glicz.airflow.api.command.sender.CommandSender;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;

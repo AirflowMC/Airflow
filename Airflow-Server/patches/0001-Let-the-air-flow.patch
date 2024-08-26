@@ -39,7 +39,7 @@ index 3cde0044772e568e2d5f89f2f946d49629725484..d2e7869fd3ccfa868f520b4029d6aad1
                      dedicatedServer1.setPort(optionSet.valueOf(optionSpec11));
                      dedicatedServer1.setDemo(optionSet.has(optionSpec2));
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index a04996425a087f8625f13d43d4cdf5804d963ded..8875c194fad27cff3f13a32a7f1d004c240abb7a 100644
+index a04996425a087f8625f13d43d4cdf5804d963ded..1899f954bbb5f6886650244ecd714fd42860f78c 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1119,7 +1119,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -51,6 +51,22 @@ index a04996425a087f8625f13d43d4cdf5804d963ded..8875c194fad27cff3f13a32a7f1d004c
      }
  
      public SystemReport fillSystemReport(SystemReport systemReport) {
+@@ -2060,4 +2060,15 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             };
+         }
+     }
++
++
++    // Airflow start
++    public net.minecraft.server.dedicated.DedicatedServer getDedicatedServer() {
++        if (isDedicatedServer()) {
++            return (net.minecraft.server.dedicated.DedicatedServer) this;
++        }
++
++        return null;
++    }
++    // Airflow end
+ }
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
 index a517582912bf1b16b69a3ef699103d0d375f46c5..40939593c151deca49de19301e72f60c45a5e8f5 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java

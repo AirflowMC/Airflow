@@ -4,6 +4,9 @@ import me.glicz.airflow.Airflow;
 import me.glicz.airflow.api.event.Event;
 import me.glicz.airflow.api.event.EventPriority;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
+import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
+import me.glicz.airflow.command.AirCommands;
+import net.minecraft.commands.Commands;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,5 +31,9 @@ public class AirServerEventBus implements ServerEventBus {
         }
 
         return event;
+    }
+
+    public void dispatchCommandsRegister(Commands commands) {
+        dispatch(new CommandsRegisterEvent(new AirCommands(commands)));
     }
 }

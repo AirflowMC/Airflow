@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Mon, 26 Aug 2024 15:13:50 +0200
+Subject: [PATCH] Entity API
+
+
+diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
+index 9905ba66541f828d12f0497934eb8101b4c4c53a..0d9762a670d964fa43ac21de39129339afa328dd 100644
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -242,6 +242,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+     private boolean hasVisualFire;
+     @Nullable
+     private BlockState inBlockState = null;
++    private final me.glicz.airflow.entity.AirEntity airEntity; // Airflow - Entity API
+ 
+     public Entity(EntityType<?> entityType, Level level) {
+         this.type = entityType;
+@@ -263,8 +264,19 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+         this.entityData = builder.build();
+         this.setPos(0.0, 0.0, 0.0);
+         this.eyeHeight = this.dimensions.eyeHeight();
++        this.airEntity = createAirEntity(); // Airflow - Entity API
+     }
+ 
++    // Airflow start - Entity API
++    protected me.glicz.airflow.entity.AirEntity createAirEntity() {
++        return new me.glicz.airflow.entity.AirEntity(getServer().getDedicatedServer().airflow.getServer(), this);
++    }
++
++    public me.glicz.airflow.entity.AirEntity getAirEntity() {
++        return this.airEntity;
++    }
++    // Airflow end - Entity API
++
+     public boolean isColliding(BlockPos pos, BlockState state) {
+         VoxelShape collisionShape = state.getCollisionShape(this.level(), pos, CollisionContext.of(this));
+         VoxelShape voxelShape = collisionShape.move(pos.getX(), pos.getY(), pos.getZ());

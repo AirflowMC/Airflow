@@ -1,4 +1,4 @@
-package me.glicz.airflow.api.command;
+package me.glicz.airflow.api.command.sender;
 
 import me.glicz.airflow.api.ServerAware;
 import net.kyori.adventure.audience.Audience;

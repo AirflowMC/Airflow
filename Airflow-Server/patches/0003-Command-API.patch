@@ -1,0 +1,316 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Mon, 26 Aug 2024 15:13:57 +0200
+Subject: [PATCH] Command API
+
+
+diff --git a/net/minecraft/commands/CommandSource.java b/net/minecraft/commands/CommandSource.java
+index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f25322863b821ae5 100644
+--- a/net/minecraft/commands/CommandSource.java
++++ b/net/minecraft/commands/CommandSource.java
+@@ -22,6 +22,13 @@ public interface CommandSource {
+         public boolean shouldInformAdmins() {
+             return false;
+         }
++
++        // Airflow start - Command API
++        @Override
++        public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++            return null;
++        }
++        // Airflow end - Command API
+     };
+ 
+     void sendSystemMessage(Component component);
+@@ -35,4 +42,6 @@ public interface CommandSource {
+     default boolean alwaysAccepts() {
+         return false;
+     }
++
++    me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender(); // Airflow - Command API
+ }
+diff --git a/net/minecraft/commands/CommandSourceStack.java b/net/minecraft/commands/CommandSourceStack.java
+index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28ebca1e1284 100644
+--- a/net/minecraft/commands/CommandSourceStack.java
++++ b/net/minecraft/commands/CommandSourceStack.java
+@@ -43,10 +43,10 @@ import net.minecraft.world.level.dimension.DimensionType;
+ import net.minecraft.world.phys.Vec2;
+ import net.minecraft.world.phys.Vec3;
+ 
+-public class CommandSourceStack implements ExecutionCommandSource<CommandSourceStack>, SharedSuggestionProvider {
++public class CommandSourceStack implements ExecutionCommandSource<CommandSourceStack>, SharedSuggestionProvider, me.glicz.airflow.command.AirCommandSourceStack { // Airflow - Command API
+     public static final SimpleCommandExceptionType ERROR_NOT_PLAYER = new SimpleCommandExceptionType(Component.translatable("permissions.requires.player"));
+     public static final SimpleCommandExceptionType ERROR_NOT_ENTITY = new SimpleCommandExceptionType(Component.translatable("permissions.requires.entity"));
+-    private final CommandSource source;
++    public final CommandSource source; // Airflow - Command API
+     private final Vec3 worldPosition;
+     private final ServerLevel level;
+     private final int permissionLevel;
+@@ -592,4 +592,11 @@ public class CommandSourceStack implements ExecutionCommandSource<CommandSourceS
+     public boolean isSilent() {
+         return this.silent;
+     }
++
++    // Airflow start - Command API
++    @Override
++    public CommandSourceStack getHandle() {
++        return this;
++    }
++    // Airflow end - Command API
+ }
+diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
+index 587b873dbd92424b0580f1faa26f741f6be945ab..6ef5fc9d8693c8df4b638cf5fb72dd71e3995060 100644
+--- a/net/minecraft/commands/Commands.java
++++ b/net/minecraft/commands/Commands.java
+@@ -146,6 +146,12 @@ public class Commands {
+     private final CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
+ 
+     public Commands(Commands.CommandSelection selection, CommandBuildContext context) {
++        // Airflow start - Command API
++        this(selection, context, null);
++    }
++
++    public Commands(Commands.CommandSelection selection, CommandBuildContext context, me.glicz.airflow.Airflow airflow) {
++        // Airflow end - Command API
+         AdvancementCommands.register(this.dispatcher);
+         AttributeCommand.register(this.dispatcher, context);
+         ExecuteCommand.register(this.dispatcher, context);
+@@ -246,9 +252,32 @@ public class Commands {
+             PublishCommand.register(this.dispatcher);
+         }
+ 
++        // Airflow start - Command API
++        java.util.List.copyOf(this.dispatcher.getRoot().getChildren()).forEach(node -> {
++            this.dispatcher.getRoot().addChild(deepClone("minecraft:" + node.getName(), node));
++        });
++
++        if (airflow != null) {
++            airflow.serverEventBus.dispatchCommandsRegister(this);
++        }
++        // Airflow end - Command API
++
+         this.dispatcher.setConsumer(ExecutionCommandSource.resultConsumer());
+     }
+ 
++    // Airflow start - Command API
++    private static com.mojang.brigadier.tree.LiteralCommandNode<CommandSourceStack> deepClone(String literal, com.mojang.brigadier.tree.CommandNode<CommandSourceStack> node) {
++        LiteralArgumentBuilder<CommandSourceStack> builder = literal(literal);
++
++        builder.executes(node.getCommand());
++        builder.requires(node.getRequirement());
++        builder.forward(node.getRedirect(), node.getRedirectModifier(), node.isFork());
++        node.getChildren().forEach(builder::then);
++
++        return builder.build();
++    }
++    // Airflow end - Command API
++
+     public static <S> ParseResults<S> mapSource(ParseResults<S> parseResults, UnaryOperator<S> mapper) {
+         CommandContextBuilder<S> context = parseResults.getContext();
+         CommandContextBuilder<S> commandContextBuilder = context.withSource(mapper.apply(context.getSource()));
+diff --git a/net/minecraft/gametest/framework/GameTestServer.java b/net/minecraft/gametest/framework/GameTestServer.java
+index 2776888c2e088aa4615100afc6ba5c404ffc217c..4a41b7ce03f1ca51eb43bc614d945703802d5c69 100644
+--- a/net/minecraft/gametest/framework/GameTestServer.java
++++ b/net/minecraft/gametest/framework/GameTestServer.java
+@@ -111,7 +111,7 @@ public class GameTestServer extends MinecraftServer {
+                             },
+                             WorldStem::new,
+                             Util.backgroundExecutor(),
+-                            executor
++                            executor, null // Airflow - Command API
+                         )
+                     )
+                     .get();
+diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
+index d2e7869fd3ccfa868f520b4029d6aad190ae834d..e60a38a1138f546b3b5667cbed917935a03bdf57 100644
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -228,7 +228,7 @@ public class Main {
+                             },
+                             WorldStem::new,
+                             Util.backgroundExecutor(),
+-                            executor
++                            executor, airflow // Airflow - Command API
+                         )
+                     )
+                     .get();
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index 1899f954bbb5f6886650244ecd714fd42860f78c..454a10801c221a9670d77f263808928c9455fe57 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -1455,7 +1455,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                             this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED,
+                             this.getFunctionCompilationLevel(),
+                             this.executor,
+-                            this
++                            this, getDedicatedServer().airflow // Airflow - Command API
+                         )
+                         .whenComplete((reloadableServerResources, throwable) -> {
+                             if (throwable != null) {
+@@ -1642,6 +1642,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     @Override
+     public abstract boolean shouldInformAdmins();
+ 
++    // Airflow start - Command API
++    @Override
++    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        return (me.glicz.airflow.command.sender.AirServerCommandSender) this.getDedicatedServer().airflow.getServer().getServerCommandSender();
++    }
++    // Airflow end - Command API
++
+     public RecipeManager getRecipeManager() {
+         return this.resources.managers.getRecipeManager();
+     }
+diff --git a/net/minecraft/server/ReloadableServerResources.java b/net/minecraft/server/ReloadableServerResources.java
+index 788f7ffeae5349a6fe6564bb523218d45af93afc..bf2ff6f449e8ebf2ef1f24a6038c2f61ec292a7a 100644
+--- a/net/minecraft/server/ReloadableServerResources.java
++++ b/net/minecraft/server/ReloadableServerResources.java
+@@ -40,14 +40,14 @@ public class ReloadableServerResources {
+     private final ServerFunctionLibrary functionLibrary;
+ 
+     private ReloadableServerResources(
+-        RegistryAccess.Frozen registryAccess, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, int functionCompilationLevel
++        RegistryAccess.Frozen registryAccess, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, int functionCompilationLevel, me.glicz.airflow.Airflow airflow // Airflow - Command API
+     ) {
+         this.fullRegistryHolder = new ReloadableServerRegistries.Holder(registryAccess);
+         this.registryLookup = new ReloadableServerResources.ConfigurableRegistryLookup(registryAccess);
+         this.registryLookup.missingTagAccessPolicy(ReloadableServerResources.MissingTagAccessPolicy.CREATE_NEW);
+         this.recipes = new RecipeManager(this.registryLookup);
+         this.tagManager = new TagManager(registryAccess);
+-        this.commands = new Commands(commandSelection, CommandBuildContext.simple(this.registryLookup, enabledFeatures));
++        this.commands = new Commands(commandSelection, CommandBuildContext.simple(this.registryLookup, enabledFeatures), airflow); // Airflow - Command API
+         this.advancements = new ServerAdvancementManager(this.registryLookup);
+         this.functionLibrary = new ServerFunctionLibrary(functionCompilationLevel, this.commands.getDispatcher());
+     }
+@@ -83,13 +83,13 @@ public class ReloadableServerResources {
+         Commands.CommandSelection commandSelection,
+         int functionCompilationLevel,
+         Executor backgroundExecutor,
+-        Executor gameExecutor
++        Executor gameExecutor, me.glicz.airflow.Airflow airflow // Airflow - Command API
+     ) {
+         return ReloadableServerRegistries.reload(registries, resourceManager, backgroundExecutor)
+             .thenCompose(
+                 layeredRegistryAccess -> {
+                     ReloadableServerResources reloadableServerResources = new ReloadableServerResources(
+-                        layeredRegistryAccess.compositeAccess(), enabledFeatures, commandSelection, functionCompilationLevel
++                        layeredRegistryAccess.compositeAccess(), enabledFeatures, commandSelection, functionCompilationLevel, airflow // Airflow - Command API
+                     );
+                     return SimpleReloadInstance.create(
+                             resourceManager,
+diff --git a/net/minecraft/server/WorldLoader.java b/net/minecraft/server/WorldLoader.java
+index 9aaebffd2423eac917dcf4f8af5ce85956c79911..496457ba0d5ceea227f142a7f35a26a28e34fcf3 100644
+--- a/net/minecraft/server/WorldLoader.java
++++ b/net/minecraft/server/WorldLoader.java
+@@ -26,7 +26,7 @@ public class WorldLoader {
+         WorldLoader.WorldDataSupplier<D> worldDataSupplier,
+         WorldLoader.ResultFactory<D, R> resultFactory,
+         Executor backgroundExecutor,
+-        Executor gameExecutor
++        Executor gameExecutor, me.glicz.airflow.Airflow airflow // Airflow - Command API
+     ) {
+         try {
+             Pair<WorldDataConfiguration, CloseableResourceManager> pair = initConfig.packConfig.createResourceManager();
+@@ -51,7 +51,7 @@ public class WorldLoader {
+                     initConfig.commandSelection(),
+                     initConfig.functionCompilationLevel(),
+                     backgroundExecutor,
+-                    gameExecutor
++                    gameExecutor, airflow // Airflow - Command API
+                 )
+                 .whenComplete((result, exception1) -> {
+                     if (exception1 != null) {
+diff --git a/net/minecraft/server/commands/DebugCommand.java b/net/minecraft/server/commands/DebugCommand.java
+index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e43919187d9819d 100644
+--- a/net/minecraft/server/commands/DebugCommand.java
++++ b/net/minecraft/server/commands/DebugCommand.java
+@@ -262,6 +262,13 @@ public class DebugCommand {
+             return true;
+         }
+ 
++        // Airflow start - Command API
++        @Override
++        public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++            return null;
++        }
++        // Airflow end - Command API
++
+         @Override
+         public void close() {
+             IOUtils.closeQuietly((Writer)this.output);
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index 40939593c151deca49de19301e72f60c45a5e8f5..80d239ae9a1162f1edfdbd62d48879501c41beea 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -67,7 +67,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+     private final List<ConsoleInput> consoleInput = Collections.synchronizedList(Lists.newArrayList());
+     @Nullable
+     private QueryThreadGs4 queryThreadGs4;
+-    private final RconConsoleSource rconConsoleSource;
++    public final RconConsoleSource rconConsoleSource; // Airflow - Command API
+     @Nullable
+     private RconThread rconThread;
+     private final DedicatedServerSettings settings;
+diff --git a/net/minecraft/server/rcon/RconConsoleSource.java b/net/minecraft/server/rcon/RconConsoleSource.java
+index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e612427e9c 100644
+--- a/net/minecraft/server/rcon/RconConsoleSource.java
++++ b/net/minecraft/server/rcon/RconConsoleSource.java
+@@ -52,4 +52,11 @@ public class RconConsoleSource implements CommandSource {
+     public boolean shouldInformAdmins() {
+         return this.server.shouldRconBroadcast();
+     }
++
++    // Airflow start - Command API
++    @Override
++    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        return (me.glicz.airflow.command.sender.AirRemoteCommandSender) this.server.getDedicatedServer().airflow.getServer().getRemoteCommandSender();
++    }
++    // Airflow end - Command API
+ }
+diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
+index 0d9762a670d964fa43ac21de39129339afa328dd..7d7cfd75ade15433385dfa9192404388d5412c01 100644
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -3121,6 +3121,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+         return true;
+     }
+ 
++    // Airflow start - Command API
++    @Override
++    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        return this.airEntity;
++    }
++    // Airflow end - Command API
++
+     public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 target) {
+         Vec3 vec3 = anchor.apply(this);
+         double d = target.x - vec3.x;
+diff --git a/net/minecraft/world/level/BaseCommandBlock.java b/net/minecraft/world/level/BaseCommandBlock.java
+index ff3ba6c76cd2de1b67b9561d4eeb5498061bee2c..a9f64886808ab6db295143582773a9c66bb231a5 100644
+--- a/net/minecraft/world/level/BaseCommandBlock.java
++++ b/net/minecraft/world/level/BaseCommandBlock.java
+@@ -32,6 +32,11 @@ public abstract class BaseCommandBlock implements CommandSource {
+     private String command = "";
+     @Nullable
+     private Component customName;
++    // Airflow start - Command API
++    private final me.glicz.airflow.command.sender.AirCommandBlockSender airCommandSender = new me.glicz.airflow.command.sender.AirCommandBlockSender(
++            getLevel().getServer().getDedicatedServer().airflow.getServer(), this
++    );
++    // Airflow end - Command API
+ 
+     public int getSuccessCount() {
+         return this.successCount;
+@@ -214,5 +219,12 @@ public abstract class BaseCommandBlock implements CommandSource {
+         return this.getLevel().getGameRules().getBoolean(GameRules.RULE_COMMANDBLOCKOUTPUT);
+     }
+ 
++    // Airflow start - Command API
++    @Override
++    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        return airCommandSender;
++    }
++    // Airflow end - Command API
++
+     public abstract boolean isValid();
+ }

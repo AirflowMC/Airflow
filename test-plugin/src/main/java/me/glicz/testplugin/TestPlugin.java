@@ -1,5 +1,8 @@
 package me.glicz.testplugin;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import me.glicz.airflow.api.command.Commands;
+import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
@@ -25,6 +28,37 @@ public class TestPlugin extends Plugin {
         ctx.getServerEventBus().dispatch(new TestEvent());
 
         ctx.getServices().register(TestService.class, new TestServiceImpl(this), this, ServicePriority.NORMAL);
+
+        getEventBus().subscribe(CommandsRegisterEvent.class, e -> {
+            getLogger().info("Hello CommandsRegisterEvent!");
+            e.getCommands().register(
+                    this,
+                    Commands.literal("test")
+                            .then(Commands.literal("airflow")
+                                    .executes(context -> {
+                                        context.getSource().getSender().sendMessage("This server runs Airflow!");
+                                        return 1;
+                                    })
+                            )
+                            .executes(context -> {
+                                context.getSource().getSender().sendMessage("Hello!");
+                                return 1;
+                            })
+                            .build()
+            );
+            e.getCommands().register(
+                    this,
+                    Commands.literal("say")
+                            .then(Commands.argument("message", StringArgumentType.greedyString())
+                                    .executes(context -> {
+                                        String message = context.getArgument("message", String.class);
+                                        context.getSource().getSender().sendMessage("Overriden! " + message);
+                                        return 1;
+                                    })
+                            )
+                            .build()
+            );
+        });
     }
 
     @Override

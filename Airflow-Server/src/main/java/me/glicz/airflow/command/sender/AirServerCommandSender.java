@@ -1,7 +1,7 @@
-package me.glicz.airflow.command;
+package me.glicz.airflow.command.sender;
 
 import me.glicz.airflow.AirServer;
-import me.glicz.airflow.api.command.ServerCommandSender;
+import me.glicz.airflow.api.command.sender.ServerCommandSender;
 import net.minecraft.commands.CommandSourceStack;
 
 public class AirServerCommandSender extends AirCommandSender implements ServerCommandSender {

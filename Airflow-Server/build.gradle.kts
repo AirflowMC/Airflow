@@ -2,6 +2,7 @@ import me.glicz.airflow.plugin.papierMache
 
 plugins {
     id("me.glicz.airflow.plugin")
+    id("net.kyori.indra.git") version "3.1.3"
 }
 
 repositories {
@@ -27,6 +28,12 @@ airflow {
     mache = papierMache(properties["mache-build"] as String)
     sourcesDir = File(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
+}
+
+tasks {
+    jar {
+        indraGit.applyVcsInformationToManifest(manifest)
+    }
 }
 
 afterEvaluate {

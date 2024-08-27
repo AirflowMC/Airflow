@@ -7,6 +7,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.language.jvm.tasks.ProcessResources
 
@@ -124,7 +125,10 @@ class AirflowPlugin : Plugin<Project> {
                 doNotTrackState("Run server")
 
                 mainClass = "net.minecraft.server.Main"
-                classpath = project.extensions.getByType<SourceSetContainer>()["main"].runtimeClasspath
+                classpath(
+                    project.tasks.named<Jar>("jar"),
+                    project.extensions.getByType<SourceSetContainer>()["main"].runtimeClasspath
+                )
 
                 standardInput = System.`in`
 

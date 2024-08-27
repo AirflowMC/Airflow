@@ -59,7 +59,7 @@ index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28eb
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
-index 587b873dbd92424b0580f1faa26f741f6be945ab..6ef5fc9d8693c8df4b638cf5fb72dd71e3995060 100644
+index 587b873dbd92424b0580f1faa26f741f6be945ab..8735da3c20ba8f85917f7101b1016597370e1355 100644
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
 @@ -146,6 +146,12 @@ public class Commands {
@@ -75,7 +75,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..6ef5fc9d8693c8df4b638cf5fb72dd71
          AdvancementCommands.register(this.dispatcher);
          AttributeCommand.register(this.dispatcher, context);
          ExecuteCommand.register(this.dispatcher, context);
-@@ -246,9 +252,32 @@ public class Commands {
+@@ -246,9 +252,34 @@ public class Commands {
              PublishCommand.register(this.dispatcher);
          }
  
@@ -85,7 +85,9 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..6ef5fc9d8693c8df4b638cf5fb72dd71
 +        });
 +
 +        if (airflow != null) {
-+            airflow.serverEventBus.dispatchCommandsRegister(this);
++            me.glicz.airflow.command.AirCommands commands = new me.glicz.airflow.command.AirCommands(this);
++            new me.glicz.airflow.command.builtin.AirflowCommand().register(commands);
++            airflow.serverEventBus.dispatchCommandsRegister(commands);
 +        }
 +        // Airflow end - Command API
 +
@@ -108,6 +110,18 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..6ef5fc9d8693c8df4b638cf5fb72dd71
      public static <S> ParseResults<S> mapSource(ParseResults<S> parseResults, UnaryOperator<S> mapper) {
          CommandContextBuilder<S> context = parseResults.getContext();
          CommandContextBuilder<S> commandContextBuilder = context.withSource(mapper.apply(context.getSource()));
+@@ -276,8 +307,10 @@ public class Commands {
+             }
+         } catch (Exception var12) {
+             MutableComponent mutableComponent = Component.literal(var12.getMessage() == null ? var12.getClass().getName() : var12.getMessage());
++            // Aiflow start - Command API
++            LOGGER.error("Command exception: /{}", command, var12);
+             if (LOGGER.isDebugEnabled()) {
+-                LOGGER.error("Command exception: /{}", command, var12);
++            // Aiflow end - Command API
+                 StackTraceElement[] stackTrace = var12.getStackTrace();
+ 
+                 for (int i = 0; i < Math.min(stackTrace.length, 3); i++) {
 diff --git a/net/minecraft/gametest/framework/GameTestServer.java b/net/minecraft/gametest/framework/GameTestServer.java
 index 2776888c2e088aa4615100afc6ba5c404ffc217c..4a41b7ce03f1ca51eb43bc614d945703802d5c69 100644
 --- a/net/minecraft/gametest/framework/GameTestServer.java

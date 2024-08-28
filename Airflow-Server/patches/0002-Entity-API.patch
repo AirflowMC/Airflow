@@ -36,3 +36,15 @@ index 9905ba66541f828d12f0497934eb8101b4c4c53a..0d9762a670d964fa43ac21de39129339
      public boolean isColliding(BlockPos pos, BlockState state) {
          VoxelShape collisionShape = state.getCollisionShape(this.level(), pos, CollisionContext.of(this));
          VoxelShape voxelShape = collisionShape.move(pos.getX(), pos.getY(), pos.getZ());
+diff --git a/net/minecraft/world/entity/EntityType.java b/net/minecraft/world/entity/EntityType.java
+index 7c1ee0965de421a195fba2f2bba953dc695f94ee..798206e1a70fa98f3a59cf9aa721977cf85e9c54 100644
+--- a/net/minecraft/world/entity/EntityType.java
++++ b/net/minecraft/world/entity/EntityType.java
+@@ -833,6 +833,7 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+     private final EntityDimensions dimensions;
+     private final float spawnDimensionsScale;
+     private final FeatureFlagSet requiredFeatures;
++    public final me.glicz.airflow.entity.AirEntityType airEntityType = new me.glicz.airflow.entity.AirEntityType(this); // Airflow - Entity API
+ 
+     private static <T extends Entity> EntityType<T> register(String key, EntityType.Builder<T> builder) {
+         return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));

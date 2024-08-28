@@ -3,6 +3,7 @@ package me.glicz.airflow.api.generator;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import me.glicz.airflow.api.generator.entity.EntityTypesGenerator;
 import me.glicz.airflow.api.generator.item.ItemTypesGenerator;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.Bootstrap;
@@ -24,6 +25,7 @@ public class Main {
         Bootstrap.bootStrap();
         Bootstrap.validate();
 
-        ItemTypesGenerator.run(version, sourceFolder);
+        new EntityTypesGenerator().run(version, sourceFolder);
+        new ItemTypesGenerator().run(version, sourceFolder);
     }
 }

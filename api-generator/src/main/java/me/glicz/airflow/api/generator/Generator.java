@@ -45,7 +45,7 @@ public abstract class Generator {
                 .sorted()
                 .forEach(key -> itemTypes.addField(FieldSpec
                         .builder(this.entryType, key.getPath().toUpperCase(Locale.ENGLISH))
-                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
                         .addJavadoc(ENTRY_DOC, key)
                         .initializer("provider().get(key($S))", key)
                         .build()

@@ -11,6 +11,30 @@ dependencies {
     api("com.mojang:brigadier:1.3.10")
 }
 
+val generatedDir = "src/generated/java"
+
+sourceSets {
+    main {
+        java {
+            srcDir(generatedDir)
+        }
+    }
+}
+
 java {
     withJavadocJar()
+}
+
+tasks.register<JavaExec>("runApiGenerator") {
+    doNotTrackState("Run api generator")
+
+    mainClass = "me.glicz.airflow.api.generator.Main"
+    classpath(project(":api-generator").sourceSets.main.get().runtimeClasspath)
+
+    doFirst {
+        val sourceFolder = project.projectDir.resolve(generatedDir).absoluteFile
+        sourceFolder.deleteRecursively()
+
+        args("-sourceFolder=${sourceFolder}")
+    }
 }

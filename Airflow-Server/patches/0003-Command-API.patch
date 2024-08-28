@@ -59,11 +59,14 @@ index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28eb
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
-index 587b873dbd92424b0580f1faa26f741f6be945ab..8735da3c20ba8f85917f7101b1016597370e1355 100644
+index 587b873dbd92424b0580f1faa26f741f6be945ab..9261031b02697a5fdfd3ecac271d48b016adcc5e 100644
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
-@@ -146,6 +146,12 @@ public class Commands {
+@@ -144,8 +144,15 @@ public class Commands {
+     public static final int LEVEL_ADMINS = 3;
+     public static final int LEVEL_OWNERS = 4;
      private final CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
++    public final me.glicz.airflow.command.AirCommands airCommands = new me.glicz.airflow.command.AirCommands(this); // Airlfow - Command API
  
      public Commands(Commands.CommandSelection selection, CommandBuildContext context) {
 +        // Airflow start - Command API
@@ -75,7 +78,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8735da3c20ba8f85917f7101b1016597
          AdvancementCommands.register(this.dispatcher);
          AttributeCommand.register(this.dispatcher, context);
          ExecuteCommand.register(this.dispatcher, context);
-@@ -246,9 +252,34 @@ public class Commands {
+@@ -246,9 +253,33 @@ public class Commands {
              PublishCommand.register(this.dispatcher);
          }
  
@@ -85,9 +88,8 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8735da3c20ba8f85917f7101b1016597
 +        });
 +
 +        if (airflow != null) {
-+            me.glicz.airflow.command.AirCommands commands = new me.glicz.airflow.command.AirCommands(this);
-+            new me.glicz.airflow.command.builtin.AirflowCommand().register(commands);
-+            airflow.serverEventBus.dispatchCommandsRegister(commands);
++            new me.glicz.airflow.command.builtin.AirflowCommand().register(airCommands);
++            airflow.serverEventBus.dispatchCommandsRegister(airCommands);
 +        }
 +        // Airflow end - Command API
 +

@@ -1,6 +1,7 @@
 package me.glicz.airflow;
 
 import me.glicz.airflow.api.Server;
+import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.command.sender.RemoteCommandSender;
 import me.glicz.airflow.api.command.sender.ServerCommandSender;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
@@ -43,6 +44,11 @@ public class AirServer implements Server {
     @Override
     public @NotNull RemoteCommandSender getRemoteCommandSender() {
         return this.remoteCommandSender;
+    }
+
+    @Override
+    public @NotNull Commands getCommands() {
+        return this.minecraftServer.getCommands().airCommands;
     }
 
     @Override

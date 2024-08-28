@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Wed, 28 Aug 2024 21:03:48 +0200
+Subject: [PATCH] Item API
+
+
+diff --git a/net/minecraft/world/item/Item.java b/net/minecraft/world/item/Item.java
+index e8623bf983ebccfa26aa18f92dea60eb9392e5f7..ccafd1d06c67ba734d6c20dc1df1d8d763b21947 100644
+--- a/net/minecraft/world/item/Item.java
++++ b/net/minecraft/world/item/Item.java
+@@ -71,6 +71,7 @@ public class Item implements FeatureElement, ItemLike {
+     @Nullable
+     private String descriptionId;
+     private final FeatureFlagSet requiredFeatures;
++    public final me.glicz.airflow.item.AirItemType airItemType = new me.glicz.airflow.item.AirItemType(this);
+ 
+     public static int getId(Item item) {
+         return item == null ? 0 : BuiltInRegistries.ITEM.getId(item);
+diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
+index 2ba62c5d60aee19148fcc3557916f3b71252562f..6f0721ff7951a7639b4a42914e6a75409a1fa9b2 100644
+--- a/net/minecraft/world/item/ItemStack.java
++++ b/net/minecraft/world/item/ItemStack.java
+@@ -183,6 +183,7 @@ public final class ItemStack implements DataComponentHolder {
+     final PatchedDataComponentMap components;
+     @Nullable
+     private Entity entityRepresentation;
++    public final me.glicz.airflow.item.stack.AirItemStack airItemStack = new me.glicz.airflow.item.stack.AirItemStack(this); // Airflow - Item API
+ 
+     private static DataResult<ItemStack> validateStrict(ItemStack stack) {
+         DataResult<Unit> dataResult = validateComponents(stack.getComponents());

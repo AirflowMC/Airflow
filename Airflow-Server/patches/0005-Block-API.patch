@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Wed, 28 Aug 2024 22:17:02 +0200
+Subject: [PATCH] Block API
+
+
+diff --git a/net/minecraft/world/level/block/Block.java b/net/minecraft/world/level/block/Block.java
+index 7e705ef72fcbf201840084edfc8eda7f9ef2b47d..9e7aa1265bf1833c9b75197da4e19114ca35aeed 100644
+--- a/net/minecraft/world/level/block/Block.java
++++ b/net/minecraft/world/level/block/Block.java
+@@ -104,6 +104,7 @@ public class Block extends BlockBehaviour implements ItemLike {
+         map.defaultReturnValue((byte)127);
+         return map;
+     });
++    public final me.glicz.airflow.block.AirBlockType airBlockType = new me.glicz.airflow.block.AirBlockType(this); // Airflow - Block API
+ 
+     @Override
+     protected MapCodec<? extends Block> codec() {
+diff --git a/net/minecraft/world/level/block/state/BlockState.java b/net/minecraft/world/level/block/state/BlockState.java
+index 595c1e50afda097c5ddfa3635b654460869af45d..1b319c2ec75fa7ab58f7974cc43b677e08cf8518 100644
+--- a/net/minecraft/world/level/block/state/BlockState.java
++++ b/net/minecraft/world/level/block/state/BlockState.java
+@@ -9,11 +9,22 @@ import net.minecraft.world.level.block.state.properties.Property;
+ 
+ public class BlockState extends BlockBehaviour.BlockStateBase {
+     public static final Codec<BlockState> CODEC = codec(BuiltInRegistries.BLOCK.byNameCodec(), Block::defaultBlockState).stable();
++    private final me.glicz.airflow.block.state.AirBlockState airBlockState = createAirBlockState(); // Airflow - Block API
+ 
+     public BlockState(Block owner, Reference2ObjectArrayMap<Property<?>, Comparable<?>> values, MapCodec<BlockState> propertiesCodec) {
+         super(owner, values, propertiesCodec);
+     }
+ 
++    // Airflow start - Block API
++    protected me.glicz.airflow.block.state.AirBlockState createAirBlockState() {
++        return new me.glicz.airflow.block.state.AirBlockState(this);
++    }
++
++    public me.glicz.airflow.block.state.AirBlockState getAirBlockState() {
++        return this.airBlockState;
++    }
++    // Airflow end - Block API
++
+     @Override
+     protected BlockState asState() {
+         return this;

@@ -5,14 +5,14 @@ Subject: [PATCH] Item API
 
 
 diff --git a/net/minecraft/world/item/Item.java b/net/minecraft/world/item/Item.java
-index e8623bf983ebccfa26aa18f92dea60eb9392e5f7..ccafd1d06c67ba734d6c20dc1df1d8d763b21947 100644
+index e8623bf983ebccfa26aa18f92dea60eb9392e5f7..6bccf6885f7e628d37263bd943ae2bd2cb5b9693 100644
 --- a/net/minecraft/world/item/Item.java
 +++ b/net/minecraft/world/item/Item.java
 @@ -71,6 +71,7 @@ public class Item implements FeatureElement, ItemLike {
      @Nullable
      private String descriptionId;
      private final FeatureFlagSet requiredFeatures;
-+    public final me.glicz.airflow.item.AirItemType airItemType = new me.glicz.airflow.item.AirItemType(this);
++    public final me.glicz.airflow.item.AirItemType airItemType = new me.glicz.airflow.item.AirItemType(this); // Airflow - Item API
  
      public static int getId(Item item) {
          return item == null ? 0 : BuiltInRegistries.ITEM.getId(item);

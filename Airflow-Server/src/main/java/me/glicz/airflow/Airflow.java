@@ -17,12 +17,12 @@ import net.minecraft.server.dedicated.DedicatedServerSettings;
 import java.io.File;
 
 public class Airflow {
-    public final ServerProperties serverProperties;
+    public final AirServerReference serverRef;
     public final AirVersion version;
+    public final ServerProperties serverProperties;
     public final AirPluginsLoader pluginLoader;
     public final AirServerEventBus serverEventBus;
     public final AirServices services;
-    private final AirServerReference serverRef;
 
     public Airflow(String[] args, DedicatedServerSettings settings) {
         OptionParser optionParser = new OptionParser();
@@ -42,10 +42,6 @@ public class Airflow {
 
     public AirServer getServer() {
         return this.serverRef.getServer();
-    }
-
-    public AirServerReference getServerRef() {
-        return this.serverRef;
     }
 
     public void createServer(final DedicatedServer minecraftServer) {

@@ -1,13 +1,12 @@
 package me.glicz.airflow.plugin;
 
-import com.google.inject.Guice;
 import com.mojang.logging.LogUtils;
 import me.glicz.airflow.Airflow;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.PluginMeta;
 import me.glicz.airflow.api.plugin.PluginsLoader;
-import me.glicz.airflow.inject.PluginModule;
 import me.glicz.airflow.plugin.bootstrap.AirBootstrapContext;
+import me.glicz.airflow.plugin.inject.PluginInjector;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,8 +64,7 @@ public class AirPluginsLoader implements PluginsLoader {
                     return;
                 }
 
-                Guice.createInjector(new PluginModule(airflow, plugin, pluginMeta))
-                        .injectMembers(plugin);
+                PluginInjector.inject(plugin, airflow, pluginMeta);
                 classLoader.setPlugin(plugin);
 
                 this.plugins.put(pluginMeta.getName(), plugin);
@@ -78,6 +76,10 @@ public class AirPluginsLoader implements PluginsLoader {
                 LOGGER.atError()
                         .setCause(e)
                         .log("Cannot load plugin {}, because of invalid plugin meta file (airflow.yml)", file.getName());
+            } catch (IllegalAccessException e) {
+                LOGGER.atError()
+                        .setCause(e)
+                        .log("Cannot load plugin {}, failed to inject required objects", file.getName());
             }
         });
     }

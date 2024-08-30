@@ -1,6 +1,5 @@
 package me.glicz.airflow.api.plugin;
 
-import com.google.inject.Inject;
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.ServerAware;
 import me.glicz.airflow.api.event.bus.EventBus;
@@ -14,15 +13,10 @@ import org.slf4j.Logger;
 import java.io.File;
 
 public abstract class Plugin implements Namespaced, ServerAware {
-    @Inject
     private ServerReference serverRef;
-    @Inject
     private PluginMeta pluginMeta;
-    @Inject
     private File dataFolder;
-    @Inject
     private EventBus eventBus;
-    @Inject
     private Logger logger;
     private boolean enabled;
 

@@ -35,6 +35,16 @@ public abstract class AirCommandSender implements CommandSender {
     }
 
     @Override
+    public String getName() {
+        return createCommandSourceStack().getTextName();
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return this.server.adventureSerializer.fromMinecraft(createCommandSourceStack().getDisplayName());
+    }
+
+    @Override
     public void dispatch(String command) {
         this.server.minecraftServer.getCommands().performPrefixedCommand(createCommandSourceStack(), command);
     }

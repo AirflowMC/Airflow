@@ -284,7 +284,7 @@ index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e6
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 0d9762a670d964fa43ac21de39129339afa328dd..7d7cfd75ade15433385dfa9192404388d5412c01 100644
+index 43055cd7a9ef275af8c00c0a65625a0e51d7ff08..3d951e6e04c6b79a09c737f5bb8ae4ddcf7185e7 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -3121,6 +3121,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess

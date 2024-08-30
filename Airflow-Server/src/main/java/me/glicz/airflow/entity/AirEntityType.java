@@ -1,6 +1,8 @@
 package me.glicz.airflow.entity;
 
 import me.glicz.airflow.api.entity.EntityType;
+import net.kyori.adventure.key.Key;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class AirEntityType implements EntityType {
@@ -8,6 +10,12 @@ public class AirEntityType implements EntityType {
 
     public AirEntityType(net.minecraft.world.entity.EntityType<?> handle) {
         this.handle = handle;
+    }
+
+    @Override
+    public @NotNull Key key() {
+        //noinspection PatternValidation
+        return Key.key(BuiltInRegistries.ENTITY_TYPE.getKey(this.handle).toString());
     }
 
     @Override

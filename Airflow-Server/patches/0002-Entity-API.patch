@@ -5,7 +5,7 @@ Subject: [PATCH] Entity API
 
 
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 9905ba66541f828d12f0497934eb8101b4c4c53a..0d9762a670d964fa43ac21de39129339afa328dd 100644
+index 9905ba66541f828d12f0497934eb8101b4c4c53a..43055cd7a9ef275af8c00c0a65625a0e51d7ff08 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -242,6 +242,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
@@ -25,7 +25,7 @@ index 9905ba66541f828d12f0497934eb8101b4c4c53a..0d9762a670d964fa43ac21de39129339
  
 +    // Airflow start - Entity API
 +    protected me.glicz.airflow.entity.AirEntity createAirEntity() {
-+        return new me.glicz.airflow.entity.AirEntity(getServer().getDedicatedServer().airflow.getServer(), this);
++        return new me.glicz.airflow.entity.AirEntity(this);
 +    }
 +
 +    public me.glicz.airflow.entity.AirEntity getAirEntity() {

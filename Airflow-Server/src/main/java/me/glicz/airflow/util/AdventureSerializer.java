@@ -22,4 +22,15 @@ public class AdventureSerializer { // TODO Adventure codecs?
                 server.minecraftServer.registryAccess()
         );
     }
+
+    public Component fromMinecraft(net.minecraft.network.chat.Component component) {
+        if (component == null) {
+            return null;
+        }
+
+        return GSON_SERIALIZER.deserialize(net.minecraft.network.chat.Component.Serializer.toJson(
+                component,
+                server.minecraftServer.registryAccess()
+        ));
+    }
 }

@@ -15,7 +15,7 @@ public interface Server extends ServerAware, ServerInfoProvider {
 
     /**
      * Exposed in case a plugin wants to dynamically manage commands.
-     * Unless you know what you're doing, you should stick to {@link CommandsRegisterEvent}
+     * Unless you know what you're doing, you should stick to {@link CommandsRegisterEvent}.
      *
      * @return commands registry
      */

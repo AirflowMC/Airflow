@@ -3,11 +3,9 @@ package me.glicz.airflow.api.block;
 import me.glicz.airflow.api.block.state.BlockState;
 import me.glicz.airflow.api.item.ItemTypeLike;
 import me.glicz.airflow.api.item.stack.ItemStack;
-import net.kyori.adventure.key.Keyed;
-import net.kyori.adventure.translation.Translatable;
 import org.jetbrains.annotations.NotNull;
 
-public interface BlockType extends ItemTypeLike, Keyed, Translatable {
+public interface BlockType extends ItemTypeLike {
     @NotNull BlockState createBlockState();
 
     @Override

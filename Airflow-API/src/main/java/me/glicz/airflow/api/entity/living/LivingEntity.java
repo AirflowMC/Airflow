@@ -1,4 +1,4 @@
-package me.glicz.airflow.api.entity;
+package me.glicz.airflow.api.entity.living;
 
 public interface LivingEntity {
     float getHealth();

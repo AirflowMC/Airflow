@@ -62,11 +62,11 @@ public class AirPluginMeta implements PluginMeta {
 
     @Override
     public String @NotNull [] getAuthors() {
-        return this.authors;
+        return this.authors.clone();
     }
 
     @Override
     public String @NotNull [] getContributors() {
-        return this.contributors;
+        return this.contributors.clone();
     }
 }

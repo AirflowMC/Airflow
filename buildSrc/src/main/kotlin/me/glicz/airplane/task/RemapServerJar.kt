@@ -1,8 +1,7 @@
-package me.glicz.airflow.plugin.task
+package me.glicz.airplane.task
 
-import me.glicz.airflow.plugin.util.airflowBuildDir
-import me.glicz.airflow.plugin.util.airflowDir
-import me.glicz.airflow.plugin.util.asPath
+import me.glicz.airplane.util.airflowBuildDir
+import me.glicz.airplane.util.asPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.RegularFileProperty
@@ -66,7 +65,7 @@ abstract class RemapServerJar : DefaultTask() {
 
                 remapperArgs.get().forEach { arg ->
                     args(arg
-                        .replace(Regex("\\{tempDir}")) { project.airflowDir.resolve(".tmp_codebook").absolutePath }
+                        .replace(Regex("\\{tempDir}")) { project.airflowBuildDir.resolve(".tmp_codebook").absolutePath }
                         .replace(Regex("\\{remapperFile}")) { remapper.singleFile.absolutePath }
                         .replace(Regex("\\{mappingsFile}")) { mappings.asPath.absolutePathString() }
                         .replace(Regex("\\{paramsFile}")) { paramMappings.singleFile.absolutePath }

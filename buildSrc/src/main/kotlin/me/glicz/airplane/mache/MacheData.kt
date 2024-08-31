@@ -1,4 +1,4 @@
-package me.glicz.airflow.plugin.mache
+package me.glicz.airplane.mache
 
 data class MacheData(
     val minecraftVersion: String,

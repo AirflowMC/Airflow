@@ -39,7 +39,7 @@ index 3cde0044772e568e2d5f89f2f946d49629725484..d2e7869fd3ccfa868f520b4029d6aad1
                      dedicatedServer1.setPort(optionSet.valueOf(optionSpec11));
                      dedicatedServer1.setDemo(optionSet.has(optionSpec2));
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index a04996425a087f8625f13d43d4cdf5804d963ded..1899f954bbb5f6886650244ecd714fd42860f78c 100644
+index 8f55652820ee340addf8e221f792d4f29b47e726..9e7502f04edc25977b90662718617cb448f305a4 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1119,7 +1119,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -68,7 +68,7 @@ index a04996425a087f8625f13d43d4cdf5804d963ded..1899f954bbb5f6886650244ecd714fd4
 +    // Airflow end
  }
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index a517582912bf1b16b69a3ef699103d0d375f46c5..40939593c151deca49de19301e72f60c45a5e8f5 100644
+index b406930be0d896371c7d2ee0a22b987bc2408bef..492c3117f2eee29a7054fda2c0e4e4b5886eb2af 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -80,6 +80,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

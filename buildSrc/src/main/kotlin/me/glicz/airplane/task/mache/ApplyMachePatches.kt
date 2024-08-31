@@ -1,11 +1,11 @@
-package me.glicz.airflow.plugin.task.mache
+package me.glicz.airplane.task.mache
 
 import codechicken.diffpatch.cli.PatchOperation
 import codechicken.diffpatch.match.FuzzyLineMatcher
 import codechicken.diffpatch.util.LoggingOutputStream
 import codechicken.diffpatch.util.PatchMode
 import codechicken.diffpatch.util.archiver.ArchiveFormat
-import me.glicz.airflow.plugin.util.asPath
+import me.glicz.airplane.util.asPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty

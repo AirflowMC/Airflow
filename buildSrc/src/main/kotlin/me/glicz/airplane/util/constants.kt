@@ -1,4 +1,4 @@
-package me.glicz.airflow.plugin.util
+package me.glicz.airplane.util
 
 import java.net.URI
 

@@ -1,15 +1,18 @@
-import me.glicz.airflow.plugin.papierMache
-
 plugins {
-    id("me.glicz.airflow.plugin")
+    id("me.glicz.airplane")
     id("net.kyori.indra.git") version "3.1.3"
 }
 
 repositories {
-    mavenLocal() // TODO mache
+    maven("https://repo.papermc.io/repository/maven-releases/")
+}
+
+configurations.apiElements {
+    extendsFrom(configurations.implementation.get())
 }
 
 dependencies {
+    mache(papierMache(properties["mache-build"] as String))
     implementation(project(":airflow-api"))
 }
 
@@ -25,7 +28,6 @@ sourceSets {
 
 airflow {
     minecraftVersion = properties["minecraft-version"] as String
-    mache = papierMache(properties["mache-build"] as String)
     sourcesDir = File(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
 }

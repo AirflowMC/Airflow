@@ -1,6 +1,6 @@
-package me.glicz.airflow.plugin.task
+package me.glicz.airplane.task
 
-import me.glicz.airflow.plugin.util.asPath
+import me.glicz.airplane.util.asPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.*

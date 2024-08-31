@@ -1,7 +1,6 @@
-package me.glicz.airflow.plugin.task
+package me.glicz.airplane.task
 
-import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.lib.PersonIdent
+import me.glicz.airplane.util.git
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
@@ -28,12 +27,12 @@ abstract class CopySources : DefaultTask() {
 
     @TaskAction
     fun run() {
-        val output = outputDir.get().asFile.apply { deleteRecursively() }
+        val output = outputDir.get().asFile.apply {
+            deleteRecursively()
+            mkdirs()
+        }
 
-        val git = Git.init()
-            .setDirectory(output)
-            .setInitialBranch("main")
-            .call()
+        git("init", "-b", "main")
 
         files.copy {
             from(files.zipTree(inputJar))
@@ -41,22 +40,24 @@ abstract class CopySources : DefaultTask() {
             into(output)
         }
 
-        git.add()
-            .addFilepattern(".")
-            .call()
+        git("add", ".", silentErr = true)
+        git(
+            "commit",
+            "--no-gpg-sign",
+            "--author=\"Mojang Studios <mojang@studios.xyz>\"",
+            "-m",
+            "Minecraft ${minecraftVersion.get()}"
+        )
+        git("tag", "--no-sign", "initial")
+    }
 
-        val ident = PersonIdent("Mojang Studios", "mojang@studios.xyz")
+    private fun git(vararg args: String, silentErr: Boolean = false) {
+        git {
+            args(*args)
 
-        git.commit()
-            .setAuthor(ident)
-            .setMessage("Minecraft ${minecraftVersion.get()}")
-            .setSign(false)
-            .call()
-
-        git.tag()
-            .setName("initial")
-            .setTagger(ident)
-            .setSigned(false)
-            .call()
+            workingDir(outputDir)
+            silent(true)
+            silentErr(silentErr)
+        }
     }
 }

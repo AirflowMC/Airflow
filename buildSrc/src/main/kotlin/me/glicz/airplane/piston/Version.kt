@@ -1,4 +1,4 @@
-package me.glicz.airflow.plugin.piston
+package me.glicz.airplane.piston
 
 data class Version(val id: String, val type: Type, val url: String) {
     enum class Type {

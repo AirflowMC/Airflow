@@ -1,6 +1,6 @@
-package me.glicz.airflow.plugin.extension
+package me.glicz.airplane.extension
 
-import me.glicz.airflow.plugin.util.sha1Digest
+import me.glicz.airplane.util.sha1Digest
 import java.io.File
 import java.util.zip.ZipFile
 

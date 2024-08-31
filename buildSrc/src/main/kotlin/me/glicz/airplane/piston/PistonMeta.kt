@@ -1,10 +1,10 @@
-package me.glicz.airflow.plugin.piston
+package me.glicz.airplane.piston
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import me.glicz.airflow.plugin.extension.sha1
-import me.glicz.airflow.plugin.util.*
+import me.glicz.airplane.extension.sha1
+import me.glicz.airplane.util.*
 import org.gradle.api.Project
 import java.net.URI
 import java.net.http.HttpClient

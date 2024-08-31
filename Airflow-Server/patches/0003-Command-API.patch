@@ -151,7 +151,7 @@ index d2e7869fd3ccfa868f520b4029d6aad190ae834d..e60a38a1138f546b3b5667cbed917935
                      )
                      .get();
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 1899f954bbb5f6886650244ecd714fd42860f78c..454a10801c221a9670d77f263808928c9455fe57 100644
+index 9e7502f04edc25977b90662718617cb448f305a4..f7b89ad1246a1cac9d48dcf60697dbed0a6c4cb2 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1455,7 +1455,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -215,7 +215,7 @@ index 788f7ffeae5349a6fe6564bb523218d45af93afc..bf2ff6f449e8ebf2ef1f24a6038c2f61
                      return SimpleReloadInstance.create(
                              resourceManager,
 diff --git a/net/minecraft/server/WorldLoader.java b/net/minecraft/server/WorldLoader.java
-index 9aaebffd2423eac917dcf4f8af5ce85956c79911..496457ba0d5ceea227f142a7f35a26a28e34fcf3 100644
+index 99820d0d3ba5326f84decbbc658d87592a042501..318eaa929ea6c29d4ea811a92cf3e27ce21d4b0c 100644
 --- a/net/minecraft/server/WorldLoader.java
 +++ b/net/minecraft/server/WorldLoader.java
 @@ -26,7 +26,7 @@ public class WorldLoader {
@@ -255,7 +255,7 @@ index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e439191
          public void close() {
              IOUtils.closeQuietly((Writer)this.output);
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index 40939593c151deca49de19301e72f60c45a5e8f5..80d239ae9a1162f1edfdbd62d48879501c41beea 100644
+index 492c3117f2eee29a7054fda2c0e4e4b5886eb2af..a7f9ed38ec466485f91c31354da07c9fad87de21 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -67,7 +67,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -284,10 +284,10 @@ index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e6
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 43055cd7a9ef275af8c00c0a65625a0e51d7ff08..3d951e6e04c6b79a09c737f5bb8ae4ddcf7185e7 100644
+index 1b32d5352e7b47f71580e7d998c43131e905f988..eadc47e3146b0e4f11b88efcdae548d4c86dfd0c 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -3121,6 +3121,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -3113,6 +3113,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          return true;
      }
  

@@ -1,7 +1,7 @@
-package me.glicz.airflow.plugin.util
+package me.glicz.airplane.util
 
-import me.glicz.airflow.plugin.AirflowExtension
-import me.glicz.airflow.plugin.piston.PistonMeta
+import me.glicz.airplane.AirflowExtension
+import me.glicz.airplane.piston.PistonMeta
 import org.gradle.api.Project
 import java.nio.file.FileSystems
 import kotlin.io.path.exists
@@ -20,7 +20,7 @@ fun Project.downloadServerBootstrap() {
             val parts = line.split('\t')
             check(parts.size == 3) { "libraries.list is invalid" }
 
-            project.dependencies.add("minecraft", parts[1])
+            project.dependencies.add("minecraftLibrary", parts[1])
         }
     }
 }

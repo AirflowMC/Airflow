@@ -1,8 +1,8 @@
-package me.glicz.airflow.plugin
+package me.glicz.airplane
 
-import me.glicz.airflow.plugin.task.*
-import me.glicz.airflow.plugin.task.mache.ApplyMachePatches
-import me.glicz.airflow.plugin.util.*
+import me.glicz.airplane.task.*
+import me.glicz.airplane.task.mache.ApplyMachePatches
+import me.glicz.airplane.util.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
@@ -11,9 +11,13 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.language.jvm.tasks.ProcessResources
 
-class AirflowPlugin : Plugin<Project> {
+class AirplanePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val airflowExt = project.extensions.create("airflow", AirflowExtension::class.java)
+
+        val mache by project.configurations.registering {
+            isTransitive = false
+        }
 
         val codebook by project.configurations.registering {
             isTransitive = false
@@ -35,17 +39,17 @@ class AirflowPlugin : Plugin<Project> {
             isTransitive = false
         }
 
-        val minecraft by project.configurations.registering {
+        val minecraftLibrary by project.configurations.registering {
             isTransitive = false
         }
 
         project.configurations.named("implementation") {
-            extendsFrom(minecraft.get())
+            extendsFrom(minecraftLibrary.get())
         }
 
         project.afterEvaluate {
-            val macheData = downloadMacheArtifact()
             downloadServerBootstrap()
+            val macheData = extractMacheArtifact()
 
             val extractServerJar by project.tasks.registering(ExtractServerJar::class) {
                 group = "airflow"
@@ -61,7 +65,7 @@ class AirflowPlugin : Plugin<Project> {
                 inputJar.set(extractServerJar.flatMap { it.serverJar })
                 mappings.set(project.airflowDir.resolve(SERVER_MAPPINGS))
                 remapperArgs.set(macheData.remapperArgs)
-                minecraftClasspath.from(minecraft)
+                minecraftClasspath.from(minecraftLibrary)
                 this.codebook.from(codebook)
                 this.remapper.from(remapper)
                 this.paramMappings.from(paramMappings)
@@ -75,7 +79,7 @@ class AirflowPlugin : Plugin<Project> {
                 inputJar.set(remapServerJar.flatMap { it.outputJar })
                 this.decompiler.from(decompiler)
                 decompilerArgs.set(macheData.decompilerArgs)
-                minecraftClasspath.from(minecraft)
+                minecraftClasspath.from(minecraftLibrary)
 
                 outputJar.set(project.airflowBuildDir.resolve(SOURCES_JAR))
             }

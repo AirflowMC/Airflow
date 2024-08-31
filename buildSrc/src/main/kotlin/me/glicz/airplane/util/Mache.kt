@@ -1,25 +1,19 @@
-package me.glicz.airflow.plugin.util
+package me.glicz.airplane.util
 
 import com.google.gson.Gson
-import me.glicz.airflow.plugin.AirflowExtension
-import me.glicz.airflow.plugin.extension.unzip
-import me.glicz.airflow.plugin.mache.MacheData
+import me.glicz.airplane.extension.unzip
+import me.glicz.airplane.mache.MacheData
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.maven
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
 
 @OptIn(ExperimentalPathApi::class)
-fun Project.downloadMacheArtifact(): MacheData {
-    val airflowExt = extensions.getByType(AirflowExtension::class.java)
+fun Project.extractMacheArtifact(): MacheData {
+    val macheDataDir = airflowDir.resolve(MACHE_DIR).apply { toPath().deleteRecursively() }
 
-    val configuration = configurations.detachedConfiguration(
-        project.dependencies.create(airflowExt.mache.get())
-    )
-    val artifact = configuration.resolvedConfiguration.resolvedArtifacts.first()
-
-    artifact.file.unzip(airflowDir.resolve(MACHE_DIR).apply { toPath().deleteRecursively() })
-
+    configurations["mache"].first().unzip(macheDataDir)
     val macheData = Gson().fromJson(airflowDir.resolve(MACHE_DATA).bufferedReader(), MacheData::class.java)
 
     macheData.repositories.forEach { repository ->

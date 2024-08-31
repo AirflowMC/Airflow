@@ -48,3 +48,26 @@ index 7c1ee0965de421a195fba2f2bba953dc695f94ee..798206e1a70fa98f3a59cf9aa721977c
  
      private static <T extends Entity> EntityType<T> register(String key, EntityType.Builder<T> builder) {
          return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
+diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
+index f86edec07abf454ef7b58575482910e9ed1b5b1a..3282f0fa91e97b6b6e3a24329c31149140287c79 100644
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -269,6 +269,18 @@ public abstract class LivingEntity extends Entity implements Attackable {
+         this.brain = this.makeBrain(new Dynamic<>(nbtOps, nbtOps.createMap(ImmutableMap.of(nbtOps.createString("memories"), nbtOps.emptyMap()))));
+     }
+ 
++    // Airflow start - Entity API
++    @Override
++    protected me.glicz.airflow.entity.AirLivingEntity createAirEntity() {
++        return new me.glicz.airflow.entity.AirLivingEntity(this);
++    }
++
++    @Override
++    public me.glicz.airflow.entity.AirLivingEntity getAirEntity() {
++        return (me.glicz.airflow.entity.AirLivingEntity) super.getAirEntity();
++    }
++    // Airflow end - Entity API
++
+     public Brain<?> getBrain() {
+         return this.brain;
+     }

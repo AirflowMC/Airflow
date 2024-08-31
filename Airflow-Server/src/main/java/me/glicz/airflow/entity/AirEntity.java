@@ -43,6 +43,11 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
+    public boolean isAlive() {
+        return getHandle().isAlive();
+    }
+
+    @Override
     public CommandSourceStack createCommandSourceStack() {
         return getHandle().createCommandSourceStack();
     }

@@ -16,4 +16,6 @@ public interface Entity extends CommandSender, Typed<EntityType> {
     FinePosition getPosition();
 
     Rotation getRotation();
+
+    boolean isAlive();
 }

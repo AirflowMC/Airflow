@@ -1,11 +1,14 @@
 package me.glicz.airflow.item;
 
+import me.glicz.airflow.api.block.BlockType;
 import me.glicz.airflow.api.item.ItemType;
 import me.glicz.airflow.api.item.stack.ItemStack;
 import net.kyori.adventure.key.Key;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AirItemType implements ItemType {
     private final Item handle;
@@ -15,7 +18,16 @@ public class AirItemType implements ItemType {
     }
 
     @Override
-    public ItemStack asItemStack(int amount) {
+    public @Nullable BlockType getBlockType() {
+        if (this.handle instanceof BlockItem blockItem) {
+            return blockItem.getBlock().airBlockType;
+        }
+
+        return null;
+    }
+
+    @Override
+    public @NotNull ItemStack asItemStack(int amount) {
         return new net.minecraft.world.item.ItemStack(handle, amount).airItemStack;
     }
 

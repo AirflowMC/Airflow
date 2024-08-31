@@ -16,12 +16,12 @@ public class AirBlockType implements BlockType {
     }
 
     @Override
-    public ItemType getItemType() {
+    public @NotNull ItemType getItemType() {
         return this.handle.asItem().airItemType;
     }
 
     @Override
-    public BlockState createBlockState() {
+    public @NotNull BlockState createBlockState() {
         return this.handle.defaultBlockState().getAirBlockState();
     }
 

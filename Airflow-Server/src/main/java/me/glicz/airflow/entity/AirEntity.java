@@ -6,6 +6,7 @@ import me.glicz.airflow.api.util.math.position.Position;
 import me.glicz.airflow.api.util.math.rotation.Rotation;
 import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.command.sender.AirCommandSender;
+import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerLevel;
@@ -53,13 +54,18 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
+    public MinecraftComponentSerializer componentSerializer() {
+        return new MinecraftComponentSerializer(() -> getHandle().registryAccess());
+    }
+
+    @Override
     public String getName() {
         return getHandle().getName().getString();
     }
 
     @Override
     public Component getDisplayName() {
-        return this.server.adventureSerializer.fromMinecraft(getHandle().getDisplayName());
+        return componentSerializer().deserialize(getHandle().getDisplayName());
     }
 
     @Override

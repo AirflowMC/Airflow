@@ -3,6 +3,7 @@ package me.glicz.airflow.command.sender;
 import me.glicz.airflow.AirServer;
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.sender.CommandSender;
+import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,10 @@ public abstract class AirCommandSender implements CommandSender {
 
     public abstract CommandSourceStack createCommandSourceStack();
 
+    public MinecraftComponentSerializer componentSerializer() {
+        return MinecraftComponentSerializer.INSTANCE;
+    }
+
     @Override
     public @NotNull Server getServer() {
         return this.server;
@@ -31,7 +36,7 @@ public abstract class AirCommandSender implements CommandSender {
     public void sendMessage(@NotNull Identity source, @NotNull Component message, @NotNull MessageType type) {
         if (type != MessageType.SYSTEM) return;
 
-        this.commandSource.sendSystemMessage(this.server.adventureSerializer.toMinecraft(message));
+        this.commandSource.sendSystemMessage(componentSerializer().serialize(message));
     }
 
     @Override
@@ -41,7 +46,7 @@ public abstract class AirCommandSender implements CommandSender {
 
     @Override
     public Component getDisplayName() {
-        return this.server.adventureSerializer.fromMinecraft(createCommandSourceStack().getDisplayName());
+        return componentSerializer().deserialize(createCommandSourceStack().getDisplayName());
     }
 
     @Override

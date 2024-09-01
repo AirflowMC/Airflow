@@ -11,14 +11,12 @@ import me.glicz.airflow.api.service.Services;
 import me.glicz.airflow.api.util.Version;
 import me.glicz.airflow.command.sender.AirRemoteCommandSender;
 import me.glicz.airflow.command.sender.AirServerCommandSender;
-import me.glicz.airflow.util.AdventureSerializer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.jetbrains.annotations.NotNull;
 
 public class AirServer implements Server {
     public final Airflow airflow;
     public final DedicatedServer minecraftServer;
-    public final AdventureSerializer adventureSerializer;
     private final ServerCommandSender serverCommandSender;
     private final RemoteCommandSender remoteCommandSender;
 
@@ -26,7 +24,6 @@ public class AirServer implements Server {
         this.airflow = airflow;
         this.minecraftServer = minecraftServer;
 
-        this.adventureSerializer = new AdventureSerializer(this);
         this.serverCommandSender = new AirServerCommandSender(this);
         this.remoteCommandSender = new AirRemoteCommandSender(this);
     }

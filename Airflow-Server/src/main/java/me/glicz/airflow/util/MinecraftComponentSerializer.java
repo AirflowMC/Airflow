@@ -11,7 +11,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -39,7 +38,7 @@ public class MinecraftComponentSerializer implements ComponentSerializer<Compone
     }
 
     @Override
-    public @NotNull MutableComponent serialize(@NotNull Component component) {
+    public @NotNull net.minecraft.network.chat.Component serialize(@NotNull Component component) {
         return Serializer.fromJson(
                 GSON_SERIALIZER.serializeToTree(component), this.provider.get()
         );

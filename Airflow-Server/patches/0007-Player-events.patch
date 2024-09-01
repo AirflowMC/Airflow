@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Sun, 1 Sep 2024 16:14:44 +0200
+Subject: [PATCH] Player events
+
+
+diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
+index 77a93d5f21b2369b69c59a1928e779e41e4ff972..65edae1d69eb1c9b9acc8621d730a222674ef57a 100644
+--- a/net/minecraft/server/players/PlayerList.java
++++ b/net/minecraft/server/players/PlayerList.java
+@@ -213,8 +213,9 @@ public abstract class PlayerList {
+         } else {
+             mutableComponent = Component.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), string);
+         }
++        mutableComponent.withStyle(ChatFormatting.YELLOW); // Airflow - Player events
+ 
+-        this.broadcastSystemMessage(mutableComponent.withStyle(ChatFormatting.YELLOW), false);
++        //this.broadcastSystemMessage(mutableComponent.withStyle(ChatFormatting.YELLOW), false); // Airflow - Player events
+         serverGamePacketListenerImpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+         ServerStatus status = this.server.getStatus();
+         if (status != null && !cookie.transferred()) {
+@@ -225,6 +226,14 @@ public abstract class PlayerList {
+         this.players.add(player);
+         this.playersByUUID.put(player.getUUID(), player);
+         this.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player)));
++        // Airflow start - Player events
++        me.glicz.airflow.api.event.player.PlayerJoinEvent event = this.server.getDedicatedServer().airflow.serverEventBus.dispatchPlayerJoin(player, mutableComponent);
++
++        Component message = me.glicz.airflow.util.MinecraftComponentSerializer.INSTANCE.serializeOrNull(event.getMessage());
++        if (message != null) {
++            this.broadcastSystemMessage(message, false);
++        }
++        // Airflow end - Player events
+         this.sendLevelInfo(player, serverLevel);
+         serverLevel.addNewPlayer(player);
+         this.server.getCustomBossEvents().onPlayerConnect(player);

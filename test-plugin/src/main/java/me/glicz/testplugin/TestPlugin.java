@@ -3,11 +3,13 @@ package me.glicz.testplugin;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
+import me.glicz.airflow.api.event.player.PlayerJoinEvent;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
 import me.glicz.airflow.api.service.ServiceProvider;
 import me.glicz.testplugin.event.TestEvent;
+import me.glicz.testplugin.listener.JoinListener;
 import me.glicz.testplugin.listener.TestListener;
 import me.glicz.testplugin.service.TestService;
 import me.glicz.testplugin.service.TestServiceImpl;
@@ -63,18 +65,20 @@ public class TestPlugin extends Plugin {
 
     @Override
     public void onLoad() {
-        getLogger().info("Successfully loaded!");
-        getLogger().info("And here, in onLoad, the server is with us! Welcome {}", getServer());
-
         getEventBus().dispatch(new TestEvent());
 
         getServer().getServices().get(TestService.class)
                 .map(ServiceProvider::getProvider)
                 .ifPresent(TestService::helloWorld);
+
+        getLogger().info("Successfully loaded!");
+        getLogger().info("And here, in onLoad, the server is with us! Welcome {}", getServer());
     }
 
     @Override
     public void onEnable() {
+        getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener());
+
         getLogger().info("Successfully enabled!");
     }
 

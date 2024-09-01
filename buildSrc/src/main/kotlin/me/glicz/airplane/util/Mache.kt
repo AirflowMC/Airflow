@@ -11,10 +11,10 @@ import kotlin.io.path.deleteRecursively
 
 @OptIn(ExperimentalPathApi::class)
 fun Project.extractMacheArtifact(): MacheData {
-    val macheDataDir = airflowDir.resolve(MACHE_DIR).apply { toPath().deleteRecursively() }
+    val macheDataDir = airplaneDir.resolve(MACHE_DIR).apply { toPath().deleteRecursively() }
 
     configurations["mache"].first().unzip(macheDataDir)
-    val macheData = Gson().fromJson(airflowDir.resolve(MACHE_DATA).bufferedReader(), MacheData::class.java)
+    val macheData = Gson().fromJson(airplaneDir.resolve(MACHE_DATA).bufferedReader(), MacheData::class.java)
 
     macheData.repositories.forEach { repository ->
         repositories.maven(repository.url) {

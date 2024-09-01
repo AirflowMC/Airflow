@@ -1,6 +1,6 @@
 package me.glicz.airplane.task
 
-import me.glicz.airplane.util.airflowBuildDir
+import me.glicz.airplane.util.airplaneBuildDir
 import me.glicz.airplane.util.asPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
@@ -65,7 +65,7 @@ abstract class RemapServerJar : DefaultTask() {
 
                 remapperArgs.get().forEach { arg ->
                     args(arg
-                        .replace(Regex("\\{tempDir}")) { project.airflowBuildDir.resolve(".tmp_codebook").absolutePath }
+                        .replace(Regex("\\{tempDir}")) { project.airplaneBuildDir.resolve(".tmp_codebook").absolutePath }
                         .replace(Regex("\\{remapperFile}")) { remapper.singleFile.absolutePath }
                         .replace(Regex("\\{mappingsFile}")) { mappings.asPath.absolutePathString() }
                         .replace(Regex("\\{paramsFile}")) { paramMappings.singleFile.absolutePath }
@@ -73,7 +73,7 @@ abstract class RemapServerJar : DefaultTask() {
                         .replace(Regex("\\{output}")) { outputJar.get().asFile.absolutePath }
                         .replace(Regex("\\{input}")) { inputJar.get().asFile.absolutePath }
                         .replace(Regex("\\{inputClasspath}")) { minecraftClasspath.files.joinToString(":") { it.absolutePath } }
-                        .replace(Regex("\\{reportsDir}")) { project.airflowBuildDir.absolutePath }
+                        .replace(Regex("\\{reportsDir}")) { project.airplaneBuildDir.absolutePath }
                     )
                 }
             }

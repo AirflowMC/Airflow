@@ -54,10 +54,10 @@ object PistonMeta {
     }
 
     fun downloadServerResources(project: Project, downloads: VersionDownloads) {
-        downloadResource(project.airflowDir.resolve(SERVER_BOOSTRAP_JAR).toPath(), downloads.server) {
-            project.airflowBuildDir.deleteRecursively()
+        downloadResource(project.airplaneDir.resolve(SERVER_BOOSTRAP_JAR).toPath(), downloads.server) {
+            project.airplaneBuildDir.deleteRecursively()
         }
-        downloadResource(project.airflowDir.resolve(SERVER_MAPPINGS).toPath(), downloads.serverMappings)
+        downloadResource(project.airplaneDir.resolve(SERVER_MAPPINGS).toPath(), downloads.serverMappings)
     }
 
     fun downloadResource(path: Path, resource: VersionDownloads.Resource, hashMismatch: () -> Unit = {}) {

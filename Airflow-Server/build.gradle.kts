@@ -26,9 +26,9 @@ sourceSets {
     }
 }
 
-airflow {
+airplane {
     minecraftVersion = properties["minecraft-version"] as String
-    sourcesDir = File(internalsDir)
+    sourcesDir = projectDir.resolve(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
 }
 

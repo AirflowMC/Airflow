@@ -13,7 +13,7 @@ import org.gradle.language.jvm.tasks.ProcessResources
 
 class AirplanePlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        val airflowExt = project.extensions.create("airflow", AirflowExtension::class.java)
+        val airplaneExt = project.extensions.create("airplane", AirplaneExtension::class.java)
 
         val mache by project.configurations.registering {
             isTransitive = false
@@ -48,74 +48,74 @@ class AirplanePlugin : Plugin<Project> {
         }
 
         project.afterEvaluate {
-            downloadServerBootstrap()
+            downloadServerBootstrap(airplaneExt.minecraftVersion.get())
             val macheData = extractMacheArtifact()
 
             val extractServerJar by project.tasks.registering(ExtractServerJar::class) {
-                group = "airflow"
+                group = "airplane"
 
-                bootstrapJar.set(project.airflowDir.resolve(SERVER_BOOSTRAP_JAR))
+                bootstrapJar.set(project.airplaneDir.resolve(SERVER_BOOSTRAP_JAR))
 
-                serverJar.set(project.airflowBuildDir.resolve(SERVER_JAR))
+                serverJar.set(project.airplaneBuildDir.resolve(SERVER_JAR))
             }
 
             val remapServerJar by project.tasks.registering(RemapServerJar::class) {
-                group = "airflow"
+                group = "airplane"
 
                 inputJar.set(extractServerJar.flatMap { it.serverJar })
-                mappings.set(project.airflowDir.resolve(SERVER_MAPPINGS))
+                mappings.set(project.airplaneDir.resolve(SERVER_MAPPINGS))
                 remapperArgs.set(macheData.remapperArgs)
                 minecraftClasspath.from(minecraftLibrary)
                 this.codebook.from(codebook)
                 this.remapper.from(remapper)
                 this.paramMappings.from(paramMappings)
 
-                outputJar.set(project.airflowBuildDir.resolve(REMAPPED_JAR))
+                outputJar.set(project.airplaneBuildDir.resolve(REMAPPED_JAR))
             }
 
             val decompileServerJar by project.tasks.registering(DecompileServerJar::class) {
-                group = "airflow"
+                group = "airplane"
 
                 inputJar.set(remapServerJar.flatMap { it.outputJar })
                 this.decompiler.from(decompiler)
                 decompilerArgs.set(macheData.decompilerArgs)
                 minecraftClasspath.from(minecraftLibrary)
 
-                outputJar.set(project.airflowBuildDir.resolve(SOURCES_JAR))
+                outputJar.set(project.airplaneBuildDir.resolve(SOURCES_JAR))
             }
 
             val applyMachePatches by project.tasks.registering(ApplyMachePatches::class) {
-                group = "airflow"
+                group = "airplane"
 
                 inputJar.set(decompileServerJar.flatMap { it.outputJar })
-                patchesDir.set(project.airflowDir.resolve(PATCHES_DIR))
+                patchesDir.set(project.airplaneDir.resolve(PATCHES_DIR))
 
-                outputJar.set(project.airflowBuildDir.resolve(PATCHED_JAR))
+                outputJar.set(project.airplaneBuildDir.resolve(PATCHED_JAR))
             }
 
             val copySources by project.tasks.registering(CopySources::class) {
-                group = "airflow"
+                group = "airplane"
 
                 inputJar.set(applyMachePatches.flatMap { it.outputJar })
-                minecraftVersion.set(airflowExt.minecraftVersion)
+                minecraftVersion.set(airplaneExt.minecraftVersion)
 
-                outputDir.set(airflowExt.sourcesDir)
+                outputDir.set(airplaneExt.sourcesDir)
             }
 
             val applyPatches by project.tasks.registering(ApplyPatches::class) {
-                group = "airflow"
+                group = "airplane"
 
                 sources.set(copySources.flatMap { it.outputDir })
 
-                patchesDir.set(airflowExt.patchesDir)
+                patchesDir.set(airplaneExt.patchesDir)
             }
 
             val rebuildPatches by project.tasks.registering(RebuildPatches::class) {
-                group = "airflow"
+                group = "airplane"
 
-                sources.set(airflowExt.sourcesDir)
+                sources.set(airplaneExt.sourcesDir)
 
-                patchesDir.set(airflowExt.patchesDir)
+                patchesDir.set(airplaneExt.patchesDir)
             }
 
             tasks.named("processResources", ProcessResources::class.java) {
@@ -125,7 +125,7 @@ class AirplanePlugin : Plugin<Project> {
             }
 
             tasks.register("runServer", JavaExec::class) {
-                group = "airflow"
+                group = "airplane"
                 doNotTrackState("Run server")
 
                 mainClass = "net.minecraft.server.Main"

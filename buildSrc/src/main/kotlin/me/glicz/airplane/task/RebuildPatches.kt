@@ -39,5 +39,12 @@ abstract class RebuildPatches : DefaultTask() {
             workingDir(sources)
             silent(true)
         }
+        git {
+            args("add", ".")
+
+            workingDir(patchesDir)
+            silent(true)
+            silentErr(true)
+        }
     }
 }

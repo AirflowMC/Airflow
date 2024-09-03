@@ -31,7 +31,7 @@ public interface Commands {
     }
 
     default void register(@NotNull Plugin plugin, @NotNull LiteralCommandNode<CommandSourceStack> node, @NotNull Collection<String> aliases) {
-        register(plugin.getPluginMeta().getName(), node, aliases);
+        register(plugin.namespace(), node, aliases);
     }
 
     void register(@NotNull String namespace, @NotNull LiteralCommandNode<CommandSourceStack> node, @NotNull Collection<String> aliases);

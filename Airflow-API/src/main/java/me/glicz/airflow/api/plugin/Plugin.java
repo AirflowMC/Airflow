@@ -23,7 +23,7 @@ public abstract class Plugin implements Namespaced, ServerAware {
     @Override
     public @NotNull @KeyPattern.Namespace String namespace() {
         //noinspection PatternValidation
-        return pluginMeta.getName();
+        return pluginMeta.getName().toLowerCase();
     }
 
     @Override

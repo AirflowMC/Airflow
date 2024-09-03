@@ -22,7 +22,7 @@ import java.util.*;
 public class AirPluginsLoader implements PluginsLoader {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PLUGINS_FOLDER = "plugins";
-    final Map<String, Plugin> pluginMap = new HashMap<>();
+    final Map<String, Plugin> pluginMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private final File pluginsFolder;
     private final boolean skip;
     private final Airflow airflow;
@@ -62,6 +62,11 @@ public class AirPluginsLoader implements PluginsLoader {
             try {
                 AirPluginClassLoader classLoader = new AirPluginClassLoader(file);
                 PluginMeta pluginMeta = new AirPluginMeta(classLoader.getResourceAsStream("airflow.yml"));
+
+                if (this.pluginMap.containsKey(pluginMeta.getName())) {
+                    LOGGER.error("Cannot load {}, because plugin with name {} already exists", file.getName(), pluginMeta.getName());
+                    return;
+                }
 
                 Plugin plugin = createPluginInstance(classLoader, pluginMeta);
                 if (plugin == null) {

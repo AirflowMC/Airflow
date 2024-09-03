@@ -1,10 +1,12 @@
-package me.glicz.airflow.plugin;
+package me.glicz.airflow.plugin.loader;
 
 import com.mojang.logging.LogUtils;
 import me.glicz.airflow.Airflow;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.PluginMeta;
 import me.glicz.airflow.api.plugin.PluginsLoader;
+import me.glicz.airflow.plugin.AirPluginClassLoader;
+import me.glicz.airflow.plugin.AirPluginMeta;
 import me.glicz.airflow.plugin.bootstrap.AirBootstrapContext;
 import me.glicz.airflow.plugin.inject.PluginInjector;
 import org.apache.commons.io.FileUtils;
@@ -20,10 +22,11 @@ import java.util.*;
 public class AirPluginsLoader implements PluginsLoader {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PLUGINS_FOLDER = "plugins";
+    final Map<String, Plugin> pluginMap = new HashMap<>();
     private final File pluginsFolder;
     private final boolean skip;
-    private final Map<String, Plugin> plugins = new HashMap<>();
     private final Airflow airflow;
+    private final AirLoadOrderResolver loadOrderResolver;
 
     public AirPluginsLoader(Airflow airflow, File pluginsFolder, boolean skip) {
         this.airflow = airflow;
@@ -31,16 +34,17 @@ public class AirPluginsLoader implements PluginsLoader {
         this.pluginsFolder = Objects.requireNonNullElse(pluginsFolder, new File(PLUGINS_FOLDER)).getAbsoluteFile();
         //noinspection ResultOfMethodCallIgnored
         this.pluginsFolder.mkdirs();
+        this.loadOrderResolver = new AirLoadOrderResolver(this);
     }
 
     @Override
     public @Nullable Plugin getPlugin(String name) {
-        return this.plugins.get(name);
+        return this.pluginMap.get(name);
     }
 
     @Override
     public @NotNull Collection<Plugin> getPlugins() {
-        return List.copyOf(plugins.values());
+        return List.copyOf(pluginMap.values());
     }
 
     @Override
@@ -48,8 +52,8 @@ public class AirPluginsLoader implements PluginsLoader {
         return this.pluginsFolder;
     }
 
-    public void preloadPlugins() {
-        if (skip) return;
+    public boolean preloadPlugins() {
+        if (skip) return true;
 
         Collection<File> plugins = FileUtils.listFiles(pluginsFolder, new String[]{"jar"}, false);
         LOGGER.info("Found {} server plugins...", plugins.size());
@@ -67,7 +71,7 @@ public class AirPluginsLoader implements PluginsLoader {
                 PluginInjector.inject(plugin, airflow, pluginMeta);
                 classLoader.setPlugin(plugin);
 
-                this.plugins.put(pluginMeta.getName(), plugin);
+                this.pluginMap.put(pluginMeta.getName(), plugin);
             } catch (MalformedURLException e) {
                 LOGGER.atError()
                         .setCause(e)
@@ -82,6 +86,19 @@ public class AirPluginsLoader implements PluginsLoader {
                         .log("Cannot load plugin {}, failed to inject required objects", file.getName());
             }
         });
+
+        try {
+            loadOrderResolver.resolve();
+        } catch (UnknownDependencyException | CircularDependencyException e) {
+            LOGGER.error("##################################################");
+            LOGGER.error("");
+            LOGGER.error(e.getMessage());
+            LOGGER.error("");
+            LOGGER.error("##################################################");
+            return false;
+        }
+
+        return true;
     }
 
     private Plugin createPluginInstance(AirPluginClassLoader classLoader, PluginMeta pluginMeta) {
@@ -104,7 +121,7 @@ public class AirPluginsLoader implements PluginsLoader {
     }
 
     public void bootstrapPlugins() {
-        plugins.values().forEach(plugin -> {
+        loadOrderResolver.loadOrder.forEach(plugin -> {
             try {
                 plugin.bootstrap(new AirBootstrapContext(airflow));
             } catch (Throwable e) {
@@ -116,7 +133,7 @@ public class AirPluginsLoader implements PluginsLoader {
     }
 
     public void loadPlugins() {
-        plugins.values().forEach(plugin -> {
+        loadOrderResolver.loadOrder.forEach(plugin -> {
             try {
                 plugin.getLogger().info("Loading...");
                 plugin.onLoad();
@@ -141,7 +158,7 @@ public class AirPluginsLoader implements PluginsLoader {
     }
 
     public void enablePlugins() {
-        plugins.values().forEach(this::enablePlugin);
+        loadOrderResolver.loadOrder.forEach(this::enablePlugin);
     }
 
     private void disablePlugin(Plugin plugin) {
@@ -156,6 +173,6 @@ public class AirPluginsLoader implements PluginsLoader {
     }
 
     public void disablePlugins() {
-        plugins.values().forEach(this::disablePlugin);
+        loadOrderResolver.loadOrder.reversed().forEach(this::disablePlugin);
     }
 }

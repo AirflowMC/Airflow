@@ -26,7 +26,7 @@
             <AppenderRef ref="SIMPLE_ASYNC"/>
         </Logger>
 
-        <Logger name="me.glicz.airflow.plugin.AirPluginsLoader" level="info" additivity="false">
+        <Logger name="me.glicz.airflow.plugin.loader.AirPluginsLoader" level="info" additivity="false">
             <AppenderRef ref="SIMPLE_ASYNC"/>
         </Logger>
 

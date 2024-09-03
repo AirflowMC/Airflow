@@ -138,10 +138,10 @@ index 2776888c2e088aa4615100afc6ba5c404ffc217c..4a41b7ce03f1ca51eb43bc614d945703
                      )
                      .get();
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index d2e7869fd3ccfa868f520b4029d6aad190ae834d..e60a38a1138f546b3b5667cbed917935a03bdf57 100644
+index af4ce09ebe936428aa3a4f007612cb0b7b8fc5c7..b3ec258f14a2310184540317f6d55ec2b887d130 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -228,7 +228,7 @@ public class Main {
+@@ -230,7 +230,7 @@ public class Main {
                              },
                              WorldStem::new,
                              Util.backgroundExecutor(),

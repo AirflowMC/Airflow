@@ -5,7 +5,7 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import me.glicz.airflow.api.properties.ServerProperties;
 import me.glicz.airflow.event.bus.AirServerEventBus;
-import me.glicz.airflow.plugin.AirPluginsLoader;
+import me.glicz.airflow.plugin.loader.AirPluginsLoader;
 import me.glicz.airflow.properties.AirServerProperties;
 import me.glicz.airflow.service.AirServices;
 import me.glicz.airflow.util.AirServerReference;

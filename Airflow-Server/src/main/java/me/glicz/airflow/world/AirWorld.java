@@ -17,7 +17,7 @@ public class AirWorld implements World {
 
     @Override
     public String getName() {
-        return ((ServerLevelData) handle.getLevelData()).getLevelName();
+        return ((ServerLevelData) this.handle.getLevelData()).getLevelName();
     }
 
     @Override

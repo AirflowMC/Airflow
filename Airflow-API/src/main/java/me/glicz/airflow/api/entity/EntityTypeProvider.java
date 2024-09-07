@@ -17,5 +17,5 @@ public abstract class EntityTypeProvider {
         return instance;
     }
 
-    protected abstract EntityType get(Key key);
+    protected abstract <T extends Entity> EntityType<T> get(Key key);
 }

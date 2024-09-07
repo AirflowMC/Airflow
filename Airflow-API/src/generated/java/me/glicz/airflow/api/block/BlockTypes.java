@@ -5,6 +5,9 @@ import static net.kyori.adventure.key.Key.key;
 
 import me.glicz.airflow.api.generator.GenerationVersion;
 
+/**
+ * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
+ */
 @GenerationVersion("1.21.1")
 public final class BlockTypes {
   /**

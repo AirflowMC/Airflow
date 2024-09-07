@@ -1,37 +1,38 @@
 package me.glicz.airflow.api.generator;
 
-import com.squareup.javapoet.*;
+import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 import net.kyori.adventure.key.Key;
-import net.minecraft.core.Registry;
 
 import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
 
 public abstract class Generator {
+    public static final String CLASS_DOC = """
+            @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
+            """;
     public static final String ENTRY_DOC = """
             {@code $L}
             @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
             """;
 
-    private final Registry<?> registry;
     private final String packageName;
     private final String className;
-    private final Class<?> entryType;
     private final Class<?> providerType;
 
-    public Generator(Registry<?> registry, String packageName, String className, Class<?> entryType, Class<?> providerType) {
-        this.registry = registry;
+    public Generator(String packageName, String className, Class<?> providerType) {
         this.packageName = packageName;
         this.className = className;
-        this.entryType = entryType;
         this.providerType = providerType;
     }
 
     public void run(String version, File sourceFolder) throws IOException {
-        TypeSpec.Builder itemTypes = TypeSpec.classBuilder(this.className)
+        TypeSpec.Builder builder = TypeSpec.classBuilder(this.className)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addJavadoc(CLASS_DOC)
                 .addAnnotation(AnnotationSpec.builder(GenerationVersion.class)
                         .addMember("value", "$S", version)
                         .build()
@@ -41,21 +42,15 @@ public abstract class Generator {
                         .build()
                 );
 
-        this.registry.keySet().stream()
-                .sorted()
-                .forEach(key -> itemTypes.addField(FieldSpec
-                        .builder(this.entryType, key.getPath().toUpperCase(Locale.ENGLISH))
-                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                        .addJavadoc(ENTRY_DOC, key)
-                        .initializer("provider().get(key($S))", key)
-                        .build()
-                ));
+        generateFields(builder);
 
-        JavaFile javaFile = JavaFile.builder(this.packageName, itemTypes.build())
+        JavaFile javaFile = JavaFile.builder(this.packageName, builder.build())
                 .addStaticImport(this.providerType, "provider")
                 .addStaticImport(Key.class, "key")
                 .build();
 
         javaFile.writeToFile(sourceFolder);
     }
+
+    protected abstract void generateFields(TypeSpec.Builder builder);
 }

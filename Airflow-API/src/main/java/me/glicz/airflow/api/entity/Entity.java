@@ -8,7 +8,7 @@ import me.glicz.airflow.api.world.World;
 
 import java.util.UUID;
 
-public interface Entity extends CommandSender, Typed<EntityType> {
+public interface Entity extends CommandSender, Typed<EntityType<?>> {
     UUID getUniqueId();
 
     World getWorld();

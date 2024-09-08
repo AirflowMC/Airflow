@@ -7,6 +7,7 @@ import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.util.Version;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextComponent;
@@ -19,12 +20,14 @@ import java.util.Collection;
 import java.util.List;
 
 public class AirflowCommand {
+    public static final Key PERMISSION = Key.key("airflow:command/airflow");
     private static final String COMMIT_URL = "https://github.com/AirflowMC/Airflow/commit";
 
     public void register(Commands commands) {
         commands.register(
                 "airflow",
                 Commands.literal("airflow")
+                        .requires(source -> source.getSender().hasPermission(PERMISSION))
                         .then(Commands.literal("plugins")
                                 .executes(this::executePlugins)
                         )

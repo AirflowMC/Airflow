@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
+import me.glicz.airflow.api.permission.Permission;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
@@ -13,6 +14,7 @@ import me.glicz.testplugin.listener.JoinListener;
 import me.glicz.testplugin.listener.TestListener;
 import me.glicz.testplugin.service.TestService;
 import me.glicz.testplugin.service.TestServiceImpl;
+import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 
 public class TestPlugin extends Plugin {
@@ -39,6 +41,13 @@ public class TestPlugin extends Plugin {
                             .then(Commands.literal("airflow")
                                     .executes(context -> {
                                         context.getSource().getSender().sendMessage("This server runs Airflow!");
+                                        return 1;
+                                    })
+                            )
+                            .then(Commands.literal("op")
+                                    .requires(source -> source.getSender().hasPermission(Key.key(this, "nice_permission")))
+                                    .executes(context -> {
+                                        context.getSource().getSender().sendMessage("This command tests permission that is default for operators :)");
                                         return 1;
                                     })
                             )
@@ -78,6 +87,8 @@ public class TestPlugin extends Plugin {
     @Override
     public void onEnable() {
         getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener());
+
+        getServer().getPermissions().registerPermission(this, "nice_permission", Permission.DefaultValue.OP);
 
         getLogger().info("Successfully enabled!");
     }

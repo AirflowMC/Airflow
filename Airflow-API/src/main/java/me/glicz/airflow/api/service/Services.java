@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface Services {
     <T> @NotNull ServiceProvider<T> register(@NotNull Class<T> service, @NotNull T provider, @NotNull Plugin plugin, @NotNull ServicePriority priority);
 
-    void unregister(@NotNull Plugin plugin);
+    void unregisterAll(@NotNull Plugin plugin);
 
     <T> Optional<ServiceProvider<T>> get(@NotNull Class<T> service);
 

@@ -30,6 +30,7 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
 
     @Override
     public World getWorld() {
+        //noinspection resource
         return ((ServerLevel) getHandle().level()).airWorld;
     }
 
@@ -69,7 +70,12 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
-    public EntityType getType() {
+    public boolean isOperator() {
+        return false;
+    }
+
+    @Override
+    public EntityType<?> getType() {
         return getHandle().getType().airEntityType;
     }
 }

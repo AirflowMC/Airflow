@@ -18,4 +18,9 @@ public class AirCommandBlockSender extends AirCommandSender implements CommandSe
     public CommandSourceStack createCommandSourceStack() {
         return getCommandBlock().createCommandSourceStack();
     }
+
+    @Override
+    public boolean isOperator() {
+        return true;
+    }
 }

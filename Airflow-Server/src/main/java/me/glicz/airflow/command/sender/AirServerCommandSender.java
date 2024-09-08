@@ -13,4 +13,9 @@ public class AirServerCommandSender extends AirCommandSender implements ServerCo
     public CommandSourceStack createCommandSourceStack() {
         return this.server.minecraftServer.createCommandSourceStack();
     }
+
+    @Override
+    public boolean isOperator() {
+        return true;
+    }
 }

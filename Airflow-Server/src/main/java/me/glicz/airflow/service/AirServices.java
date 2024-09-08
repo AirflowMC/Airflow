@@ -25,7 +25,7 @@ public class AirServices implements Services {
     }
 
     @Override
-    public void unregister(@NotNull Plugin plugin) {
+    public void unregisterAll(@NotNull Plugin plugin) {
         this.serviceProviderMap.values().removeIf(serviceProvider -> serviceProvider.getPlugin() == plugin);
     }
 

@@ -12,4 +12,9 @@ public class AirPlayer extends AirHumanoid implements Player {
     public ServerPlayer getHandle() {
         return (ServerPlayer) super.getHandle();
     }
+
+    @Override
+    public boolean isOperator() {
+        return getHandle().getServer().getPlayerList().isOp(getHandle().getGameProfile());
+    }
 }

@@ -67,6 +67,11 @@ public abstract class AirCommandSender implements CommandSender {
     }
 
     @Override
+    public boolean isPermissionSet(@NotNull Key permission) {
+        return this.permissionSourceMap.values().stream().anyMatch(source -> source.isPermissionSet(permission));
+    }
+
+    @Override
     public boolean hasPermission(@NotNull Key permission) {
         Permission perm = this.server.getPermissions().getPermission(permission);
         if (perm != null) {
@@ -87,7 +92,7 @@ public abstract class AirCommandSender implements CommandSender {
             PermissionSourcePriority priority = priorities[i];
 
             for (PermissionsSource source : this.permissionSourceMap.get(priority)) {
-                if (source.includesPermission(permission)) {
+                if (source.isPermissionSet(permission)) {
                     return source.hasPermission(permission);
                 }
             }

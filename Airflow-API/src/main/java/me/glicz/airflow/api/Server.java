@@ -4,7 +4,6 @@ import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.command.sender.RemoteCommandSender;
 import me.glicz.airflow.api.command.sender.ServerCommandSender;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
-import me.glicz.airflow.api.permission.Permissions;
 import org.jetbrains.annotations.NotNull;
 
 public interface Server extends ServerAware, ServerInfoProvider {
@@ -21,8 +20,6 @@ public interface Server extends ServerAware, ServerInfoProvider {
      * @return commands registry
      */
     @NotNull Commands getCommands();
-
-    @NotNull Permissions getPermissions();
 
     @Override
     default Server getServer() {

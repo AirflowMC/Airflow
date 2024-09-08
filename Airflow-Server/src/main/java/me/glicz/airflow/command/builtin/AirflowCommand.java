@@ -2,6 +2,7 @@ package me.glicz.airflow.command.builtin;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
+import me.glicz.airflow.Airflow;
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.command.Commands;
@@ -23,7 +24,9 @@ public class AirflowCommand {
     public static final Key PERMISSION = Key.key("airflow:command/airflow");
     private static final String COMMIT_URL = "https://github.com/AirflowMC/Airflow/commit";
 
-    public void register(Commands commands) {
+    public void register(Airflow airflow, Commands commands) {
+        airflow.permissions.registerPermission(PERMISSION);
+
         commands.register(
                 "airflow",
                 Commands.literal("airflow")

@@ -59,14 +59,14 @@ index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28eb
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
-index 587b873dbd92424b0580f1faa26f741f6be945ab..9261031b02697a5fdfd3ecac271d48b016adcc5e 100644
+index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c1535d54208 100644
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
 @@ -144,8 +144,15 @@ public class Commands {
      public static final int LEVEL_ADMINS = 3;
      public static final int LEVEL_OWNERS = 4;
      private final CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
-+    public final me.glicz.airflow.command.AirCommands airCommands = new me.glicz.airflow.command.AirCommands(this); // Airlfow - Command API
++    public final me.glicz.airflow.command.AirCommands airCommands = new me.glicz.airflow.command.AirCommands(this); // Airflow - Command API
  
      public Commands(Commands.CommandSelection selection, CommandBuildContext context) {
 +        // Airflow start - Command API
@@ -78,17 +78,43 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..9261031b02697a5fdfd3ecac271d48b0
          AdvancementCommands.register(this.dispatcher);
          AttributeCommand.register(this.dispatcher, context);
          ExecuteCommand.register(this.dispatcher, context);
-@@ -246,9 +253,33 @@ public class Commands {
+@@ -246,9 +253,59 @@ public class Commands {
              PublishCommand.register(this.dispatcher);
          }
  
 +        // Airflow start - Command API
-+        java.util.List.copyOf(this.dispatcher.getRoot().getChildren()).forEach(node -> {
-+            this.dispatcher.getRoot().addChild(deepClone("minecraft:" + node.getName(), node));
-+        });
-+
 +        if (airflow != null) {
-+            new me.glicz.airflow.command.builtin.AirflowCommand().register(airCommands);
++            String rootPermission = "command";
++
++            java.util.List.copyOf(this.dispatcher.getRoot().getChildren()).forEach(node -> {
++                LiteralArgumentBuilder<CommandSourceStack> clone = deepClone(node.getName(), node);
++
++                Predicate<CommandSourceStack> permissionPredicate = source -> {
++                    String commandPermission = rootPermission + "/" + clone.getLiteral();
++
++                    if (source.getSender().isPermissionSet(commandPermission)) {
++                        return source.getSender().hasPermission(
++                                source.getSender().isPermissionSet(commandPermission) ? commandPermission : rootPermission
++                        );
++                    }
++
++                    return source.getSender().hasPermission(commandPermission);
++                };
++
++                if (clone.getRequirement().getClass().getPackageName().startsWith("net.minecraft")) {
++                    airflow.registerMinecraftPermission(clone.getLiteral(), false);
++                    clone.requires(permissionPredicate.or(clone.getRequirement()));
++                } else {
++                    airflow.registerMinecraftPermission(clone.getLiteral(), true);
++                    clone.requires(permissionPredicate);
++                }
++
++                this.dispatcher.getRoot().getChildren().remove(node);
++                this.dispatcher.getRoot().addChild(clone.build());
++                this.dispatcher.getRoot().addChild(deepClone("minecraft:" + clone.getLiteral(), clone.build()).build());
++            });
++
++            new me.glicz.airflow.command.builtin.AirflowCommand().register(airflow, airCommands);
 +            airflow.serverEventBus.dispatchCommandsRegister(airCommands);
 +        }
 +        // Airflow end - Command API
@@ -97,7 +123,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..9261031b02697a5fdfd3ecac271d48b0
      }
  
 +    // Airflow start - Command API
-+    private static com.mojang.brigadier.tree.LiteralCommandNode<CommandSourceStack> deepClone(String literal, com.mojang.brigadier.tree.CommandNode<CommandSourceStack> node) {
++    private static LiteralArgumentBuilder<CommandSourceStack> deepClone(String literal, com.mojang.brigadier.tree.CommandNode<CommandSourceStack> node) {
 +        LiteralArgumentBuilder<CommandSourceStack> builder = literal(literal);
 +
 +        builder.executes(node.getCommand());
@@ -105,14 +131,14 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..9261031b02697a5fdfd3ecac271d48b0
 +        builder.forward(node.getRedirect(), node.getRedirectModifier(), node.isFork());
 +        node.getChildren().forEach(builder::then);
 +
-+        return builder.build();
++        return builder;
 +    }
 +    // Airflow end - Command API
 +
      public static <S> ParseResults<S> mapSource(ParseResults<S> parseResults, UnaryOperator<S> mapper) {
          CommandContextBuilder<S> context = parseResults.getContext();
          CommandContextBuilder<S> commandContextBuilder = context.withSource(mapper.apply(context.getSource()));
-@@ -276,8 +307,10 @@ public class Commands {
+@@ -276,8 +333,10 @@ public class Commands {
              }
          } catch (Exception var12) {
              MutableComponent mutableComponent = Component.literal(var12.getMessage() == null ? var12.getClass().getName() : var12.getMessage());

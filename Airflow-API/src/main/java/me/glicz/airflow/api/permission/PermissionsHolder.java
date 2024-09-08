@@ -13,6 +13,21 @@ import org.jetbrains.annotations.NotNull;
  * @see PermissionsSource
  */
 public interface PermissionsHolder {
+    default boolean isPermissionSet(@NotNull String permission) {
+        try {
+            //noinspection PatternValidation
+            return isPermissionSet(Key.key(permission));
+        } catch (InvalidKeyException ignored) {
+            return false;
+        }
+    }
+
+    boolean isPermissionSet(@NotNull Key permission);
+
+    default boolean isPermissionSet(@NotNull Permission permission) {
+        return isPermissionSet(permission.key());
+    }
+
     default boolean hasPermission(@NotNull String permission) {
         try {
             //noinspection PatternValidation

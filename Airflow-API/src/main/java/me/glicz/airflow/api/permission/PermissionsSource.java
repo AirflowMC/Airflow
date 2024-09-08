@@ -1,8 +1,5 @@
 package me.glicz.airflow.api.permission;
 
-import net.kyori.adventure.key.Key;
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Represents permissions source created by plugins.
  * <p>
@@ -14,9 +11,4 @@ import org.jetbrains.annotations.NotNull;
  * @see DummyPermissionsSource
  */
 public interface PermissionsSource extends PermissionsHolder {
-    boolean includesPermission(@NotNull Key permission);
-
-    default boolean includesPermission(@NotNull Permission permission) {
-        return includesPermission(permission.key());
-    }
 }

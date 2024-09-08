@@ -28,8 +28,8 @@ public class DummyPermissionsSource implements PermissionsSource {
         this.holder = holder;
     }
 
-    public void addPermission(Key key) {
-        permissionMap.put(key, true);
+    public void addPermission(Key key, boolean state) {
+        permissionMap.put(key, state);
     }
 
     public void removePermission(Key key) {
@@ -37,7 +37,7 @@ public class DummyPermissionsSource implements PermissionsSource {
     }
 
     @Override
-    public boolean includesPermission(@NotNull Key permission) {
+    public boolean isPermissionSet(@NotNull Key permission) {
         return permissionMap.containsKey(permission);
     }
 
@@ -57,7 +57,7 @@ public class DummyPermissionsSource implements PermissionsSource {
     }
 
     protected Boolean hasPermission0(Key permission) {
-        if (includesPermission(permission)) {
+        if (isPermissionSet(permission)) {
             return permissionMap.get(permission.key());
         }
 
@@ -66,7 +66,7 @@ public class DummyPermissionsSource implements PermissionsSource {
             PermissionSourcePriority priority = priorities[i];
 
             for (PermissionsSource source : permissionSourceMap.get(priority)) {
-                if (source.includesPermission(permission)) {
+                if (source.isPermissionSet(permission)) {
                     return source.hasPermission(permission);
                 }
             }

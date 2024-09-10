@@ -17,6 +17,8 @@ import me.glicz.testplugin.service.TestServiceImpl;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class TestPlugin extends Plugin {
     @Override
     public void bootstrap(@NotNull BootstrapContext ctx) {
@@ -55,7 +57,9 @@ public class TestPlugin extends Plugin {
                                 context.getSource().getSender().sendMessage("Hello!");
                                 return 1;
                             })
-                            .build()
+                            .build(),
+                    null,
+                    List.of()
             );
             e.getCommands().register(
                     this,
@@ -67,7 +71,9 @@ public class TestPlugin extends Plugin {
                                         return 1;
                                     })
                             )
-                            .build()
+                            .build(),
+                    null,
+                    List.of()
             );
         });
     }

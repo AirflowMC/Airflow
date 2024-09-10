@@ -15,6 +15,7 @@ public class JoinListener implements EventHandler<PlayerJoinEvent> {
         DummyPermissionsSource permissionsSource = new DummyPermissionsSource(e.getPlayer());
         permissionsSource.addPermission(Key.key("command"), true);
         permissionsSource.addPermission(Key.key("command/say"), false);
+        permissionsSource.addPermission(Key.key("command/msg"), false);
         e.getPlayer().addPermissionsSource(PermissionSourcePriority.NORMAL, permissionsSource);
     }
 }

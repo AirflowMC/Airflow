@@ -2,15 +2,17 @@ package me.glicz.airflow.api.command;
 
 import me.glicz.airflow.api.command.sender.CommandSender;
 import me.glicz.airflow.api.entity.Entity;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 public interface CommandSourceStack {
-    CommandSender getSender();
+    @NotNull CommandSender getSender();
 
-    Entity getExecutor();
+    @Nullable Entity getExecutor();
 
-    default CommandSender getTarget() {
+    default @NotNull CommandSender getTarget() {
         return Objects.requireNonNullElse(getExecutor(), getSender());
     }
 }

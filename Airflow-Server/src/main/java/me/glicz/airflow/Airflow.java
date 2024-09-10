@@ -1,11 +1,16 @@
 package me.glicz.airflow;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.permission.Permission;
 import me.glicz.airflow.api.permission.Permissions;
 import me.glicz.airflow.api.properties.ServerProperties;
+import me.glicz.airflow.command.builtin.HelpCommand;
+import me.glicz.airflow.command.builtin.PluginsCommand;
+import me.glicz.airflow.command.builtin.VersionCommand;
 import me.glicz.airflow.event.bus.AirServerEventBus;
 import me.glicz.airflow.permission.AirPermissions;
 import me.glicz.airflow.plugin.loader.AirPluginsLoader;
@@ -54,8 +59,19 @@ public class Airflow {
         this.serverRef.setServer(() -> new AirServer(this, minecraftServer));
     }
 
-    public void registerMinecraftPermission(String command, boolean defaultValue) {
+    public void registerMinecraftPermission(LiteralArgumentBuilder<?> builder, boolean defaultValue) {
+        if (builder.getRedirect() != null) return;
+
         //noinspection PatternValidation
-        this.permissions.registerPermission(Key.key("command/" + command), defaultValue ? Permission.DefaultValue.TRUE : Permission.DefaultValue.FALSE);
+        this.permissions.registerPermission(
+                Key.key("command/" + builder.getLiteral()),
+                defaultValue ? Permission.DefaultValue.TRUE : Permission.DefaultValue.FALSE
+        );
+    }
+
+    public void registerAirflowCommands(Commands commands) {
+        new HelpCommand().register(permissions, commands);
+        new PluginsCommand().register(permissions, commands);
+        new VersionCommand().register(permissions, commands);
     }
 }

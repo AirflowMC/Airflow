@@ -21,7 +21,7 @@ public class AirPluginMeta implements PluginMeta {
     public static final Pattern PLUGIN_NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
 
     private final String mainClass, name, version, description;
-    private final String[] authors, contributors;
+    private final Collection<String> authors, contributors;
     private final Collection<Dependency> dependencies;
 
     public AirPluginMeta(InputStream is) throws ConfigurateException {
@@ -45,8 +45,8 @@ public class AirPluginMeta implements PluginMeta {
 
         this.version = Objects.requireNonNull(node.node("version").getString(), "version cannot be null");
         this.description = node.node("description").getString();
-        this.authors = node.node("authors").get(String[].class, new String[0]);
-        this.contributors = node.node("contributors").get(String[].class, new String[0]);
+        this.authors = node.node("authors").getList(String.class, List.of());
+        this.contributors = node.node("contributors").getList(String.class, List.of());
         this.dependencies = node.node("dependencies").getList(Dependency.class, List.of());
     }
 
@@ -71,18 +71,18 @@ public class AirPluginMeta implements PluginMeta {
     }
 
     @Override
-    public String @NotNull [] getAuthors() {
-        return this.authors.clone();
+    public @NotNull Collection<String> getAuthors() {
+        return List.copyOf(this.authors);
     }
 
     @Override
-    public String @NotNull [] getContributors() {
-        return this.contributors.clone();
+    public @NotNull Collection<String> getContributors() {
+        return List.copyOf(this.contributors);
     }
 
     @Override
-    public Collection<Dependency> getDependencies() {
-        return List.copyOf(dependencies);
+    public @NotNull Collection<Dependency> getDependencies() {
+        return List.copyOf(this.dependencies);
     }
 
     public static class AirDependency implements Dependency {

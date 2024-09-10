@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Predicate;
 
 public interface Permission extends Keyed {
-    @NotNull DefaultValue defaultValue();
+    @NotNull DefaultValue getDefaultValue();
 
     enum DefaultValue {
         FALSE(Predicates.alwaysFalse()),

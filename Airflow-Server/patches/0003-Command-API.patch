@@ -59,10 +59,18 @@ index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28eb
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
-index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c1535d54208 100644
+index 587b873dbd92424b0580f1faa26f741f6be945ab..30ed8cf1e54c63310e83eb39a4a8726e0464418c 100644
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
-@@ -144,8 +144,15 @@ public class Commands {
+@@ -136,6 +136,7 @@ import net.minecraft.world.level.GameRules;
+ import org.slf4j.Logger;
+ 
+ public class Commands {
++    private static final String COMMAND_DESCRIPTION = "A Mojang provided command.";
+     private static final ThreadLocal<ExecutionContext<CommandSourceStack>> CURRENT_EXECUTION_CONTEXT = new ThreadLocal<>();
+     private static final Logger LOGGER = LogUtils.getLogger();
+     public static final int LEVEL_ALL = 0;
+@@ -144,8 +145,15 @@ public class Commands {
      public static final int LEVEL_ADMINS = 3;
      public static final int LEVEL_OWNERS = 4;
      private final CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
@@ -78,7 +86,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c15
          AdvancementCommands.register(this.dispatcher);
          AttributeCommand.register(this.dispatcher, context);
          ExecuteCommand.register(this.dispatcher, context);
-@@ -246,9 +253,59 @@ public class Commands {
+@@ -246,9 +254,67 @@ public class Commands {
              PublishCommand.register(this.dispatcher);
          }
  
@@ -87,12 +95,16 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c15
 +            String rootPermission = "command";
 +
 +            java.util.List.copyOf(this.dispatcher.getRoot().getChildren()).forEach(node -> {
-+                LiteralArgumentBuilder<CommandSourceStack> clone = deepClone(node.getName(), node);
++                String name = node.getName();
++                String namespacedName = "minecraft:" + name;
++
++                LiteralArgumentBuilder<CommandSourceStack> builder = deepClone(name, node);
 +
 +                Predicate<CommandSourceStack> permissionPredicate = source -> {
-+                    String commandPermission = rootPermission + "/" + clone.getLiteral();
++                    String actualName = builder.getRedirect() == null ? builder.getLiteral() : builder.getRedirect().getName();
++                    String commandPermission = rootPermission + "/" + actualName;
 +
-+                    if (source.getSender().isPermissionSet(commandPermission)) {
++                    if (source.getSender().isPermissionSet(rootPermission)) {
 +                        return source.getSender().hasPermission(
 +                                source.getSender().isPermissionSet(commandPermission) ? commandPermission : rootPermission
 +                        );
@@ -101,20 +113,20 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c15
 +                    return source.getSender().hasPermission(commandPermission);
 +                };
 +
-+                if (clone.getRequirement().getClass().getPackageName().startsWith("net.minecraft")) {
-+                    airflow.registerMinecraftPermission(clone.getLiteral(), false);
-+                    clone.requires(permissionPredicate.or(clone.getRequirement()));
++                if (builder.getRequirement().getClass().getPackageName().startsWith("net.minecraft")) {
++                    airflow.registerMinecraftPermission(builder, false);
++                    builder.requires(permissionPredicate.or(builder.getRequirement()));
 +                } else {
-+                    airflow.registerMinecraftPermission(clone.getLiteral(), true);
-+                    clone.requires(permissionPredicate);
++                    airflow.registerMinecraftPermission(builder, true);
++                    builder.requires(permissionPredicate);
 +                }
 +
 +                this.dispatcher.getRoot().getChildren().remove(node);
-+                this.dispatcher.getRoot().addChild(clone.build());
-+                this.dispatcher.getRoot().addChild(deepClone("minecraft:" + clone.getLiteral(), clone.build()).build());
++                this.dispatcher.getRoot().addChild(createVanillaCommandNode(name, builder, namespacedName));
++                this.dispatcher.getRoot().addChild(createVanillaCommandNode(namespacedName, builder, name));
 +            });
 +
-+            new me.glicz.airflow.command.builtin.AirflowCommand().register(airflow, airCommands);
++            airflow.registerAirflowCommands(airCommands);
 +            airflow.serverEventBus.dispatchCommandsRegister(airCommands);
 +        }
 +        // Airflow end - Command API
@@ -133,12 +145,16 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..8648e3af8259881f2e36920f96bc5c15
 +
 +        return builder;
 +    }
++
++    private static me.glicz.airflow.command.VanillaCommandNode createVanillaCommandNode(String literal, LiteralArgumentBuilder<CommandSourceStack> builder, String alias) {
++        return new me.glicz.airflow.command.VanillaCommandNode(literal, builder, COMMAND_DESCRIPTION, alias);
++    }
 +    // Airflow end - Command API
 +
      public static <S> ParseResults<S> mapSource(ParseResults<S> parseResults, UnaryOperator<S> mapper) {
          CommandContextBuilder<S> context = parseResults.getContext();
          CommandContextBuilder<S> commandContextBuilder = context.withSource(mapper.apply(context.getSource()));
-@@ -276,8 +333,10 @@ public class Commands {
+@@ -276,8 +342,10 @@ public class Commands {
              }
          } catch (Exception var12) {
              MutableComponent mutableComponent = Component.literal(var12.getMessage() == null ? var12.getClass().getName() : var12.getMessage());

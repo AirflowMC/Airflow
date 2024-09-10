@@ -7,9 +7,9 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import me.glicz.airflow.api.plugin.Plugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface Commands {
     @Contract(value = "_ -> new", pure = true)
@@ -22,17 +22,23 @@ public interface Commands {
         return RequiredArgumentBuilder.argument(name, type);
     }
 
-    default void register(@NotNull Plugin plugin, @NotNull LiteralCommandNode<CommandSourceStack> node) {
-        register(plugin, node, List.of());
+    @Nullable CommandInfo getCommandInfo(String name);
+
+    @NotNull Collection<CommandInfo> getCommandInfos();
+
+    default void register(@NotNull Plugin plugin, @NotNull LiteralCommandNode<CommandSourceStack> node, @Nullable String description, @NotNull Collection<String> aliases) {
+        register(plugin, plugin.namespace(), node, description, aliases);
     }
 
-    default void register(@NotNull String namespace, @NotNull LiteralCommandNode<CommandSourceStack> node) {
-        register(namespace, node, List.of());
+    void register(@NotNull Plugin plugin, @NotNull String namespace, @NotNull LiteralCommandNode<CommandSourceStack> node, @Nullable String description, @NotNull Collection<String> aliases);
+
+    void register(@NotNull String namespace, @NotNull LiteralCommandNode<CommandSourceStack> node, @Nullable String description, @NotNull Collection<String> aliases);
+
+    default void unregister(@NotNull String name) {
+        unregister(name, true);
     }
 
-    default void register(@NotNull Plugin plugin, @NotNull LiteralCommandNode<CommandSourceStack> node, @NotNull Collection<String> aliases) {
-        register(plugin.namespace(), node, aliases);
-    }
+    void unregister(@NotNull String name, boolean unregisterAliases);
 
-    void register(@NotNull String namespace, @NotNull LiteralCommandNode<CommandSourceStack> node, @NotNull Collection<String> aliases);
+    void unregisterAll(@NotNull Plugin plugin);
 }

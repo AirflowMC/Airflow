@@ -51,7 +51,7 @@ public abstract class Plugin implements Namespaced, ServerAware {
         return this.enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public final void setEnabled(boolean enabled) {
         if (this.enabled == enabled) {
             return;
         }
@@ -61,8 +61,9 @@ public abstract class Plugin implements Namespaced, ServerAware {
             onEnable();
         } else {
             onDisable();
-            getServer().getServices().unregisterAll(this);
+            getServer().getCommands().unregisterAll(this);
             getServer().getPermissions().unregisterAll(this);
+            getServer().getServices().unregisterAll(this);
         }
     }
 

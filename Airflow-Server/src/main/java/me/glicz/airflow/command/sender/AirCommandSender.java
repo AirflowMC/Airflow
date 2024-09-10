@@ -83,7 +83,7 @@ public abstract class AirCommandSender implements CommandSender {
 
     @Override
     public boolean hasPermission(@NotNull Permission permission) {
-        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.defaultValue().test(this));
+        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(this));
     }
 
     private Boolean hasPermission0(Key permission) {

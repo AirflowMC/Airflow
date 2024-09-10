@@ -17,11 +17,11 @@ public interface PluginMeta {
 
     @Nullable String getDescription();
 
-    String @NotNull [] getAuthors();
+    @NotNull Collection<String> getAuthors();
 
-    String @NotNull [] getContributors();
+    @NotNull Collection<String> getContributors();
 
-    Collection<Dependency> getDependencies();
+    @NotNull Collection<Dependency> getDependencies();
 
     interface Dependency {
         @NotNull String getName();

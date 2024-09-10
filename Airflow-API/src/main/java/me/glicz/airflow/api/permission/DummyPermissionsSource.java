@@ -53,7 +53,7 @@ public class DummyPermissionsSource implements PermissionsSource {
 
     @Override
     public boolean hasPermission(@NotNull Permission permission) {
-        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.defaultValue().test(holder));
+        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(holder));
     }
 
     protected Boolean hasPermission0(Key permission) {

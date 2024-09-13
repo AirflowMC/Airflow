@@ -12,9 +12,9 @@ public interface ItemTypeLike extends Keyed, Translatable {
 
     @Nullable BlockType getBlockType();
 
-    default @NotNull ItemStack asItemStack() {
-        return asItemStack(1);
+    default @NotNull ItemStack newItemStack() {
+        return newItemStack(1);
     }
 
-    @NotNull ItemStack asItemStack(int amount);
+    @NotNull ItemStack newItemStack(int amount);
 }

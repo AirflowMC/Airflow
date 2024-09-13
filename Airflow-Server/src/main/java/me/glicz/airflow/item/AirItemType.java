@@ -2,7 +2,9 @@ package me.glicz.airflow.item;
 
 import me.glicz.airflow.api.block.BlockType;
 import me.glicz.airflow.api.item.ItemType;
+import me.glicz.airflow.api.item.component.ItemComponentMap;
 import me.glicz.airflow.api.item.stack.ItemStack;
+import me.glicz.airflow.item.component.AirItemComponentMap;
 import net.kyori.adventure.key.Key;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
@@ -27,7 +29,7 @@ public class AirItemType implements ItemType {
     }
 
     @Override
-    public @NotNull ItemStack asItemStack(int amount) {
+    public @NotNull ItemStack newItemStack(int amount) {
         return new net.minecraft.world.item.ItemStack(handle, amount).airItemStack;
     }
 
@@ -40,5 +42,10 @@ public class AirItemType implements ItemType {
     @Override
     public @NotNull String translationKey() {
         return this.handle.getDescriptionId();
+    }
+
+    @Override
+    public @NotNull ItemComponentMap getItemComponentMap() {
+        return new AirItemComponentMap(this.handle.components());
     }
 }

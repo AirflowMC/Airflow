@@ -12,6 +12,7 @@ import me.glicz.airflow.command.builtin.HelpCommand;
 import me.glicz.airflow.command.builtin.PluginsCommand;
 import me.glicz.airflow.command.builtin.VersionCommand;
 import me.glicz.airflow.event.bus.AirServerEventBus;
+import me.glicz.airflow.item.component.adapter.ItemComponentAdapters;
 import me.glicz.airflow.permission.AirPermissions;
 import me.glicz.airflow.plugin.loader.AirPluginsLoader;
 import me.glicz.airflow.properties.AirServerProperties;
@@ -49,6 +50,8 @@ public class Airflow {
         this.serverEventBus = new AirServerEventBus(this);
         this.permissions = new AirPermissions();
         this.services = new AirServices();
+
+        ItemComponentAdapters.bootstrap();
     }
 
     public AirServer getServer() {

@@ -14,7 +14,7 @@ public interface BlockType extends ItemTypeLike {
     }
 
     @Override
-    default @NotNull ItemStack asItemStack(int amount) {
-        return getItemType().asItemStack(amount);
+    default @NotNull ItemStack newItemStack(int amount) {
+        return getItemType().newItemStack(amount);
     }
 }

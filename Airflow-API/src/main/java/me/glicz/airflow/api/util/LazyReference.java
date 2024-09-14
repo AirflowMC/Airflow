@@ -34,6 +34,10 @@ public class LazyReference<T> {
         return isResolved() ? value : (value = getter.get());
     }
 
+    public T getIfResolved() {
+        return value;
+    }
+
     public Optional<T> asOptional() {
         return Optional.ofNullable(get());
     }

@@ -3,6 +3,8 @@ package me.glicz.airflow.api.item.component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
+
 public interface PatchedItemComponentMap extends ItemComponentMap {
     PatchedItemComponentMap EMPTY = new PatchedItemComponentMap() {
         @Override
@@ -13,6 +15,11 @@ public interface PatchedItemComponentMap extends ItemComponentMap {
         @Override
         public <T> T get(@NotNull ItemComponentType.Valued<T> type) {
             return null;
+        }
+
+        @Override
+        public @NotNull Set<ItemComponentType> keySet() {
+            return Set.of();
         }
 
         @Override

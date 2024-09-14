@@ -10,6 +10,11 @@ import static me.glicz.airflow.api.item.lore.ItemLoreProvider.provider;
 
 public interface ItemLore {
     @Contract(value = "_ -> new", pure = true)
+    static @NotNull ItemLore itemLore(Component @NotNull ... lines) {
+        return itemLore(List.of(lines));
+    }
+
+    @Contract(value = "_ -> new", pure = true)
     static @NotNull ItemLore itemLore(@NotNull List<Component> lines) {
         return provider().create(lines);
     }

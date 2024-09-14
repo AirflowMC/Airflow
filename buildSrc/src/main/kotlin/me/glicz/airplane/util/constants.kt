@@ -2,6 +2,7 @@ package me.glicz.airplane.util
 
 import java.net.URI
 
+const val MINECRAFT_LIBRARY = "minecraftLibrary"
 val VERSION_MANIFEST_URI = URI("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 
 // .gradlew/airflow/mache

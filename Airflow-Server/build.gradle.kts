@@ -30,6 +30,13 @@ airplane {
     minecraftVersion = properties["minecraft-version"] as String
     sourcesDir = projectDir.resolve(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
+    exportFilteredDependencies = mapOf(
+        project(":airflow-api") to listOf(
+            "com.google.guava:guava",
+            "org.slf4j:slf4j-api",
+            "com.mojang:brigadier"
+        )
+    )
 }
 
 tasks {

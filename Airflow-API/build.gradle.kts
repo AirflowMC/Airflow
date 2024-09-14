@@ -2,13 +2,18 @@ plugins {
     id("java-library")
 }
 
+val minecraftLibrary by configurations.registering
+
+configurations.api {
+    extendsFrom(minecraftLibrary.get())
+}
+
 dependencies {
     api(libs.bundles.adventure)
     api(libs.configurate)
-    api(libs.guice)
-    api("com.google.guava:guava:32.1.2-jre")
-    api("org.slf4j:slf4j-api:2.0.9")
-    api("com.mojang:brigadier:1.3.10")
+    api(libs.guice) {
+        exclude("com.google.guava", "guava")
+    }
 }
 
 val generatedDir = "src/generated/java"
@@ -22,6 +27,7 @@ sourceSets {
 }
 
 java {
+    withSourcesJar()
     withJavadocJar()
 }
 

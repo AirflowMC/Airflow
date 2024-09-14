@@ -39,7 +39,7 @@ class AirplanePlugin : Plugin<Project> {
             isTransitive = false
         }
 
-        val minecraftLibrary by project.configurations.registering {
+        val minecraftLibrary = project.configurations.register(MINECRAFT_LIBRARY) {
             isTransitive = false
         }
 
@@ -48,7 +48,7 @@ class AirplanePlugin : Plugin<Project> {
         }
 
         project.afterEvaluate {
-            downloadServerBootstrap(airplaneExt.minecraftVersion.get())
+            downloadServerBootstrap(airplaneExt.minecraftVersion.get(), airplaneExt.exportFilteredDependencies.get())
             val macheData = extractMacheArtifact()
 
             val extractServerJar by project.tasks.registering(ExtractServerJar::class) {

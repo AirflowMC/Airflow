@@ -11,6 +11,7 @@ public class JoinListener implements EventHandler<PlayerJoinEvent> {
     public void handle(PlayerJoinEvent e) {
         e.setMessage(null);
         e.getPlayer().sendMessage("Hello! This server runs Airflow!");
+        e.getPlayer().sendMessage("You're a " + e.getPlayer().getType().key().asMinimalString());
 
         DummyPermissionsSource permissionsSource = new DummyPermissionsSource(e.getPlayer());
         permissionsSource.addPermission(Key.key("command"), true);

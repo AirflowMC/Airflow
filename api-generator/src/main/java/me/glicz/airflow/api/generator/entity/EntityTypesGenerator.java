@@ -15,23 +15,17 @@ import javax.lang.model.element.Modifier;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EntityTypesGenerator extends FieldBasedGenerator {
     private static final String BASE_PACKAGE = "me.glicz.airflow.api.entity";
-    private static final Map<String, String> PACKAGE_MAPPING = Map.of(
-            "player", "living"
-    );
-    private static final Map<String, String> TYPE_MAPPING = Map.of(
-    );
 
     public EntityTypesGenerator() {
         super(EntityType.class, BASE_PACKAGE, "EntityTypes", EntityTypeProvider.class);
     }
 
     @Override
-    protected FieldSpec createField(Field field) throws IllegalAccessException {
+    protected FieldSpec createField(Field field) throws IllegalAccessException, NoSuchMethodException {
         EntityType<?> entityType = (EntityType<?>) field.get(null);
         ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(entityType);
 
@@ -43,36 +37,36 @@ public class EntityTypesGenerator extends FieldBasedGenerator {
                 .build();
     }
 
-    protected TypeName getEntryType(Field field) {
+    protected TypeName getEntryType(Field field) throws NoSuchMethodException {
         //noinspection unchecked
         Class<? extends Entity> entity = (Class<? extends Entity>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 
-        String packageSuffix = entity.getPackageName().replace("net.minecraft.world.entity", "");
-        if (packageSuffix.startsWith(".")) {
-            packageSuffix = packageSuffix.substring(1);
-        }
-
-        String[] parts = {
-                BASE_PACKAGE,
-                PACKAGE_MAPPING.getOrDefault(packageSuffix, packageSuffix),
-                TYPE_MAPPING.getOrDefault(entity.getSimpleName(), entity.getSimpleName())
-        };
-
-        String classPath = Arrays.stream(parts)
-                .filter(part -> !part.isEmpty())
-                .collect(Collectors.joining("."));
-
         TypeName typeName;
-        try {
-            Class.forName(classPath);
+        if (entity == net.minecraft.world.entity.player.Player.class) {
+            typeName = ClassName.get(me.glicz.airflow.api.entity.living.Player.class);
+        } else {
+            Class<?> airEntity = entity.getMethod("getAirEntity").getReturnType();
+
+            String packageSuffix = airEntity.getPackageName().replace("me.glicz.airflow.entity", "");
+            if (packageSuffix.startsWith(".")) {
+                packageSuffix = packageSuffix.substring(1);
+            }
+
+            String[] parts = {
+                    BASE_PACKAGE,
+                    packageSuffix,
+                    airEntity.getSimpleName().substring(3)
+            };
+
+            String classPath = Arrays.stream(parts)
+                    .filter(part -> !part.isEmpty())
+                    .collect(Collectors.joining("."));
 
             String[] split = classPath.split("\\.");
             String packageName = String.join(".", Arrays.copyOfRange(split, 0, split.length - 1));
             String className = split[split.length - 1];
 
             typeName = ClassName.get(packageName, className);
-        } catch (ClassNotFoundException e) {
-            typeName = ClassName.get(me.glicz.airflow.api.entity.Entity.class);
         }
 
         return ParameterizedTypeName.get(ClassName.get(me.glicz.airflow.api.entity.EntityType.class), typeName);

@@ -39,5 +39,5 @@ public abstract class FieldBasedGenerator extends Generator {
                 });
     }
 
-    protected abstract FieldSpec createField(Field field) throws IllegalAccessException, ClassNotFoundException;
+    protected abstract FieldSpec createField(Field field) throws IllegalAccessException, ClassNotFoundException, NoSuchMethodException;
 }

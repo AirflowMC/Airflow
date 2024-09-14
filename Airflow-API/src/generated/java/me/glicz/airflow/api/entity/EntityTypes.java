@@ -4,6 +4,7 @@ import static me.glicz.airflow.api.entity.EntityTypeProvider.provider;
 import static net.kyori.adventure.key.Key.key;
 
 import me.glicz.airflow.api.entity.living.LivingEntity;
+import me.glicz.airflow.api.entity.living.Mob;
 import me.glicz.airflow.api.entity.living.Player;
 import me.glicz.airflow.api.generator.GenerationVersion;
 
@@ -16,7 +17,7 @@ public final class EntityTypes {
    * {@code minecraft:allay}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ALLAY = provider().get(key("minecraft:allay"));
+  public static final EntityType<Mob> ALLAY = provider().get(key("minecraft:allay"));
 
   /**
    * {@code minecraft:area_effect_cloud}
@@ -28,7 +29,7 @@ public final class EntityTypes {
    * {@code minecraft:armadillo}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ARMADILLO = provider().get(key("minecraft:armadillo"));
+  public static final EntityType<Mob> ARMADILLO = provider().get(key("minecraft:armadillo"));
 
   /**
    * {@code minecraft:armor_stand}
@@ -46,25 +47,25 @@ public final class EntityTypes {
    * {@code minecraft:axolotl}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> AXOLOTL = provider().get(key("minecraft:axolotl"));
+  public static final EntityType<Mob> AXOLOTL = provider().get(key("minecraft:axolotl"));
 
   /**
    * {@code minecraft:bat}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> BAT = provider().get(key("minecraft:bat"));
+  public static final EntityType<Mob> BAT = provider().get(key("minecraft:bat"));
 
   /**
    * {@code minecraft:bee}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> BEE = provider().get(key("minecraft:bee"));
+  public static final EntityType<Mob> BEE = provider().get(key("minecraft:bee"));
 
   /**
    * {@code minecraft:blaze}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> BLAZE = provider().get(key("minecraft:blaze"));
+  public static final EntityType<Mob> BLAZE = provider().get(key("minecraft:blaze"));
 
   /**
    * {@code minecraft:block_display}
@@ -82,13 +83,13 @@ public final class EntityTypes {
    * {@code minecraft:bogged}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> BOGGED = provider().get(key("minecraft:bogged"));
+  public static final EntityType<Mob> BOGGED = provider().get(key("minecraft:bogged"));
 
   /**
    * {@code minecraft:breeze}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> BREEZE = provider().get(key("minecraft:breeze"));
+  public static final EntityType<Mob> BREEZE = provider().get(key("minecraft:breeze"));
 
   /**
    * {@code minecraft:breeze_wind_charge}
@@ -100,19 +101,19 @@ public final class EntityTypes {
    * {@code minecraft:camel}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> CAMEL = provider().get(key("minecraft:camel"));
+  public static final EntityType<Mob> CAMEL = provider().get(key("minecraft:camel"));
 
   /**
    * {@code minecraft:cat}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> CAT = provider().get(key("minecraft:cat"));
+  public static final EntityType<Mob> CAT = provider().get(key("minecraft:cat"));
 
   /**
    * {@code minecraft:cave_spider}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> CAVE_SPIDER = provider().get(key("minecraft:cave_spider"));
+  public static final EntityType<Mob> CAVE_SPIDER = provider().get(key("minecraft:cave_spider"));
 
   /**
    * {@code minecraft:chest_boat}
@@ -130,13 +131,13 @@ public final class EntityTypes {
    * {@code minecraft:chicken}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> CHICKEN = provider().get(key("minecraft:chicken"));
+  public static final EntityType<Mob> CHICKEN = provider().get(key("minecraft:chicken"));
 
   /**
    * {@code minecraft:cod}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> COD = provider().get(key("minecraft:cod"));
+  public static final EntityType<Mob> COD = provider().get(key("minecraft:cod"));
 
   /**
    * {@code minecraft:command_block_minecart}
@@ -148,25 +149,25 @@ public final class EntityTypes {
    * {@code minecraft:cow}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> COW = provider().get(key("minecraft:cow"));
+  public static final EntityType<Mob> COW = provider().get(key("minecraft:cow"));
 
   /**
    * {@code minecraft:creeper}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> CREEPER = provider().get(key("minecraft:creeper"));
+  public static final EntityType<Mob> CREEPER = provider().get(key("minecraft:creeper"));
 
   /**
    * {@code minecraft:dolphin}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> DOLPHIN = provider().get(key("minecraft:dolphin"));
+  public static final EntityType<Mob> DOLPHIN = provider().get(key("minecraft:dolphin"));
 
   /**
    * {@code minecraft:donkey}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> DONKEY = provider().get(key("minecraft:donkey"));
+  public static final EntityType<Mob> DONKEY = provider().get(key("minecraft:donkey"));
 
   /**
    * {@code minecraft:dragon_fireball}
@@ -178,7 +179,7 @@ public final class EntityTypes {
    * {@code minecraft:drowned}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> DROWNED = provider().get(key("minecraft:drowned"));
+  public static final EntityType<Mob> DROWNED = provider().get(key("minecraft:drowned"));
 
   /**
    * {@code minecraft:egg}
@@ -190,25 +191,25 @@ public final class EntityTypes {
    * {@code minecraft:elder_guardian}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ELDER_GUARDIAN = provider().get(key("minecraft:elder_guardian"));
+  public static final EntityType<Mob> ELDER_GUARDIAN = provider().get(key("minecraft:elder_guardian"));
 
   /**
    * {@code minecraft:enderman}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ENDERMAN = provider().get(key("minecraft:enderman"));
+  public static final EntityType<Mob> ENDERMAN = provider().get(key("minecraft:enderman"));
 
   /**
    * {@code minecraft:endermite}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ENDERMITE = provider().get(key("minecraft:endermite"));
+  public static final EntityType<Mob> ENDERMITE = provider().get(key("minecraft:endermite"));
 
   /**
    * {@code minecraft:ender_dragon}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ENDER_DRAGON = provider().get(key("minecraft:ender_dragon"));
+  public static final EntityType<Mob> ENDER_DRAGON = provider().get(key("minecraft:ender_dragon"));
 
   /**
    * {@code minecraft:ender_pearl}
@@ -226,7 +227,7 @@ public final class EntityTypes {
    * {@code minecraft:evoker}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> EVOKER = provider().get(key("minecraft:evoker"));
+  public static final EntityType<Mob> EVOKER = provider().get(key("minecraft:evoker"));
 
   /**
    * {@code minecraft:evoker_fangs}
@@ -280,13 +281,13 @@ public final class EntityTypes {
    * {@code minecraft:fox}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> FOX = provider().get(key("minecraft:fox"));
+  public static final EntityType<Mob> FOX = provider().get(key("minecraft:fox"));
 
   /**
    * {@code minecraft:frog}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> FROG = provider().get(key("minecraft:frog"));
+  public static final EntityType<Mob> FROG = provider().get(key("minecraft:frog"));
 
   /**
    * {@code minecraft:furnace_minecart}
@@ -298,13 +299,13 @@ public final class EntityTypes {
    * {@code minecraft:ghast}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> GHAST = provider().get(key("minecraft:ghast"));
+  public static final EntityType<Mob> GHAST = provider().get(key("minecraft:ghast"));
 
   /**
    * {@code minecraft:giant}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> GIANT = provider().get(key("minecraft:giant"));
+  public static final EntityType<Mob> GIANT = provider().get(key("minecraft:giant"));
 
   /**
    * {@code minecraft:glow_item_frame}
@@ -316,25 +317,25 @@ public final class EntityTypes {
    * {@code minecraft:glow_squid}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> GLOW_SQUID = provider().get(key("minecraft:glow_squid"));
+  public static final EntityType<Mob> GLOW_SQUID = provider().get(key("minecraft:glow_squid"));
 
   /**
    * {@code minecraft:goat}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> GOAT = provider().get(key("minecraft:goat"));
+  public static final EntityType<Mob> GOAT = provider().get(key("minecraft:goat"));
 
   /**
    * {@code minecraft:guardian}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> GUARDIAN = provider().get(key("minecraft:guardian"));
+  public static final EntityType<Mob> GUARDIAN = provider().get(key("minecraft:guardian"));
 
   /**
    * {@code minecraft:hoglin}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> HOGLIN = provider().get(key("minecraft:hoglin"));
+  public static final EntityType<Mob> HOGLIN = provider().get(key("minecraft:hoglin"));
 
   /**
    * {@code minecraft:hopper_minecart}
@@ -346,19 +347,19 @@ public final class EntityTypes {
    * {@code minecraft:horse}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> HORSE = provider().get(key("minecraft:horse"));
+  public static final EntityType<Mob> HORSE = provider().get(key("minecraft:horse"));
 
   /**
    * {@code minecraft:husk}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> HUSK = provider().get(key("minecraft:husk"));
+  public static final EntityType<Mob> HUSK = provider().get(key("minecraft:husk"));
 
   /**
    * {@code minecraft:illusioner}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ILLUSIONER = provider().get(key("minecraft:illusioner"));
+  public static final EntityType<Mob> ILLUSIONER = provider().get(key("minecraft:illusioner"));
 
   /**
    * {@code minecraft:interaction}
@@ -370,7 +371,7 @@ public final class EntityTypes {
    * {@code minecraft:iron_golem}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> IRON_GOLEM = provider().get(key("minecraft:iron_golem"));
+  public static final EntityType<Mob> IRON_GOLEM = provider().get(key("minecraft:iron_golem"));
 
   /**
    * {@code minecraft:item}
@@ -406,7 +407,7 @@ public final class EntityTypes {
    * {@code minecraft:llama}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> LLAMA = provider().get(key("minecraft:llama"));
+  public static final EntityType<Mob> LLAMA = provider().get(key("minecraft:llama"));
 
   /**
    * {@code minecraft:llama_spit}
@@ -418,7 +419,7 @@ public final class EntityTypes {
    * {@code minecraft:magma_cube}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> MAGMA_CUBE = provider().get(key("minecraft:magma_cube"));
+  public static final EntityType<Mob> MAGMA_CUBE = provider().get(key("minecraft:magma_cube"));
 
   /**
    * {@code minecraft:marker}
@@ -436,19 +437,19 @@ public final class EntityTypes {
    * {@code minecraft:mooshroom}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> MOOSHROOM = provider().get(key("minecraft:mooshroom"));
+  public static final EntityType<Mob> MOOSHROOM = provider().get(key("minecraft:mooshroom"));
 
   /**
    * {@code minecraft:mule}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> MULE = provider().get(key("minecraft:mule"));
+  public static final EntityType<Mob> MULE = provider().get(key("minecraft:mule"));
 
   /**
    * {@code minecraft:ocelot}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> OCELOT = provider().get(key("minecraft:ocelot"));
+  public static final EntityType<Mob> OCELOT = provider().get(key("minecraft:ocelot"));
 
   /**
    * {@code minecraft:ominous_item_spawner}
@@ -466,43 +467,43 @@ public final class EntityTypes {
    * {@code minecraft:panda}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PANDA = provider().get(key("minecraft:panda"));
+  public static final EntityType<Mob> PANDA = provider().get(key("minecraft:panda"));
 
   /**
    * {@code minecraft:parrot}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PARROT = provider().get(key("minecraft:parrot"));
+  public static final EntityType<Mob> PARROT = provider().get(key("minecraft:parrot"));
 
   /**
    * {@code minecraft:phantom}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PHANTOM = provider().get(key("minecraft:phantom"));
+  public static final EntityType<Mob> PHANTOM = provider().get(key("minecraft:phantom"));
 
   /**
    * {@code minecraft:pig}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PIG = provider().get(key("minecraft:pig"));
+  public static final EntityType<Mob> PIG = provider().get(key("minecraft:pig"));
 
   /**
    * {@code minecraft:piglin}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PIGLIN = provider().get(key("minecraft:piglin"));
+  public static final EntityType<Mob> PIGLIN = provider().get(key("minecraft:piglin"));
 
   /**
    * {@code minecraft:piglin_brute}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PIGLIN_BRUTE = provider().get(key("minecraft:piglin_brute"));
+  public static final EntityType<Mob> PIGLIN_BRUTE = provider().get(key("minecraft:piglin_brute"));
 
   /**
    * {@code minecraft:pillager}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PILLAGER = provider().get(key("minecraft:pillager"));
+  public static final EntityType<Mob> PILLAGER = provider().get(key("minecraft:pillager"));
 
   /**
    * {@code minecraft:player}
@@ -514,7 +515,7 @@ public final class EntityTypes {
    * {@code minecraft:polar_bear}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> POLAR_BEAR = provider().get(key("minecraft:polar_bear"));
+  public static final EntityType<Mob> POLAR_BEAR = provider().get(key("minecraft:polar_bear"));
 
   /**
    * {@code minecraft:potion}
@@ -526,37 +527,37 @@ public final class EntityTypes {
    * {@code minecraft:pufferfish}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> PUFFERFISH = provider().get(key("minecraft:pufferfish"));
+  public static final EntityType<Mob> PUFFERFISH = provider().get(key("minecraft:pufferfish"));
 
   /**
    * {@code minecraft:rabbit}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> RABBIT = provider().get(key("minecraft:rabbit"));
+  public static final EntityType<Mob> RABBIT = provider().get(key("minecraft:rabbit"));
 
   /**
    * {@code minecraft:ravager}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> RAVAGER = provider().get(key("minecraft:ravager"));
+  public static final EntityType<Mob> RAVAGER = provider().get(key("minecraft:ravager"));
 
   /**
    * {@code minecraft:salmon}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SALMON = provider().get(key("minecraft:salmon"));
+  public static final EntityType<Mob> SALMON = provider().get(key("minecraft:salmon"));
 
   /**
    * {@code minecraft:sheep}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SHEEP = provider().get(key("minecraft:sheep"));
+  public static final EntityType<Mob> SHEEP = provider().get(key("minecraft:sheep"));
 
   /**
    * {@code minecraft:shulker}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SHULKER = provider().get(key("minecraft:shulker"));
+  public static final EntityType<Mob> SHULKER = provider().get(key("minecraft:shulker"));
 
   /**
    * {@code minecraft:shulker_bullet}
@@ -568,25 +569,25 @@ public final class EntityTypes {
    * {@code minecraft:silverfish}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SILVERFISH = provider().get(key("minecraft:silverfish"));
+  public static final EntityType<Mob> SILVERFISH = provider().get(key("minecraft:silverfish"));
 
   /**
    * {@code minecraft:skeleton}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SKELETON = provider().get(key("minecraft:skeleton"));
+  public static final EntityType<Mob> SKELETON = provider().get(key("minecraft:skeleton"));
 
   /**
    * {@code minecraft:skeleton_horse}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SKELETON_HORSE = provider().get(key("minecraft:skeleton_horse"));
+  public static final EntityType<Mob> SKELETON_HORSE = provider().get(key("minecraft:skeleton_horse"));
 
   /**
    * {@code minecraft:slime}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SLIME = provider().get(key("minecraft:slime"));
+  public static final EntityType<Mob> SLIME = provider().get(key("minecraft:slime"));
 
   /**
    * {@code minecraft:small_fireball}
@@ -598,7 +599,7 @@ public final class EntityTypes {
    * {@code minecraft:sniffer}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SNIFFER = provider().get(key("minecraft:sniffer"));
+  public static final EntityType<Mob> SNIFFER = provider().get(key("minecraft:sniffer"));
 
   /**
    * {@code minecraft:snowball}
@@ -610,7 +611,7 @@ public final class EntityTypes {
    * {@code minecraft:snow_golem}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SNOW_GOLEM = provider().get(key("minecraft:snow_golem"));
+  public static final EntityType<Mob> SNOW_GOLEM = provider().get(key("minecraft:snow_golem"));
 
   /**
    * {@code minecraft:spawner_minecart}
@@ -628,31 +629,31 @@ public final class EntityTypes {
    * {@code minecraft:spider}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SPIDER = provider().get(key("minecraft:spider"));
+  public static final EntityType<Mob> SPIDER = provider().get(key("minecraft:spider"));
 
   /**
    * {@code minecraft:squid}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> SQUID = provider().get(key("minecraft:squid"));
+  public static final EntityType<Mob> SQUID = provider().get(key("minecraft:squid"));
 
   /**
    * {@code minecraft:stray}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> STRAY = provider().get(key("minecraft:stray"));
+  public static final EntityType<Mob> STRAY = provider().get(key("minecraft:stray"));
 
   /**
    * {@code minecraft:strider}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> STRIDER = provider().get(key("minecraft:strider"));
+  public static final EntityType<Mob> STRIDER = provider().get(key("minecraft:strider"));
 
   /**
    * {@code minecraft:tadpole}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> TADPOLE = provider().get(key("minecraft:tadpole"));
+  public static final EntityType<Mob> TADPOLE = provider().get(key("minecraft:tadpole"));
 
   /**
    * {@code minecraft:text_display}
@@ -676,7 +677,7 @@ public final class EntityTypes {
    * {@code minecraft:trader_llama}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> TRADER_LLAMA = provider().get(key("minecraft:trader_llama"));
+  public static final EntityType<Mob> TRADER_LLAMA = provider().get(key("minecraft:trader_llama"));
 
   /**
    * {@code minecraft:trident}
@@ -688,43 +689,43 @@ public final class EntityTypes {
    * {@code minecraft:tropical_fish}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> TROPICAL_FISH = provider().get(key("minecraft:tropical_fish"));
+  public static final EntityType<Mob> TROPICAL_FISH = provider().get(key("minecraft:tropical_fish"));
 
   /**
    * {@code minecraft:turtle}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> TURTLE = provider().get(key("minecraft:turtle"));
+  public static final EntityType<Mob> TURTLE = provider().get(key("minecraft:turtle"));
 
   /**
    * {@code minecraft:vex}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> VEX = provider().get(key("minecraft:vex"));
+  public static final EntityType<Mob> VEX = provider().get(key("minecraft:vex"));
 
   /**
    * {@code minecraft:villager}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> VILLAGER = provider().get(key("minecraft:villager"));
+  public static final EntityType<Mob> VILLAGER = provider().get(key("minecraft:villager"));
 
   /**
    * {@code minecraft:vindicator}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> VINDICATOR = provider().get(key("minecraft:vindicator"));
+  public static final EntityType<Mob> VINDICATOR = provider().get(key("minecraft:vindicator"));
 
   /**
    * {@code minecraft:wandering_trader}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WANDERING_TRADER = provider().get(key("minecraft:wandering_trader"));
+  public static final EntityType<Mob> WANDERING_TRADER = provider().get(key("minecraft:wandering_trader"));
 
   /**
    * {@code minecraft:warden}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WARDEN = provider().get(key("minecraft:warden"));
+  public static final EntityType<Mob> WARDEN = provider().get(key("minecraft:warden"));
 
   /**
    * {@code minecraft:wind_charge}
@@ -736,19 +737,19 @@ public final class EntityTypes {
    * {@code minecraft:witch}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WITCH = provider().get(key("minecraft:witch"));
+  public static final EntityType<Mob> WITCH = provider().get(key("minecraft:witch"));
 
   /**
    * {@code minecraft:wither}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WITHER = provider().get(key("minecraft:wither"));
+  public static final EntityType<Mob> WITHER = provider().get(key("minecraft:wither"));
 
   /**
    * {@code minecraft:wither_skeleton}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WITHER_SKELETON = provider().get(key("minecraft:wither_skeleton"));
+  public static final EntityType<Mob> WITHER_SKELETON = provider().get(key("minecraft:wither_skeleton"));
 
   /**
    * {@code minecraft:wither_skull}
@@ -760,37 +761,37 @@ public final class EntityTypes {
    * {@code minecraft:wolf}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> WOLF = provider().get(key("minecraft:wolf"));
+  public static final EntityType<Mob> WOLF = provider().get(key("minecraft:wolf"));
 
   /**
    * {@code minecraft:zoglin}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ZOGLIN = provider().get(key("minecraft:zoglin"));
+  public static final EntityType<Mob> ZOGLIN = provider().get(key("minecraft:zoglin"));
 
   /**
    * {@code minecraft:zombie}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ZOMBIE = provider().get(key("minecraft:zombie"));
+  public static final EntityType<Mob> ZOMBIE = provider().get(key("minecraft:zombie"));
 
   /**
    * {@code minecraft:zombie_horse}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ZOMBIE_HORSE = provider().get(key("minecraft:zombie_horse"));
+  public static final EntityType<Mob> ZOMBIE_HORSE = provider().get(key("minecraft:zombie_horse"));
 
   /**
    * {@code minecraft:zombie_villager}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ZOMBIE_VILLAGER = provider().get(key("minecraft:zombie_villager"));
+  public static final EntityType<Mob> ZOMBIE_VILLAGER = provider().get(key("minecraft:zombie_villager"));
 
   /**
    * {@code minecraft:zombified_piglin}
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
-  public static final EntityType<LivingEntity> ZOMBIFIED_PIGLIN = provider().get(key("minecraft:zombified_piglin"));
+  public static final EntityType<Mob> ZOMBIFIED_PIGLIN = provider().get(key("minecraft:zombified_piglin"));
 
   private EntityTypes() {
   }

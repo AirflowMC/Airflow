@@ -7,4 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ItemStack extends Typed<ItemType> {
     @NotNull PatchedItemComponentMap getItemComponentMap();
+
+    boolean isEmpty();
 }

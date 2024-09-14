@@ -8,7 +8,7 @@ import net.minecraft.core.component.PatchedDataComponentMap;
 import org.jetbrains.annotations.NotNull;
 
 public class AirItemStack implements ItemStack {
-    private final net.minecraft.world.item.ItemStack handle;
+    public final net.minecraft.world.item.ItemStack handle;
 
     public AirItemStack(net.minecraft.world.item.ItemStack handle) {
         this.handle = handle;
@@ -26,5 +26,15 @@ public class AirItemStack implements ItemStack {
         }
 
         return PatchedItemComponentMap.EMPTY;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.handle.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return this.handle.toString();
     }
 }

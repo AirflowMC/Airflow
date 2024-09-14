@@ -92,7 +92,7 @@ public class TestPlugin extends Plugin {
 
     @Override
     public void onEnable() {
-        getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener());
+        getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener(this));
 
         getServer().getPermissions().registerPermission(this, "nice_permission", Permission.DefaultValue.OP);
 

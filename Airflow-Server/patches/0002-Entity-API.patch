@@ -94,6 +94,29 @@ index f86edec07abf454ef7b58575482910e9ed1b5b1a..bd9f19eede3657cf4f35708accc63a46
      public Brain<?> getBrain() {
          return this.brain;
      }
+diff --git a/net/minecraft/world/entity/Mob.java b/net/minecraft/world/entity/Mob.java
+index b6a83f7f2c1f5b438252dc236c31aa31c766f832..282ac1ea5bb7081c9d2735adadc9ad4ab8c07b1c 100644
+--- a/net/minecraft/world/entity/Mob.java
++++ b/net/minecraft/world/entity/Mob.java
+@@ -150,6 +150,18 @@ public abstract class Mob extends LivingEntity implements EquipmentUser, Leashab
+         }
+     }
+ 
++    // Airflow start - Entity API
++    @Override
++    protected me.glicz.airflow.entity.living.AirMob createAirEntity() {
++        return new me.glicz.airflow.entity.living.AirMob(this);
++    }
++
++    @Override
++    public me.glicz.airflow.entity.living.AirMob getAirEntity() {
++        return (me.glicz.airflow.entity.living.AirMob) super.getAirEntity();
++    }
++    // Airflow end - Entity API
++
+     protected void registerGoals() {
+     }
+ 
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
 index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..7baf25e6f31f05ad3ece612861782ce004f9e8fa 100644
 --- a/net/minecraft/world/entity/player/Player.java

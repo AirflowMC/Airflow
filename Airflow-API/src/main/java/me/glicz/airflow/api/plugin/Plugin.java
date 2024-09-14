@@ -36,11 +36,11 @@ public abstract class Plugin implements Namespaced, ServerAware {
     }
 
     public @NotNull File getDataFolder() {
-        return dataFolder;
+        return this.dataFolder;
     }
 
     public @NotNull EventBus getEventBus() {
-        return eventBus;
+        return this.eventBus;
     }
 
     public @NotNull Logger getLogger() {

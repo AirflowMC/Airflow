@@ -1,8 +1,10 @@
 package me.glicz.airflow.item.component.adapter;
 
+import me.glicz.airflow.Handleable;
 import me.glicz.airflow.api.item.component.ItemComponentType;
 import me.glicz.airflow.api.util.LazyReference;
 import me.glicz.airflow.item.component.AirItemComponentType;
+import me.glicz.airflow.item.lore.AirItemLore;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +24,7 @@ public class ItemComponentAdapters {
         registerIdentity(DataComponents.MAX_DAMAGE);
         registerIdentity(DataComponents.DAMAGE);
         registerAdapter(DataComponents.ITEM_NAME, new ComponentAdapter());
+        registerHandleable(DataComponents.LORE, AirItemLore::new);
         registerAdapter(DataComponents.CUSTOM_NAME, new ComponentAdapter());
         registerIdentity(DataComponents.REPAIR_COST);
         registerIdentity(DataComponents.ENCHANTMENT_GLINT_OVERRIDE);
@@ -69,6 +72,10 @@ public class ItemComponentAdapters {
 
     private static void registerIdentity(DataComponentType<?> type) {
         ADAPTER_MAP.put(type, IDENTITY_ADAPTER);
+    }
+
+    private static <M, A extends Handleable<M>> void registerHandleable(DataComponentType<M> type, Function<M, A> asAir) {
+        register(type, asAir, Handleable::getHandle);
     }
 
     private static <M> void registerAdapter(DataComponentType<M> type, ItemComponentAdapter<M, ?> adapter) {

@@ -27,7 +27,7 @@ public class EntityTypesGenerator extends FieldBasedGenerator {
     );
 
     public EntityTypesGenerator() {
-        super(EntityType.class, "me.glicz.airflow.api.entity", "EntityTypes", EntityTypeProvider.class);
+        super(EntityType.class, BASE_PACKAGE, "EntityTypes", EntityTypeProvider.class);
     }
 
     @Override

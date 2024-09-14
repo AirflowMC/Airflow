@@ -35,6 +35,8 @@ tasks.register<JavaExec>("runApiGenerator") {
         val sourceFolder = project.projectDir.resolve(generatedDir).absoluteFile
         sourceFolder.deleteRecursively()
 
-        args("-sourceFolder=${sourceFolder}")
+        val debugFlag = if (project.hasProperty("debug")) "-debug" else ""
+
+        args("-sourceFolder=${sourceFolder}", debugFlag)
     }
 }

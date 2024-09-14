@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.network.chat.ComponentSerialization;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class MinecraftComponentSerializer implements ComponentSerializer<Component, Component, net.minecraft.network.chat.Component> {
@@ -37,10 +38,18 @@ public class MinecraftComponentSerializer implements ComponentSerializer<Compone
         );
     }
 
+    public @NotNull List<Component> deserialize(@NotNull List<net.minecraft.network.chat.Component> input) {
+        return input.stream().map(this::deserialize).toList();
+    }
+
     @Override
     public @NotNull net.minecraft.network.chat.Component serialize(@NotNull Component component) {
         return Serializer.fromJson(
                 GSON_SERIALIZER.serializeToTree(component), this.provider.get()
         );
+    }
+
+    public @NotNull List<net.minecraft.network.chat.Component> serialize(@NotNull List<Component> input) {
+        return input.stream().map(this::serialize).toList();
     }
 }

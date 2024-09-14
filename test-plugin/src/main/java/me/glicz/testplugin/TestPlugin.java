@@ -96,6 +96,21 @@ public class TestPlugin extends Plugin {
 
         getServer().getPermissions().registerPermission(this, "nice_permission", Permission.DefaultValue.OP);
 
+        getScheduler()
+                .taskBuilder(() -> {
+                    getLogger().info("Delayed async task! Current thread: {}", Thread.currentThread());
+                })
+                .async()
+                .delay(40)
+                .schedule();
+
+        getScheduler()
+                .repeatingTaskBuilder(() -> {
+                    getLogger().info("This task runs every 5 minutes without any start delay!");
+                })
+                .interval(5 * 60 * 20)
+                .schedule();
+
         getLogger().info("Successfully enabled!");
     }
 

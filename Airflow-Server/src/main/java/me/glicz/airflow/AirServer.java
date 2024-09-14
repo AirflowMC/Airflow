@@ -13,6 +13,7 @@ import me.glicz.airflow.api.service.Services;
 import me.glicz.airflow.api.util.Version;
 import me.glicz.airflow.command.sender.AirRemoteCommandSender;
 import me.glicz.airflow.command.sender.AirServerCommandSender;
+import me.glicz.airflow.scheduler.AirServerScheduler;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -24,12 +25,15 @@ import java.util.UUID;
 public class AirServer implements Server {
     public final Airflow airflow;
     public final DedicatedServer minecraftServer;
+    public final AirServerScheduler serverScheduler;
     private final ServerCommandSender serverCommandSender;
     private final RemoteCommandSender remoteCommandSender;
 
     public AirServer(Airflow airflow, DedicatedServer minecraftServer) {
         this.airflow = airflow;
         this.minecraftServer = minecraftServer;
+
+        this.serverScheduler = new AirServerScheduler(this);
 
         this.serverCommandSender = new AirServerCommandSender(this);
         this.remoteCommandSender = new AirRemoteCommandSender(this);

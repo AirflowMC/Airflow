@@ -4,6 +4,7 @@ import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.ServerAware;
 import me.glicz.airflow.api.event.bus.EventBus;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
+import me.glicz.airflow.api.scheduler.Scheduler;
 import me.glicz.airflow.api.util.ServerReference;
 import net.kyori.adventure.key.KeyPattern;
 import net.kyori.adventure.key.Namespaced;
@@ -17,6 +18,7 @@ public abstract class Plugin implements Namespaced, ServerAware {
     private PluginMeta pluginMeta;
     private File dataFolder;
     private EventBus eventBus;
+    private Scheduler scheduler;
     private Logger logger;
     private boolean enabled;
 
@@ -41,6 +43,10 @@ public abstract class Plugin implements Namespaced, ServerAware {
 
     public @NotNull EventBus getEventBus() {
         return this.eventBus;
+    }
+
+    public @NotNull Scheduler getScheduler() {
+        return this.scheduler;
     }
 
     public @NotNull Logger getLogger() {

@@ -5,10 +5,11 @@ import me.glicz.airflow.api.event.player.PlayerJoinEvent;
 import me.glicz.airflow.api.permission.DummyPermissionsSource;
 import me.glicz.airflow.api.permission.PermissionSourcePriority;
 import net.kyori.adventure.key.Key;
+import org.jetbrains.annotations.NotNull;
 
 public class JoinListener implements EventHandler<PlayerJoinEvent> {
     @Override
-    public void handle(PlayerJoinEvent e) {
+    public void handle(@NotNull PlayerJoinEvent e) {
         e.setMessage(null);
         e.getPlayer().sendMessage("Hello! This server runs Airflow!");
         e.getPlayer().sendMessage("You're a " + e.getPlayer().getType().key().asMinimalString());

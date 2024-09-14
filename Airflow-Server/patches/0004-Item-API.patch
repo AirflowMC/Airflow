@@ -4,6 +4,45 @@ Date: Wed, 28 Aug 2024 21:03:48 +0200
 Subject: [PATCH] Item API
 
 
+diff --git a/net/minecraft/core/component/DataComponentType.java b/net/minecraft/core/component/DataComponentType.java
+index bf9fee15a67a17ab841f2b0ffeee619b98914f8d..fc37532d50e8a071fcfbd819c347f35bd038321a 100644
+--- a/net/minecraft/core/component/DataComponentType.java
++++ b/net/minecraft/core/component/DataComponentType.java
+@@ -47,6 +47,8 @@ public interface DataComponentType<T> {
+ 
+     StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec();
+ 
++    me.glicz.airflow.item.component.AirItemComponentType airItemComponentType(); // Airflow - Item API
++
+     public static class Builder<T> {
+         @Nullable
+         private Codec<T> codec;
+@@ -81,6 +83,7 @@ public interface DataComponentType<T> {
+             @Nullable
+             private final Codec<T> codec;
+             private final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec;
++            private final me.glicz.airflow.api.util.LazyReference<me.glicz.airflow.item.component.AirItemComponentType> airItemComponentType = me.glicz.airflow.item.component.adapter.ItemComponentAdapters.wrap(this); // Airflow - Item API
+ 
+             SimpleType(@Nullable Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+                 this.codec = codec;
+@@ -98,6 +101,17 @@ public interface DataComponentType<T> {
+                 return this.streamCodec;
+             }
+ 
++            // Airflow start - Item API
++            @Override
++            public me.glicz.airflow.item.component.AirItemComponentType airItemComponentType() {
++                if (airItemComponentType == null) {
++                    return null;
++                }
++
++                return airItemComponentType.get();
++            }
++            // Airflow end - Item API
++
+             @Override
+             public String toString() {
+                 return Util.getRegisteredName(BuiltInRegistries.DATA_COMPONENT_TYPE, this);
 diff --git a/net/minecraft/world/item/Item.java b/net/minecraft/world/item/Item.java
 index ed7d2e578643f422f11d5354c8be4e2374686480..deb369552452a19d372d30134ee189153ba119ea 100644
 --- a/net/minecraft/world/item/Item.java

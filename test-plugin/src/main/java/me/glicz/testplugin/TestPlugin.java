@@ -112,6 +112,8 @@ public class TestPlugin extends Plugin {
                 .schedule();
 
         getLogger().info("Successfully enabled!");
+        getLogger().warn("This is a warning!");
+        getLogger().error("This is an error!");
     }
 
     @Override

@@ -15,6 +15,9 @@ dependencies {
     mache(papierMache(properties["mache-build"] as String))
     implementation(project(":airflow-api"))
     implementation(libs.adventure.text.serializer.ansi)
+    implementation(libs.jline.terminal)
+    implementation(libs.terminalConsoleAppender)
+    annotationProcessor(libs.log4j.core)
 }
 
 val internalsDir = "src/internals/java"

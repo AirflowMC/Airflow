@@ -25,6 +25,7 @@ import net.kyori.adventure.translation.GlobalTranslator;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.dedicated.DedicatedServerSettings;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
 
@@ -55,6 +56,8 @@ public class Airflow {
 
         GlobalTranslator.translator().addSource(new ServerTranslator());
         ItemComponentAdapters.bootstrap();
+
+        AnsiConsole.systemInstall();
     }
 
     public AirServer getServer() {

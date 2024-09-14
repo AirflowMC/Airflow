@@ -23,3 +23,26 @@ index 72732dff3952d60b2639da255f3be648292f2646..0400a5efda1cffee106e6ea9d3450695
      }
  
      public KeyPair getKeyPair() {
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index a7f9ed38ec466485f91c31354da07c9fad87de21..13baf0b2c53fbcc093fa1fc09791f4b5b0c19a85 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -108,6 +108,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         Thread thread = new Thread("Server console handler") {
+             @Override
+             public void run() {
++                // Airflow start - Better terminal
++                new me.glicz.airflow.console.AirflowConsole(DedicatedServer.this).start();
++                /*
+                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+ 
+                 String string1;
+@@ -118,6 +121,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+                 } catch (IOException var4) {
+                     DedicatedServer.LOGGER.error("Exception handling console input", (Throwable)var4);
+                 }
++                 */
++                // Airflow end - Better terminal
+             }
+         };
+         thread.setDaemon(true);

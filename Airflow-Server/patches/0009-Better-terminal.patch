@@ -5,19 +5,17 @@ Subject: [PATCH] Better terminal
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 72732dff3952d60b2639da255f3be648292f2646..0400a5efda1cffee106e6ea9d345069518a59e37 100644
+index 72732dff3952d60b2639da255f3be648292f2646..ec526493a1e0a0c7c8637a0ec06dd41c15d42b83 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1154,7 +1154,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1154,7 +1154,11 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @Override
      public void sendSystemMessage(Component component) {
 -        LOGGER.info(component.getString());
 +        // Airflow start - Better terminal
-+        LOGGER.info(net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer.ansi().serialize(
-+                net.kyori.adventure.translation.GlobalTranslator.render(
-+                        me.glicz.airflow.util.MinecraftComponentSerializer.INSTANCE.deserialize(component), Locale.US
-+                )
++        LOGGER.info(me.glicz.airflow.util.AdventureUtils.ANSI_SERIALIZER.serialize(
++                me.glicz.airflow.util.MinecraftComponentSerializer.INSTANCE.deserialize(component)
 +        ));
 +        // Airflow end - Better terminal
      }

@@ -17,11 +17,9 @@ import me.glicz.airflow.permission.AirPermissions;
 import me.glicz.airflow.plugin.loader.AirPluginsLoader;
 import me.glicz.airflow.properties.AirServerProperties;
 import me.glicz.airflow.service.AirServices;
-import me.glicz.airflow.translation.ServerTranslator;
 import me.glicz.airflow.util.AirServerReference;
 import me.glicz.airflow.util.AirVersion;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.translation.GlobalTranslator;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.dedicated.DedicatedServerSettings;
@@ -54,7 +52,6 @@ public class Airflow {
         this.permissions = new AirPermissions();
         this.services = new AirServices();
 
-        GlobalTranslator.translator().addSource(new ServerTranslator());
         ItemComponentAdapters.bootstrap();
 
         AnsiConsole.systemInstall();

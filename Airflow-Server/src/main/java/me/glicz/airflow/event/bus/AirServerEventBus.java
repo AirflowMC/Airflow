@@ -7,7 +7,6 @@ import me.glicz.airflow.api.event.EventPriority;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
-import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,7 +26,6 @@ public class AirServerEventBus implements ServerEventBus {
     public <E extends Event> @NotNull E dispatch(@NotNull E event) {
         //noinspection unchecked
         List<EventHandlers<E>> eventHandlers = this.airflow.pluginLoader.getPlugins().stream()
-                .filter(Plugin::isEnabled)
                 .map(plugin -> (EventHandlers<E>) ((AirEventBus) plugin.getEventBus()).handlersMap.get(event.getClass()))
                 .filter(Objects::nonNull)
                 .toList();

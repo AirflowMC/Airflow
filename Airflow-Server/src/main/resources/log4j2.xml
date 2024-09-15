@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
-        <Property name="Gui">[%d{HH:mm:ss}] {%-5level} %msg{nolookups}%n</Property>
+        <Property name="Gui">[%d{HH:mm:ss}] %-5level %msg{nolookups}%n</Property>
         <Property name="Default">[%d{HH:mm:ss}] %highlight{%-5level} [%logger] %msg%n%xEx{full}</Property>
         <Property name="NoLogger">[%d{HH:mm:ss}] %highlight{%-5level} %msg%n%xEx{full}</Property>
     </Properties>
     <Appenders>
         <Queue name="ServerGuiConsole">
-            <PatternLayout pattern="${Gui}" />
+            <PatternLayout pattern="%stripAnsi{${Gui}}" />
         </Queue>
 
         <TerminalConsole name="TerminalConsole">

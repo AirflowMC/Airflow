@@ -7,6 +7,8 @@ import net.kyori.adventure.translation.Translatable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 public interface ItemTypeLike extends Keyed, Translatable {
     @NotNull ItemType getItemType();
 
@@ -17,4 +19,14 @@ public interface ItemTypeLike extends Keyed, Translatable {
     }
 
     @NotNull ItemStack newItemStack(int amount);
+
+    default @NotNull ItemStack newItemStack(@NotNull Consumer<ItemStack> consumer) {
+        return newItemStack(1, consumer);
+    }
+
+    default @NotNull ItemStack newItemStack(int amount, @NotNull Consumer<ItemStack> consumer) {
+        ItemStack itemStack = newItemStack(amount);
+        consumer.accept(itemStack);
+        return itemStack;
+    }
 }

@@ -5,21 +5,20 @@ Subject: [PATCH] Player events
 
 
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index 77a93d5f21b2369b69c59a1928e779e41e4ff972..65edae1d69eb1c9b9acc8621d730a222674ef57a 100644
+index 77a93d5f21b2369b69c59a1928e779e41e4ff972..7593a00c7ef207c50acd924389652455f7b19366 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -213,8 +213,9 @@ public abstract class PlayerList {
+@@ -213,8 +213,8 @@ public abstract class PlayerList {
          } else {
              mutableComponent = Component.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), string);
          }
 +        mutableComponent.withStyle(ChatFormatting.YELLOW); // Airflow - Player events
  
 -        this.broadcastSystemMessage(mutableComponent.withStyle(ChatFormatting.YELLOW), false);
-+        //this.broadcastSystemMessage(mutableComponent.withStyle(ChatFormatting.YELLOW), false); // Airflow - Player events
          serverGamePacketListenerImpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
          ServerStatus status = this.server.getStatus();
          if (status != null && !cookie.transferred()) {
-@@ -225,6 +226,14 @@ public abstract class PlayerList {
+@@ -225,6 +225,14 @@ public abstract class PlayerList {
          this.players.add(player);
          this.playersByUUID.put(player.getUUID(), player);
          this.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player)));

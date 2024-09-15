@@ -14,6 +14,7 @@ configurations.apiElements {
 dependencies {
     mache(papierMache(properties["mache-build"] as String))
     implementation(project(":airflow-api"))
+    implementation(libs.adventure.text.serializer.ansi)
 }
 
 val internalsDir = "src/internals/java"
@@ -47,7 +48,7 @@ tasks {
 
 afterEvaluate {
     tasks {
-        "runServer" {
+        named<JavaExec>("runServer") {
             project(":test-plugin").tasks.jar.let { testPluginJar ->
                 dependsOn(testPluginJar)
 

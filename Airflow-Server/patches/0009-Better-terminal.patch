@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Sun, 15 Sep 2024 13:34:31 +0200
+Subject: [PATCH] Better terminal
+
+
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index 72732dff3952d60b2639da255f3be648292f2646..0400a5efda1cffee106e6ea9d345069518a59e37 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -1154,7 +1154,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+ 
+     @Override
+     public void sendSystemMessage(Component component) {
+-        LOGGER.info(component.getString());
++        // Airflow start - Better terminal
++        LOGGER.info(net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer.ansi().serialize(
++                net.kyori.adventure.translation.GlobalTranslator.render(
++                        me.glicz.airflow.util.MinecraftComponentSerializer.INSTANCE.deserialize(component), Locale.US
++                )
++        ));
++        // Airflow end - Better terminal
+     }
+ 
+     public KeyPair getKeyPair() {

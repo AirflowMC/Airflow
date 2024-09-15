@@ -52,7 +52,7 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
         }
 
         if (node instanceof VanillaCommandNode vanillaNode) {
-            return new AirCommandInfo(null, vanillaNode.getName(), vanillaNode.description, List.of(vanillaNode.alias), allUsage);
+            return new AirCommandInfo(null, vanillaNode.getName(), vanillaNode.description, vanillaNode.smartAliases(), allUsage);
         }
 
         return new AirCommandInfo(null, node.getName(), null, List.of(), allUsage);
@@ -77,11 +77,13 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
     }
 
     private Collection<String> register0(Plugin plugin, String namespace, LiteralCommandNode<CommandSourceStack> node, String description, Collection<String> aliases) {
-        return Stream.concat(Stream.of(node.getLiteral()), aliases.stream())
+        List<String> literals = Stream.concat(Stream.of(node.getLiteral()), aliases.stream())
                 .flatMap(literal -> Stream.of(literal, namespace.toLowerCase() + ":" + literal))
+                .toList();
+
+        return literals.stream()
                 .map(literal -> {
-                    List<String> commandAliases = new ArrayList<>(aliases);
-                    commandAliases.add(node.getName());
+                    List<String> commandAliases = new ArrayList<>(literals);
                     commandAliases.remove(literal);
 
                     return registerCommand(plugin, literal, node, description, commandAliases) ? literal : null;
@@ -96,6 +98,8 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
         CommandNode<? extends CommandSourceStack> child = root.getChild(literal);
         if (child instanceof AirCommandNode) {
             return false;
+        } else if (child instanceof VanillaCommandNode vanillaNode && root.getChild(vanillaNode.alias) instanceof VanillaCommandNode vanillaNode2) {
+            vanillaNode2.alias = null;
         }
 
         root.getChildren().remove(child);

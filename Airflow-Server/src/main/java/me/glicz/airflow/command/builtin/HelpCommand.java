@@ -144,7 +144,7 @@ public class HelpCommand {
             info.getUsages().forEach(usage -> sender.sendMessage(
                     " <dark_gray>● <white>/<command> <usage>",
                     Placeholder.parsed("command", command),
-                    Placeholder.parsed("usage", usage)
+                    Placeholder.unparsed("usage", usage)
             ));
         }
 

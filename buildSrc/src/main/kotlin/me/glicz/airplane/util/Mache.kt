@@ -1,7 +1,6 @@
 package me.glicz.airplane.util
 
 import com.google.gson.Gson
-import me.glicz.airplane.extension.unzip
 import me.glicz.airplane.mache.MacheData
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get

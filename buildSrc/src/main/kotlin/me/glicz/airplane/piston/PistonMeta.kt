@@ -3,7 +3,6 @@ package me.glicz.airplane.piston
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import me.glicz.airplane.extension.sha1
 import me.glicz.airplane.util.*
 import org.gradle.api.Project
 import java.net.URI
@@ -61,7 +60,7 @@ object PistonMeta {
     }
 
     fun downloadResource(path: Path, resource: VersionDownloads.Resource, hashMismatch: () -> Unit = {}) {
-        if (path.exists() && path.toFile().sha1 == resource.sha1) {
+        if (path.exists() && path.toFile().sha1.stringHash == resource.sha1) {
             return
         }
 

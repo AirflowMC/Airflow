@@ -1,3 +1,5 @@
+import me.glicz.airplane.task.PaperclipJar
+
 plugins {
     id("me.glicz.airplane")
     id("net.kyori.indra.git") version "3.1.3"
@@ -13,6 +15,7 @@ configurations.apiElements {
 
 dependencies {
     mache(papierMache(properties["mache-build"] as String))
+    paperclip("io.papermc:paperclip:3.0.3")
     implementation(project(":airflow-api"))
     implementation(libs.adventure.text.serializer.ansi)
     implementation(libs.jline.terminal)
@@ -51,6 +54,10 @@ tasks {
 
 afterEvaluate {
     tasks {
+        withType<PaperclipJar> {
+            dependsOn(":airflow-api:jar")
+        }
+
         named<JavaExec>("runServer") {
             project(":test-plugin").tasks.jar.let { testPluginJar ->
                 dependsOn(testPluginJar)

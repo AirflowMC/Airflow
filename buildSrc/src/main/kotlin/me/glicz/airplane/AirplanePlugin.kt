@@ -43,6 +43,8 @@ class AirplanePlugin : Plugin<Project> {
             isTransitive = false
         }
 
+        val paperclip by project.configurations.registering
+
         project.configurations.named("implementation") {
             extendsFrom(minecraftLibrary.get())
         }
@@ -116,6 +118,18 @@ class AirplanePlugin : Plugin<Project> {
                 sources.set(airplaneExt.sourcesDir)
 
                 patchesDir.set(airplaneExt.patchesDir)
+            }
+
+            val createPaperclipJar by project.tasks.registering(CreatePaperclipJar::class) {
+                group = "airplane"
+
+                mainClass.set("net.minecraft.server.Main")
+                version.set(airplaneExt.minecraftVersion)
+                vanillaJar.set(extractServerJar.flatMap { it.serverJar })
+                vanillaBootstrapJar.set(project.airplaneDir.resolve(SERVER_BOOSTRAP_JAR))
+                modifiedJar.set(tasks.named<Jar>("jar").flatMap { it.archiveFile })
+
+                outputJar.set(project.layout.buildDirectory.file("libs/${project.rootProject.name}-paperclip-${project.version}.jar"))
             }
 
             tasks.named("processResources", ProcessResources::class.java) {

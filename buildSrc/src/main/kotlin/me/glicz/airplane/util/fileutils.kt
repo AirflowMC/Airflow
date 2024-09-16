@@ -1,8 +1,9 @@
-package me.glicz.airplane.extension
+package me.glicz.airplane.util
 
-import me.glicz.airplane.util.sha1Digest
 import java.io.File
+import java.nio.file.Path
 import java.util.zip.ZipFile
+import kotlin.io.path.readBytes
 
 fun File.unzip(dest: File) {
     ZipFile(this).use { zip ->
@@ -24,7 +25,11 @@ fun File.unzip(dest: File) {
     }
 }
 
-val File.sha1
-    get() = sha1Digest.digest(readBytes()).joinToString("") { byte ->
-        "%02x".format(byte)
-    }
+val File.sha1: ByteArray
+    get() = sha1Digest.digest(readBytes())
+
+val File.sha256: ByteArray
+    get() = sha256Digest.digest(readBytes())
+
+val Path.sha256: ByteArray
+    get() = sha256Digest.digest(readBytes())

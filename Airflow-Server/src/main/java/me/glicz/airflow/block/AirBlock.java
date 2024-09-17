@@ -8,6 +8,7 @@ import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.block.state.AirBlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.NotNull;
 
 public class AirBlock implements Block {
     public final ServerLevel level;
@@ -23,22 +24,22 @@ public class AirBlock implements Block {
     }
 
     @Override
-    public World getWorld() {
+    public @NotNull World getWorld() {
         return this.level.airWorld;
     }
 
     @Override
-    public Vector3i getPosition() {
+    public @NotNull Vector3i getPosition() {
         return this.position;
     }
 
     @Override
-    public BlockState getState() {
+    public @NotNull BlockState getState() {
         return this.level.getBlockState(getBlockPos()).getAirBlockState();
     }
 
     @Override
-    public void setState(BlockState state) {
+    public void setState(@NotNull BlockState state) {
         this.level.setBlockAndUpdate(getBlockPos(), ((AirBlockState) state).handle);
     }
 

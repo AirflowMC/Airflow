@@ -13,19 +13,15 @@ import java.util.UUID;
 public interface Entity extends CommandSender, Typed<EntityType<?>> {
     @NotNull UUID getUniqueId();
 
-    default @NotNull World getWorld() {
-        return getLocation().getWorld();
-    }
+    @NotNull World getWorld();
 
-    default @NotNull Vector3d getPosition() {
-        return getLocation().getPosition();
-    }
+    @NotNull Vector3d getPosition();
 
-    default @NotNull Vector2f getRotation() {
-        return getLocation().getRotation();
-    }
+    @NotNull Vector2f getRotation();
 
-    @NotNull Location getLocation();
+    default @NotNull Location getLocation() {
+        return new Location(getWorld(), getPosition(), getRotation());
+    }
 
     boolean isAlive();
 }

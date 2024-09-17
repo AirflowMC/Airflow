@@ -3,7 +3,7 @@ package me.glicz.airflow.entity;
 import me.glicz.airflow.api.entity.EntityType;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
-import me.glicz.airflow.api.world.Location;
+import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.command.sender.AirCommandSender;
 import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.text.Component;
@@ -29,13 +29,19 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
-    public @NotNull Location getLocation() {
+    public @NotNull World getWorld() {
         //noinspection resource
-        return new Location(
-                ((ServerLevel) getHandle().level()).airWorld,
-                new Vector3d(getHandle().getX(), getHandle().getY(), getHandle().getZ()),
-                new Vector2f(getHandle().getXRot(), getHandle().getYRot())
-        );
+        return ((ServerLevel) getHandle().level()).airWorld;
+    }
+
+    @Override
+    public @NotNull Vector3d getPosition() {
+        return new Vector3d(getHandle().getX(), getHandle().getY(), getHandle().getZ());
+    }
+
+    @Override
+    public @NotNull Vector2f getRotation() {
+        return new Vector2f(getHandle().getXRot(), getHandle().getYRot());
     }
 
     @Override

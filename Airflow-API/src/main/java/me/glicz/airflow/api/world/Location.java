@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 public class Location {
     private final WeakReference<World> world;
@@ -57,5 +58,18 @@ public class Location {
 
     public @NotNull Vector2f getRotation() {
         return rotation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Location location)) return false;
+
+        return Objects.equals(world.get(), location.world.get()) && Objects.equals(position, location.position) && Objects.equals(rotation, location.rotation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(world.get(), position, rotation);
     }
 }

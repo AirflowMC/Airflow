@@ -3,7 +3,7 @@ package me.glicz.airflow.block;
 import me.glicz.airflow.api.block.Block;
 import me.glicz.airflow.api.block.BlockType;
 import me.glicz.airflow.api.block.state.BlockState;
-import me.glicz.airflow.api.util.math.position.BlockPosition;
+import me.glicz.airflow.api.util.math.Vector3i;
 import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.block.state.AirBlockState;
 import net.minecraft.core.BlockPos;
@@ -11,15 +11,15 @@ import net.minecraft.server.level.ServerLevel;
 
 public class AirBlock implements Block {
     public final ServerLevel level;
-    public final BlockPosition position;
+    public final Vector3i position;
 
-    public AirBlock(ServerLevel level, BlockPosition position) {
+    public AirBlock(ServerLevel level, Vector3i position) {
         this.level = level;
         this.position = position;
     }
 
     public BlockPos getBlockPos() {
-        return new BlockPos(position.blockX(), position.blockY(), position.blockZ());
+        return new BlockPos(position.x(), position.y(), position.z());
     }
 
     @Override
@@ -28,7 +28,7 @@ public class AirBlock implements Block {
     }
 
     @Override
-    public BlockPosition getPosition() {
+    public Vector3i getPosition() {
         return this.position;
     }
 

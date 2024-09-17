@@ -1,16 +1,16 @@
 package me.glicz.airflow.entity;
 
 import me.glicz.airflow.api.entity.EntityType;
-import me.glicz.airflow.api.util.math.position.FinePosition;
-import me.glicz.airflow.api.util.math.position.Position;
-import me.glicz.airflow.api.util.math.rotation.Rotation;
-import me.glicz.airflow.api.world.World;
+import me.glicz.airflow.api.util.math.Vector2f;
+import me.glicz.airflow.api.util.math.Vector3d;
+import me.glicz.airflow.api.world.Location;
 import me.glicz.airflow.command.sender.AirCommandSender;
 import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -24,24 +24,18 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
-    public UUID getUniqueId() {
+    public @NotNull UUID getUniqueId() {
         return getHandle().getUUID();
     }
 
     @Override
-    public World getWorld() {
+    public @NotNull Location getLocation() {
         //noinspection resource
-        return ((ServerLevel) getHandle().level()).airWorld;
-    }
-
-    @Override
-    public FinePosition getPosition() {
-        return Position.fine(getHandle().getX(), getHandle().getY(), getHandle().getZ());
-    }
-
-    @Override
-    public Rotation getRotation() {
-        return Rotation.rotation(getHandle().getYRot(), getHandle().getXRot());
+        return new Location(
+                ((ServerLevel) getHandle().level()).airWorld,
+                new Vector3d(getHandle().getX(), getHandle().getY(), getHandle().getZ()),
+                new Vector2f(getHandle().getXRot(), getHandle().getYRot())
+        );
     }
 
     @Override

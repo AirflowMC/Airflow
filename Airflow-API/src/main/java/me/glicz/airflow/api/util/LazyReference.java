@@ -45,4 +45,17 @@ public class LazyReference<T> {
     public boolean isResolved() {
         return value != null;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LazyReference<?> that)) return false;
+
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
 }

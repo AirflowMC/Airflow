@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
+import me.glicz.airflow.api.event.player.PlayerQuitEvent;
 import me.glicz.airflow.api.permission.Permission;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
@@ -11,6 +12,7 @@ import me.glicz.airflow.api.service.ServicePriority;
 import me.glicz.airflow.api.service.ServiceProvider;
 import me.glicz.testplugin.event.TestEvent;
 import me.glicz.testplugin.listener.JoinListener;
+import me.glicz.testplugin.listener.QuitListener;
 import me.glicz.testplugin.listener.TestListener;
 import me.glicz.testplugin.service.TestService;
 import me.glicz.testplugin.service.TestServiceImpl;
@@ -93,6 +95,7 @@ public class TestPlugin extends Plugin {
     @Override
     public void onEnable() {
         getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener(this));
+        getEventBus().subscribe(PlayerQuitEvent.class, new QuitListener());
 
         getServer().getPermissions().registerPermission(this, "nice_permission", Permission.DefaultValue.OP);
 

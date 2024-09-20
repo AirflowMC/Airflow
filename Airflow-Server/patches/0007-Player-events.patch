@@ -4,8 +4,36 @@ Date: Sun, 1 Sep 2024 16:14:44 +0200
 Subject: [PATCH] Player events
 
 
+diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 469c0e5fc64b25cef32322d947a38e76d53b9f67..ec87f24b3d4e3715c0e6edd4d4781a6f5c5b807b 100644
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1178,11 +1178,22 @@ public class ServerGamePacketListenerImpl
+     private void removePlayerFromWorld() {
+         this.chatMessageChain.close();
+         this.server.invalidateStatus();
++        // Airflow start - Player events
++        /*
+         this.server
+             .getPlayerList()
+             .broadcastSystemMessage(Component.translatable("multiplayer.player.left", this.player.getDisplayName()).withStyle(ChatFormatting.YELLOW), false);
++         */
++        // Airflow end - Player events
+         this.player.disconnect();
+-        this.server.getPlayerList().remove(this.player);
++        // Airflow start - Player events
++        Component message = this.server.getPlayerList().remove(this.player);
++        if (message != null) {
++            this.server
++                    .getPlayerList()
++                    .broadcastSystemMessage(message, false);
++        }
++        // Airflow end - Player events
+         this.player.getTextFilter().leave();
+     }
+ 
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index 77a93d5f21b2369b69c59a1928e779e41e4ff972..7593a00c7ef207c50acd924389652455f7b19366 100644
+index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08b73fbf8c 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
 @@ -213,8 +213,8 @@ public abstract class PlayerList {
@@ -33,3 +61,35 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..7593a00c7ef207c50acd924389652455
          this.sendLevelInfo(player, serverLevel);
          serverLevel.addNewPlayer(player);
          this.server.getCustomBossEvents().onPlayerConnect(player);
+@@ -350,9 +358,22 @@ public abstract class PlayerList {
+         }
+     }
+ 
+-    public void remove(ServerPlayer player) {
++    public Component remove(ServerPlayer player) { // Aiflow - Player events
+         ServerLevel serverLevel = player.serverLevel();
+         player.awardStat(Stats.LEAVE_GAME);
++        // Airflow start - Player events
++        if (player.containerMenu != player.inventoryMenu) {
++            player.closeContainer();
++        }
++
++        me.glicz.airflow.api.event.player.PlayerQuitEvent event = player.server.getDedicatedServer().airflow.serverEventBus.dispatchPlayerQuit(
++                player,
++                Component.translatable("multiplayer.player.left", player.getDisplayName())
++                        .withStyle(ChatFormatting.YELLOW)
++        );
++
++        player.doTick();
++        // Airflow end - Player events
+         this.save(player);
+         if (player.isPassenger()) {
+             Entity rootVehicle = player.getRootVehicle();
+@@ -377,6 +398,7 @@ public abstract class PlayerList {
+         }
+ 
+         this.broadcastAll(new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())));
++        return me.glicz.airflow.util.MinecraftComponentSerializer.INSTANCE.serializeOrNull(event.getMessage()); // Airflow - Player events
+     }
+ 
+     @Nullable

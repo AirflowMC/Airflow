@@ -7,6 +7,7 @@ import me.glicz.airflow.api.event.EventPriority;
 import me.glicz.airflow.api.event.bus.ServerEventBus;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
+import me.glicz.airflow.api.event.player.PlayerQuitEvent;
 import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,5 +44,9 @@ public class AirServerEventBus implements ServerEventBus {
 
     public PlayerJoinEvent dispatchPlayerJoin(ServerPlayer player, MutableComponent message) {
         return dispatch(new PlayerJoinEvent(player.getAirEntity(), MinecraftComponentSerializer.INSTANCE.deserialize(message)));
+    }
+
+    public PlayerQuitEvent dispatchPlayerQuit(ServerPlayer player, MutableComponent message) {
+        return dispatch(new PlayerQuitEvent(player.getAirEntity(), MinecraftComponentSerializer.INSTANCE.deserialize(message)));
     }
 }

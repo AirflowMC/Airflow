@@ -15,8 +15,12 @@ public interface CommandSender extends Audience, PermissionsHolder, ServerAware 
 
     boolean isOperator();
 
-    default void sendMessage(final @NotNull String message, final @NotNull TagResolver... tagResolvers) {
+    default void sendMessage(@NotNull String message, @NotNull TagResolver... tagResolvers) {
         sendMessage(MiniMessage.miniMessage().deserialize(message, tagResolvers));
+    }
+
+    default void sendRawMessage(@NotNull String message) {
+        sendMessage(Component.text(message));
     }
 
     void dispatch(String command);

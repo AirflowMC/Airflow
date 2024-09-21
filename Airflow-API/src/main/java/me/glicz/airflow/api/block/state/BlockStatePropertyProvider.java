@@ -1,19 +1,16 @@
 package me.glicz.airflow.api.block.state;
 
+import me.glicz.airflow.api.util.LazyReference;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ServiceLoader;
+import static me.glicz.airflow.api.util.ServiceUtils.lazyLoadService;
 
 @ApiStatus.Internal
 public abstract class BlockStatePropertyProvider {
-    private static BlockStatePropertyProvider instance = null;
+    private static final LazyReference<BlockStatePropertyProvider> INSTANCE = lazyLoadService(BlockStatePropertyProvider.class);
 
     static BlockStatePropertyProvider provider() {
-        if (instance == null) {
-            instance = ServiceLoader.load(BlockStatePropertyProvider.class).findFirst().orElseThrow();
-        }
-
-        return instance;
+        return INSTANCE.get();
     }
 
     protected abstract BlockStateProperty.Boolean getBoolean(String name);

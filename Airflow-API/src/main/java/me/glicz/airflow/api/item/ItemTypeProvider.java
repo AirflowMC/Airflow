@@ -1,20 +1,17 @@
 package me.glicz.airflow.api.item;
 
+import me.glicz.airflow.api.util.LazyReference;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ServiceLoader;
+import static me.glicz.airflow.api.util.ServiceUtils.lazyLoadService;
 
 @ApiStatus.Internal
 public abstract class ItemTypeProvider {
-    private static ItemTypeProvider instance = null;
+    private static final LazyReference<ItemTypeProvider> INSTANCE = lazyLoadService(ItemTypeProvider.class);
 
     static ItemTypeProvider provider() {
-        if (instance == null) {
-            instance = ServiceLoader.load(ItemTypeProvider.class).findFirst().orElseThrow();
-        }
-
-        return instance;
+        return INSTANCE.get();
     }
 
     protected abstract ItemType get(Key key);

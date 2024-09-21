@@ -4,6 +4,33 @@ Date: Mon, 26 Aug 2024 15:13:57 +0200
 Subject: [PATCH] Command API
 
 
+diff --git a/net/minecraft/commands/CommandResultCallback.java b/net/minecraft/commands/CommandResultCallback.java
+index 95fa22d6d1f2387cd5cbdbe9650a46433bbf660c..0b92ba758cfb76415dd420a166301f3422a81fe3 100644
+--- a/net/minecraft/commands/CommandResultCallback.java
++++ b/net/minecraft/commands/CommandResultCallback.java
+@@ -1,7 +1,7 @@
+ package net.minecraft.commands;
+ 
+ @FunctionalInterface
+-public interface CommandResultCallback {
++public interface CommandResultCallback extends me.glicz.airflow.api.command.CommandResultCallback { // Airflow - Command API
+     CommandResultCallback EMPTY = new CommandResultCallback() {
+         @Override
+         public void onResult(boolean success, int result) {
+@@ -13,6 +13,13 @@ public interface CommandResultCallback {
+         }
+     };
+ 
++    // Airflow start - Command API
++    @Override
++    default void onResult(int result) {
++        onResult(result > 0, result);
++    }
++    // Airflow end - Command API
++
+     void onResult(boolean success, int result);
+ 
+     default void onSuccess(int result) {
 diff --git a/net/minecraft/commands/CommandSource.java b/net/minecraft/commands/CommandSource.java
 index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f25322863b821ae5 100644
 --- a/net/minecraft/commands/CommandSource.java

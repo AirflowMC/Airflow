@@ -1,13 +1,12 @@
 package me.glicz.airflow.entity;
 
+import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.entity.EntityType;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.command.sender.AirCommandSender;
-import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.text.Component;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
@@ -50,28 +49,23 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
-    public CommandSourceStack createCommandSourceStack() {
-        return getHandle().createCommandSourceStack();
-    }
-
-    @Override
-    public MinecraftComponentSerializer componentSerializer() {
-        return new MinecraftComponentSerializer(() -> getHandle().registryAccess());
-    }
-
-    @Override
-    public String getName() {
+    public @NotNull String getName() {
         return getHandle().getName().getString();
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return componentSerializer().deserialize(getHandle().getDisplayName());
     }
 
     @Override
     public boolean isOperator() {
         return false;
+    }
+
+    @Override
+    public @NotNull CommandSourceStack createCommandSourceStack() {
+        return getHandle().createCommandSourceStack();
     }
 
     @Override

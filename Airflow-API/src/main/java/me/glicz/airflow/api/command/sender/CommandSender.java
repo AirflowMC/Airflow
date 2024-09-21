@@ -1,6 +1,7 @@
 package me.glicz.airflow.api.command.sender;
 
 import me.glicz.airflow.api.ServerAware;
+import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.permission.PermissionsHolder;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -9,9 +10,9 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jetbrains.annotations.NotNull;
 
 public interface CommandSender extends Audience, PermissionsHolder, ServerAware {
-    String getName();
+    @NotNull String getName();
 
-    Component getDisplayName();
+    @NotNull Component getDisplayName();
 
     boolean isOperator();
 
@@ -23,5 +24,5 @@ public interface CommandSender extends Audience, PermissionsHolder, ServerAware 
         sendMessage(Component.text(message));
     }
 
-    void dispatch(String command);
+    @NotNull CommandSourceStack createCommandSourceStack();
 }

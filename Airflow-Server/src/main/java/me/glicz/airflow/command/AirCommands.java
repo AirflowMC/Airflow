@@ -128,4 +128,9 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
     public void unregisterAll(@NotNull Plugin plugin) {
         this.pluginCommands.removeAll(plugin).forEach(this::unregister0);
     }
+
+    @Override
+    public void dispatchCommand(@NotNull CommandSourceStack stack, @NotNull String command) {
+        this.commands.performPrefixedCommand((net.minecraft.commands.CommandSourceStack) stack, command);
+    }
 }

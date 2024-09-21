@@ -14,7 +14,6 @@ import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSource;
-import net.minecraft.commands.CommandSourceStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -32,10 +31,8 @@ public abstract class AirCommandSender implements CommandSender {
         this.commandSource = commandSource;
     }
 
-    public abstract CommandSourceStack createCommandSourceStack();
-
     public MinecraftComponentSerializer componentSerializer() {
-        return MinecraftComponentSerializer.INSTANCE;
+        return new MinecraftComponentSerializer(this.server.minecraftServer::registryAccess);
     }
 
     @Override
@@ -49,21 +46,6 @@ public abstract class AirCommandSender implements CommandSender {
         if (type != MessageType.SYSTEM) return;
 
         this.commandSource.sendSystemMessage(componentSerializer().serialize(message));
-    }
-
-    @Override
-    public String getName() {
-        return createCommandSourceStack().getTextName();
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return componentSerializer().deserialize(createCommandSourceStack().getDisplayName());
-    }
-
-    @Override
-    public void dispatch(String command) {
-        this.server.minecraftServer.getCommands().performPrefixedCommand(createCommandSourceStack(), command);
     }
 
     @Override

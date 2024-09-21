@@ -1,9 +1,11 @@
 package me.glicz.airflow.command.sender;
 
 import me.glicz.airflow.AirServer;
+import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.command.sender.CommandSender;
-import net.minecraft.commands.CommandSourceStack;
+import net.kyori.adventure.text.Component;
 import net.minecraft.world.level.BaseCommandBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class AirCommandBlockSender extends AirCommandSender implements CommandSender {
     public AirCommandBlockSender(AirServer server, BaseCommandBlock commandSource) {
@@ -15,12 +17,22 @@ public class AirCommandBlockSender extends AirCommandSender implements CommandSe
     }
 
     @Override
-    public CommandSourceStack createCommandSourceStack() {
-        return getCommandBlock().createCommandSourceStack();
+    public @NotNull String getName() {
+        return getCommandBlock().getName().getString();
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return componentSerializer().deserialize(getCommandBlock().getName());
     }
 
     @Override
     public boolean isOperator() {
         return true;
+    }
+
+    @Override
+    public @NotNull CommandSourceStack createCommandSourceStack() {
+        return getCommandBlock().createCommandSourceStack();
     }
 }

@@ -33,10 +33,12 @@ public class BlockStatePropertiesGenerator extends FieldBasedGenerator {
             default -> throw new IllegalAccessException();
         };
 
+        Property<?> property = (Property<?>) field.get(null);
+
         return FieldSpec
                 .builder(entryType, field.getName())
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .addJavadoc(ENTRY_DOC, field.getName())
+                .addJavadoc(ENTRY_DOC, property.getName())
                 .initializer(initializer, field.getName())
                 .build();
     }

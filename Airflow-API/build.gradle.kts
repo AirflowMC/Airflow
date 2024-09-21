@@ -38,6 +38,8 @@ tasks.register<JavaExec>("runApiGenerator") {
     classpath(project(":api-generator").sourceSets.main.get().runtimeClasspath)
 
     doFirst {
+        workingDir(project.rootDir.resolve("run").apply { mkdirs() })
+
         val sourceFolder = project.projectDir.resolve(generatedDir).absoluteFile
         sourceFolder.deleteRecursively()
 

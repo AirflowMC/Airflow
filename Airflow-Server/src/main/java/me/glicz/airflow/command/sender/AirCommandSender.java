@@ -1,13 +1,12 @@
 package me.glicz.airflow.command.sender;
 
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import me.glicz.airflow.AirServer;
 import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.sender.CommandSender;
+import me.glicz.airflow.api.permission.AbstractPermissionsHolder;
 import me.glicz.airflow.api.permission.Permission;
-import me.glicz.airflow.api.permission.PermissionSourcePriority;
-import me.glicz.airflow.api.permission.PermissionsSource;
 import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
@@ -18,15 +17,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class AirCommandSender implements CommandSender {
+public abstract class AirCommandSender extends AbstractPermissionsHolder implements CommandSender {
     public final AirServer server;
     public final CommandSource commandSource;
-    private final Multimap<PermissionSourcePriority, PermissionsSource> permissionSourceMap = MultimapBuilder
-            .hashKeys()
-            .arrayListValues()
-            .build();
 
     public AirCommandSender(AirServer server, CommandSource commandSource) {
+        super(Multimaps.synchronizedMultimap(
+                MultimapBuilder.hashKeys().arrayListValues().build()
+        ));
         this.server = server;
         this.commandSource = commandSource;
     }
@@ -49,11 +47,6 @@ public abstract class AirCommandSender implements CommandSender {
     }
 
     @Override
-    public boolean isPermissionSet(@NotNull Key permission) {
-        return this.permissionSourceMap.values().stream().anyMatch(source -> source.isPermissionSet(permission));
-    }
-
-    @Override
     public boolean hasPermission(@NotNull Key permission) {
         Permission perm = this.server.getPermissions().getPermission(permission);
         if (perm != null) {
@@ -66,30 +59,5 @@ public abstract class AirCommandSender implements CommandSender {
     @Override
     public boolean hasPermission(@NotNull Permission permission) {
         return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(this));
-    }
-
-    private Boolean hasPermission0(Key permission) {
-        PermissionSourcePriority[] priorities = PermissionSourcePriority.values();
-        for (int i = priorities.length - 1; i >= 0; i--) {
-            PermissionSourcePriority priority = priorities[i];
-
-            for (PermissionsSource source : this.permissionSourceMap.get(priority)) {
-                if (source.isPermissionSet(permission)) {
-                    return source.hasPermission(permission);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void addPermissionsSource(@NotNull PermissionSourcePriority priority, @NotNull PermissionsSource source) {
-        this.permissionSourceMap.put(priority, source);
-    }
-
-    @Override
-    public void removePermissionsSource(@NotNull PermissionsSource source) {
-        this.permissionSourceMap.values().remove(source);
     }
 }

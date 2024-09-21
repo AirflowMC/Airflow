@@ -5,7 +5,9 @@ import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
 import me.glicz.airflow.api.event.player.PlayerQuitEvent;
+import me.glicz.airflow.api.permission.DummyPermissionsSource;
 import me.glicz.airflow.api.permission.Permission;
+import me.glicz.airflow.api.permission.PermissionSourcePriority;
 import me.glicz.airflow.api.plugin.Plugin;
 import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
@@ -117,6 +119,28 @@ public class TestPlugin extends Plugin {
         getLogger().info("Successfully enabled!");
         getLogger().warn("This is a warning!");
         getLogger().error("This is an error!");
+
+        DummyPermissionsSource permissionsSource1 = new DummyPermissionsSource(getServer().getServerCommandSender());
+        permissionsSource1.addPermission(Key.key("air", "flow"), true);
+        permissionsSource1.addPermission(Key.key("hello", "world"), false);
+
+        DummyPermissionsSource permissionsSource2 = new DummyPermissionsSource(getServer().getServerCommandSender());
+        permissionsSource2.addPermissionsSource(PermissionSourcePriority.NORMAL, permissionsSource1);
+        permissionsSource2.addPermission(Key.key("permission", "test"), true);
+        getServer().getServerCommandSender().addPermissionsSource(
+                PermissionSourcePriority.NORMAL,
+                permissionsSource2
+        );
+
+        DummyPermissionsSource permissionsSource3 = new DummyPermissionsSource(getServer().getServerCommandSender());
+        permissionsSource3.addPermission(Key.key("hello", "world"), true);
+        permissionsSource3.addPermission(Key.key("permission", "test"), false);
+        getServer().getServerCommandSender().addPermissionsSource(
+                PermissionSourcePriority.HIGH,
+                permissionsSource3
+        );
+
+        getLogger().info(getServer().getServerCommandSender().getPermissions().toString());
     }
 
     @Override

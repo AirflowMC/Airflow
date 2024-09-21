@@ -4,6 +4,8 @@ import net.kyori.adventure.key.InvalidKeyException;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 /**
  * Represents permissions holder.
  * <p>
@@ -13,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
  * @see PermissionsSource
  */
 public interface PermissionsHolder {
+    @NotNull Collection<PermissionInfo> getPermissions();
+
     default boolean isPermissionSet(@NotNull String permission) {
         try {
             //noinspection PatternValidation

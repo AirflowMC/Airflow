@@ -1,7 +1,7 @@
 package me.glicz.airflow.api.permission;
 
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import me.glicz.airflow.api.command.sender.CommandSender;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Dummy {@link PermissionsSource} implementation.
@@ -16,15 +17,14 @@ import java.util.Objects;
  * @see Permission
  * @see PermissionsSource
  */
-public class DummyPermissionsSource implements PermissionsSource {
+public class DummyPermissionsSource extends AbstractPermissionsHolder implements PermissionsSource {
     private final Map<Key, Boolean> permissionMap = new HashMap<>();
-    private final Multimap<PermissionSourcePriority, PermissionsSource> permissionSourceMap = MultimapBuilder
-            .hashKeys()
-            .arrayListValues()
-            .build();
     private final CommandSender holder;
 
     public DummyPermissionsSource(CommandSender holder) {
+        super(Multimaps.synchronizedMultimap(
+                MultimapBuilder.hashKeys().arrayListValues().build()
+        ));
         this.holder = holder;
     }
 
@@ -37,8 +37,26 @@ public class DummyPermissionsSource implements PermissionsSource {
     }
 
     @Override
+    protected Stream<PermissionInfo> permissionInfoStream() {
+        return Stream.concat(
+                permissionMap.entrySet().stream()
+                        .map(entry -> {
+                            Permission permission = holder.getServer().getPermissions().getPermission(entry.getKey());
+                            return new PermissionInfo(
+                                    entry.getKey(),
+                                    entry.getValue(),
+                                    permission != null ? permission.getDefaultValue() : Permission.DefaultValue.FALSE,
+                                    holder,
+                                    this
+                            );
+                        }),
+                super.permissionInfoStream()
+        );
+    }
+
+    @Override
     public boolean isPermissionSet(@NotNull Key permission) {
-        return permissionMap.containsKey(permission);
+        return permissionMap.containsKey(permission) || super.isPermissionSet(permission);
     }
 
     @Override
@@ -56,32 +74,12 @@ public class DummyPermissionsSource implements PermissionsSource {
         return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(holder));
     }
 
+    @Override
     protected Boolean hasPermission0(Key permission) {
-        if (isPermissionSet(permission)) {
-            return permissionMap.get(permission.key());
+        if (permissionMap.containsKey(permission)) {
+            return permissionMap.get(permission);
         }
 
-        PermissionSourcePriority[] priorities = PermissionSourcePriority.values();
-        for (int i = priorities.length - 1; i >= 0; i--) {
-            PermissionSourcePriority priority = priorities[i];
-
-            for (PermissionsSource source : permissionSourceMap.get(priority)) {
-                if (source.isPermissionSet(permission)) {
-                    return source.hasPermission(permission);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void addPermissionsSource(@NotNull PermissionSourcePriority priority, @NotNull PermissionsSource source) {
-        permissionSourceMap.put(priority, source);
-    }
-
-    @Override
-    public void removePermissionsSource(@NotNull PermissionsSource source) {
-        permissionSourceMap.values().remove(source);
+        return super.hasPermission0(permission);
     }
 }

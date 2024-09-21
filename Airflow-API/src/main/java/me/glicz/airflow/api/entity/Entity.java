@@ -6,7 +6,9 @@ import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.Location;
 import me.glicz.airflow.api.world.World;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -22,6 +24,14 @@ public interface Entity extends CommandSender, Typed<EntityType<?>> {
     default @NotNull Location getLocation() {
         return new Location(getWorld(), getPosition(), getRotation());
     }
+
+    @Nullable Component getCustomName();
+
+    void setCustomName(@Nullable Component name);
+
+    boolean isCustomNameVisible();
+
+    void setCustomNameVisible(boolean visible);
 
     boolean isAlive();
 }

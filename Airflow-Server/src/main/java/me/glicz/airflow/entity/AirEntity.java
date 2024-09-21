@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -41,6 +42,26 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     @Override
     public @NotNull Vector2f getRotation() {
         return new Vector2f(getHandle().getXRot(), getHandle().getYRot());
+    }
+
+    @Override
+    public @Nullable Component getCustomName() {
+        return componentSerializer().deserializeOrNull(getHandle().getCustomName());
+    }
+
+    @Override
+    public void setCustomName(@Nullable Component name) {
+        getHandle().setCustomName(componentSerializer().serializeOrNull(name));
+    }
+
+    @Override
+    public boolean isCustomNameVisible() {
+        return getHandle().isCustomNameVisible();
+    }
+
+    @Override
+    public void setCustomNameVisible(boolean visible) {
+        getHandle().setCustomNameVisible(visible);
     }
 
     @Override

@@ -8,6 +8,8 @@ import me.glicz.airflow.api.world.Location;
 import me.glicz.airflow.api.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.UnaryOperator;
+
 public interface Block extends Typed<BlockType> {
     @NotNull World getWorld();
 
@@ -24,4 +26,8 @@ public interface Block extends Typed<BlockType> {
     @NotNull BlockState getState();
 
     void setState(@NotNull BlockState state);
+
+    default void mapState(@NotNull UnaryOperator<BlockState> mapper) {
+        setState(mapper.apply(getState()));
+    }
 }

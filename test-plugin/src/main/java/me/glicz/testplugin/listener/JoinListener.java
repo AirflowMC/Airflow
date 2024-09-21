@@ -1,5 +1,8 @@
 package me.glicz.testplugin.listener;
 
+import me.glicz.airflow.api.block.Block;
+import me.glicz.airflow.api.block.BlockTypes;
+import me.glicz.airflow.api.block.state.BlockStateProperties;
 import me.glicz.airflow.api.event.bus.EventHandler;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
 import me.glicz.airflow.api.inventory.entity.EquipmentSlot;
@@ -9,6 +12,7 @@ import me.glicz.airflow.api.item.component.ItemComponentTypes;
 import me.glicz.airflow.api.item.lore.ItemLore;
 import me.glicz.airflow.api.permission.DummyPermissionsSource;
 import me.glicz.airflow.api.permission.PermissionSourcePriority;
+import me.glicz.airflow.api.util.math.Vector3i;
 import me.glicz.testplugin.TestPlugin;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -52,5 +56,10 @@ public class JoinListener implements EventHandler<PlayerJoinEvent> {
                 })
                 .delay(5 * 20)
                 .schedule();
+
+        Block block = e.getPlayer().getWorld()
+                .getBlockAt(new Vector3i(e.getPlayer().getPosition()).subtract(0, 1, 0));
+        block.setType(BlockTypes.REDSTONE_LAMP);
+        block.mapState(state -> state.withProperty(BlockStateProperties.LIT, true));
     }
 }

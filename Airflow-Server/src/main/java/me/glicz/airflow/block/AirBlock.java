@@ -35,7 +35,7 @@ public class AirBlock implements Block {
 
     @Override
     public @NotNull BlockState getState() {
-        return this.level.getBlockState(getBlockPos()).getAirBlockState();
+        return this.level.getBlockState(getBlockPos()).airBlockState;
     }
 
     @Override

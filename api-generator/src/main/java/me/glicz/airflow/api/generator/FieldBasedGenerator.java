@@ -27,14 +27,14 @@ public abstract class FieldBasedGenerator extends Generator {
     @Override
     protected void generateFields(TypeSpec.Builder builder) {
         Arrays.stream(this.source.getDeclaredFields())
-                .filter(field -> field.getType() == type)
+                .filter(field -> type.isAssignableFrom(field.getType()))
                 .sorted(Comparator.comparing(Field::getName))
                 .forEach(field -> {
                     try {
                         builder.addField(createField(field));
                     } catch (Exception e) {
                         //noinspection RedundantCast
-                        logger.error("Failed to generate field {}", field.getName(), (Throwable) (Main.DEBUG ? e : null));
+                        logger.error("Failed to generate field {}.{}", source.getName(), field.getName(), (Throwable) (Main.DEBUG ? e : null));
                     }
                 });
     }

@@ -4,6 +4,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import me.glicz.airflow.api.generator.block.BlockTypesGenerator;
+import me.glicz.airflow.api.generator.block.state.BlockStatePropertiesGenerator;
 import me.glicz.airflow.api.generator.entity.EntityTypesGenerator;
 import me.glicz.airflow.api.generator.item.ItemTypesGenerator;
 import me.glicz.airflow.api.generator.item.component.ItemComponentTypesGenerator;
@@ -31,6 +32,7 @@ public class Main {
         Bootstrap.bootStrap();
         Bootstrap.validate();
 
+        new BlockStatePropertiesGenerator().run(version, sourceFolder);
         new BlockTypesGenerator().run(version, sourceFolder);
         new EntityTypesGenerator().run(version, sourceFolder);
         new ItemComponentTypesGenerator().run(version, sourceFolder);

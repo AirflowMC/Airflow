@@ -1,6 +1,8 @@
 package me.glicz.testplugin;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import me.glicz.airflow.api.block.BlockTypes;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
@@ -141,6 +143,12 @@ public class TestPlugin extends Plugin {
         );
 
         getLogger().info(getServer().getServerCommandSender().getPermissions().toString());
+
+        try {
+            getLogger().info(BlockTypes.CHEST.createBlockState("[waterlogged=true]").toString());
+        } catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

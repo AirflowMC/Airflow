@@ -29,7 +29,7 @@ public class AirBlockType implements BlockType {
 
     @Override
     public @NotNull BlockState createBlockState(String state) throws CommandSyntaxException {
-        return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), key() + state, false).blockState().airBlockState;
+        return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK, key() + state, false).blockState().airBlockState;
     }
 
     @Override

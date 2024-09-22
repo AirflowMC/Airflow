@@ -11,6 +11,6 @@ public class AirEntityTypeProvider extends EntityTypeProvider {
     @Override
     protected <T extends Entity> EntityType<T> get(Key key) {
         //noinspection unchecked
-        return (EntityType<T>) BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(key.asString())).airEntityType;
+        return (EntityType<T>) BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(key.asString())).airEntityType;
     }
 }

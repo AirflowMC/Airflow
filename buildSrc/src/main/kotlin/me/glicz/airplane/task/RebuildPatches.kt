@@ -6,9 +6,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.absolutePathString
-import kotlin.io.path.deleteRecursively
+import kotlin.io.path.*
 
 
 abstract class RebuildPatches : DefaultTask() {
@@ -21,7 +19,35 @@ abstract class RebuildPatches : DefaultTask() {
     @OptIn(ExperimentalPathApi::class)
     @TaskAction
     fun run() {
-        val patches = patchesDir.asPath.apply { deleteRecursively() }
+        val patches = patchesDir.asPath
+
+        sources.asPath.resolve(".git/rebase-apply").apply {
+            if (!exists()) {
+                patches.deleteRecursively()
+                return@apply
+            }
+
+            val last = resolve("last").readText().trim().toInt()
+            val next = resolve("next").run {
+                if (exists()) readText().trim().toInt() else null
+            }
+
+            git {
+                args("am", "--continue")
+
+                workingDir(sources)
+                silent(true)
+            }
+
+            if (next == null) return@apply
+
+            val orderedFiles = patches.useDirectoryEntries("*.patch") { it.toMutableList() }.apply { sort() }
+            for (i in 1..last) {
+                if (i < next) {
+                    orderedFiles[i].deleteIfExists()
+                }
+            }
+        }
 
         git {
             args(

@@ -5,10 +5,10 @@ Subject: [PATCH] Player events
 
 
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 469c0e5fc64b25cef32322d947a38e76d53b9f67..ec87f24b3d4e3715c0e6edd4d4781a6f5c5b807b 100644
+index 29a4ee25c8a3952e9d4c647114636f05a24c16cb..524f7f0152c27ec450ebe2c3ea1cbef23977cad1 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1178,11 +1178,22 @@ public class ServerGamePacketListenerImpl
+@@ -1184,11 +1184,22 @@ public class ServerGamePacketListenerImpl
      private void removePlayerFromWorld() {
          this.chatMessageChain.close();
          this.server.invalidateStatus();
@@ -33,7 +33,7 @@ index 469c0e5fc64b25cef32322d947a38e76d53b9f67..ec87f24b3d4e3715c0e6edd4d4781a6f
      }
  
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08b73fbf8c 100644
+index 53d6d038c7f9a70a584b5dc4709fa02707ef7041..6a45b47f71e7476b5c19492fb3e4195278b0e41e 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
 @@ -213,8 +213,8 @@ public abstract class PlayerList {
@@ -61,7 +61,7 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08
          this.sendLevelInfo(player, serverLevel);
          serverLevel.addNewPlayer(player);
          this.server.getCustomBossEvents().onPlayerConnect(player);
-@@ -350,9 +358,22 @@ public abstract class PlayerList {
+@@ -317,9 +325,22 @@ public abstract class PlayerList {
          }
      }
  
@@ -85,7 +85,7 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08
          this.save(player);
          if (player.isPassenger()) {
              Entity rootVehicle = player.getRootVehicle();
-@@ -377,6 +398,7 @@ public abstract class PlayerList {
+@@ -349,6 +370,7 @@ public abstract class PlayerList {
          }
  
          this.broadcastAll(new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())));

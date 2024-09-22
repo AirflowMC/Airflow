@@ -44,22 +44,22 @@ index bf9fee15a67a17ab841f2b0ffeee619b98914f8d..fc37532d50e8a071fcfbd819c347f35b
              public String toString() {
                  return Util.getRegisteredName(BuiltInRegistries.DATA_COMPONENT_TYPE, this);
 diff --git a/net/minecraft/world/item/Item.java b/net/minecraft/world/item/Item.java
-index ed7d2e578643f422f11d5354c8be4e2374686480..deb369552452a19d372d30134ee189153ba119ea 100644
+index 2660e85b3c65f92935fa15351f7f8b910ad5de7d..0626dde1a6c9cb6b237580c62f34a199c1f54437 100644
 --- a/net/minecraft/world/item/Item.java
 +++ b/net/minecraft/world/item/Item.java
-@@ -71,6 +71,7 @@ public class Item implements FeatureElement, ItemLike {
-     @Nullable
-     private String descriptionId;
+@@ -81,6 +81,7 @@ public class Item implements FeatureElement, ItemLike {
+     private final Item craftingRemainingItem;
+     protected final String descriptionId;
      private final FeatureFlagSet requiredFeatures;
 +    public final me.glicz.airflow.item.AirItemType airItemType = new me.glicz.airflow.item.AirItemType(this); // Airflow - Item API
  
      public static int getId(Item item) {
          return item == null ? 0 : BuiltInRegistries.ITEM.getId(item);
 diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
-index 8224c249c52cdba264acdd85cd07e3163140f4fd..014099568e69e8af1466645ac0fedd74de9778c9 100644
+index 43a21bca3ceefca2046d4fb7b470860d7733c118..1f615823546832a128e43c9da761fcabfe04e41c 100644
 --- a/net/minecraft/world/item/ItemStack.java
 +++ b/net/minecraft/world/item/ItemStack.java
-@@ -181,6 +181,7 @@ public final class ItemStack implements DataComponentHolder {
+@@ -183,6 +183,7 @@ public final class ItemStack implements DataComponentHolder {
      final PatchedDataComponentMap components;
      @Nullable
      private Entity entityRepresentation;

@@ -5,7 +5,7 @@ Subject: [PATCH] Human Entity
 
 
 diff --git a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
-index bb86f6de77053e57219760297e1c018f3f02f256..bf2724d737e219362a3fa9015ca33c108533726e 100644
+index 8f2536a2fc4a493fdcd18ea5b37f40e927457385..1c69baffc25d025505f02fe0b1f645a0c9f58de2 100644
 --- a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
 @@ -28,6 +28,17 @@ public class ClientboundPlayerInfoUpdatePacket implements Packet<ClientGamePacke
@@ -27,10 +27,10 @@ index bb86f6de77053e57219760297e1c018f3f02f256..bf2724d737e219362a3fa9015ca33c10
          this.actions = actions;
          this.entries = players.stream().map(ClientboundPlayerInfoUpdatePacket.Entry::new).toList();
 diff --git a/net/minecraft/server/level/ServerEntity.java b/net/minecraft/server/level/ServerEntity.java
-index 26d9a0378d948011324a5167b934f5c71cf10f9a..94ebe6de554710bbc9b0da435c829da04cd9ff73 100644
+index 7efd7e7b82d1517663bd88e0d98769d9873620f3..5003c1580dda7fe7f10c4a54a97e2b1c06912789 100644
 --- a/net/minecraft/server/level/ServerEntity.java
 +++ b/net/minecraft/server/level/ServerEntity.java
-@@ -231,6 +231,11 @@ public class ServerEntity {
+@@ -263,6 +263,11 @@ public class ServerEntity {
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(this.entity.getId()));
@@ -42,7 +42,7 @@ index 26d9a0378d948011324a5167b934f5c71cf10f9a..94ebe6de554710bbc9b0da435c829da0
      }
  
      public void addPairing(ServerPlayer player) {
-@@ -245,6 +250,12 @@ public class ServerEntity {
+@@ -277,6 +282,12 @@ public class ServerEntity {
              LOGGER.warn("Fetching packet for removed entity {}", this.entity);
          }
  
@@ -85,16 +85,16 @@ index 3e2ae10bdbf485be01369ded12c6b4ee276d3df3..606a9b5f0f2f629a2cf7a4a0dc538372
              return this.attach(attachment, new Vec3(x, y, z));
          }
 diff --git a/net/minecraft/world/entity/EntityType.java b/net/minecraft/world/entity/EntityType.java
-index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8ea04bc361 100644
+index 9e520bc21807669188b5c6b55ba211283d2cd970..211788203e6129f3cce285edcee41bbc37d5d646 100644
 --- a/net/minecraft/world/entity/EntityType.java
 +++ b/net/minecraft/world/entity/EntityType.java
-@@ -815,6 +815,19 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
-         "fishing_bobber",
-         EntityType.Builder.<FishingHook>of(FishingHook::new, MobCategory.MISC).noSave().noSummon().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(5)
+@@ -889,6 +889,19 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+             .clientTrackingRange(4)
+             .updateInterval(5)
      );
 +    // Airflow start - Human Entity
 +    public static final EntityType<me.glicz.airflow.entity.living.Human> HUMAN = register(
-+            "airflow:human",
++            ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("airflow", "human")),
 +            EntityType.Builder.<me.glicz.airflow.entity.living.Human>createNothing(PLAYER.getCategory())
 +                    .noSave()
 +                    .noSummon()
@@ -108,7 +108,7 @@ index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8e
      private final EntityType.EntityFactory<T> factory;
      private final MobCategory category;
      private final ImmutableSet<Block> immuneTo;
-@@ -1269,6 +1282,13 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+@@ -1348,6 +1361,13 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
              return this;
          }
  
@@ -135,10 +135,10 @@ index 884ade4aeec2d79377a3ac228173c41d6b6419f2..8f0259c378d11f4a9fd2e7c7d0834242
  
      public static AttributeSupplier getSupplier(EntityType<? extends LivingEntity> livingEntity) {
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 46499a3204c287ee9a31e280a4344073a0a6d173..1532469ce2e28c72722a9f29e9dabc7d60bf3c92 100644
+index 56522aa42fd777165b5d852496085c98e135b069..8973f77a761f8f96b767a27cf14fce9444d6ec36 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -193,7 +193,13 @@ public abstract class Player extends LivingEntity {
+@@ -195,7 +195,13 @@ public abstract class Player extends LivingEntity {
      private int currentImpulseContextResetGraceTime;
  
      public Player(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {

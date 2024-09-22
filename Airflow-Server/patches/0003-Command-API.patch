@@ -57,7 +57,7 @@ index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f2532286
 +    me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender(); // Airflow - Command API
  }
 diff --git a/net/minecraft/commands/CommandSourceStack.java b/net/minecraft/commands/CommandSourceStack.java
-index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28ebca1e1284 100644
+index 0f815e16323792193188be96bb08aa1c0033aa06..3d18351d8b8348bf81b12349f331046c2c3eb545 100644
 --- a/net/minecraft/commands/CommandSourceStack.java
 +++ b/net/minecraft/commands/CommandSourceStack.java
 @@ -43,10 +43,10 @@ import net.minecraft.world.level.dimension.DimensionType;
@@ -86,10 +86,10 @@ index 14932122333d1ab9a91ae76764acea5874f2f121..d00d0c7830d4d89b5303a0b2e3aa28eb
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/commands/Commands.java b/net/minecraft/commands/Commands.java
-index 587b873dbd92424b0580f1faa26f741f6be945ab..3ac3ec8dc73e031c31dfe601852148e0036de796 100644
+index 1583e1f2d8b2ed634329d2f708ececa42fb2c558..80625532e6f29463e882b449f9c9f63989cea20f 100644
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
-@@ -136,6 +136,7 @@ import net.minecraft.world.level.GameRules;
+@@ -139,6 +139,7 @@ import net.minecraft.world.level.GameRules;
  import org.slf4j.Logger;
  
  public class Commands {
@@ -97,7 +97,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..3ac3ec8dc73e031c31dfe601852148e0
      private static final ThreadLocal<ExecutionContext<CommandSourceStack>> CURRENT_EXECUTION_CONTEXT = new ThreadLocal<>();
      private static final Logger LOGGER = LogUtils.getLogger();
      public static final int LEVEL_ALL = 0;
-@@ -144,8 +145,15 @@ public class Commands {
+@@ -147,8 +148,15 @@ public class Commands {
      public static final int LEVEL_ADMINS = 3;
      public static final int LEVEL_OWNERS = 4;
      private final CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
@@ -113,7 +113,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..3ac3ec8dc73e031c31dfe601852148e0
          AdvancementCommands.register(this.dispatcher);
          AttributeCommand.register(this.dispatcher, context);
          ExecuteCommand.register(this.dispatcher, context);
-@@ -246,9 +254,67 @@ public class Commands {
+@@ -249,9 +257,67 @@ public class Commands {
              PublishCommand.register(this.dispatcher);
          }
  
@@ -181,7 +181,7 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..3ac3ec8dc73e031c31dfe601852148e0
      public static <S> ParseResults<S> mapSource(ParseResults<S> parseResults, UnaryOperator<S> mapper) {
          CommandContextBuilder<S> context = parseResults.getContext();
          CommandContextBuilder<S> commandContextBuilder = context.withSource(mapper.apply(context.getSource()));
-@@ -276,8 +342,10 @@ public class Commands {
+@@ -279,8 +345,10 @@ public class Commands {
              }
          } catch (Exception var12) {
              MutableComponent mutableComponent = Component.literal(var12.getMessage() == null ? var12.getClass().getName() : var12.getMessage());
@@ -194,10 +194,10 @@ index 587b873dbd92424b0580f1faa26f741f6be945ab..3ac3ec8dc73e031c31dfe601852148e0
  
                  for (int i = 0; i < Math.min(stackTrace.length, 3); i++) {
 diff --git a/net/minecraft/gametest/framework/GameTestServer.java b/net/minecraft/gametest/framework/GameTestServer.java
-index 2776888c2e088aa4615100afc6ba5c404ffc217c..4a41b7ce03f1ca51eb43bc614d945703802d5c69 100644
+index 33905d1858de869f8cd01696fe16fd0282633830..6f15351ec86105c8c88e1aed67e996327540f21b 100644
 --- a/net/minecraft/gametest/framework/GameTestServer.java
 +++ b/net/minecraft/gametest/framework/GameTestServer.java
-@@ -111,7 +111,7 @@ public class GameTestServer extends MinecraftServer {
+@@ -115,7 +115,7 @@ public class GameTestServer extends MinecraftServer {
                              },
                              WorldStem::new,
                              Util.backgroundExecutor(),
@@ -207,7 +207,7 @@ index 2776888c2e088aa4615100afc6ba5c404ffc217c..4a41b7ce03f1ca51eb43bc614d945703
                      )
                      .get();
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index af4ce09ebe936428aa3a4f007612cb0b7b8fc5c7..b3ec258f14a2310184540317f6d55ec2b887d130 100644
+index 13158e9c56cb615897332e7857952a3eed5bcf7e..0bd162c8af8a340627f0f99562df7abd138581d2 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
 @@ -230,7 +230,7 @@ public class Main {
@@ -220,10 +220,10 @@ index af4ce09ebe936428aa3a4f007612cb0b7b8fc5c7..b3ec258f14a2310184540317f6d55ec2
                      )
                      .get();
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 9e7502f04edc25977b90662718617cb448f305a4..f7b89ad1246a1cac9d48dcf60697dbed0a6c4cb2 100644
+index 4f691e70cfa9f0830d3ce321a44f1cdd4d785015..8361adaf8111429f413c601d9bdbabefe774cc04 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1455,7 +1455,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1508,7 +1508,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                              this.isDedicatedServer() ? Commands.CommandSelection.DEDICATED : Commands.CommandSelection.INTEGRATED,
                              this.getFunctionCompilationLevel(),
                              this.executor,
@@ -232,7 +232,7 @@ index 9e7502f04edc25977b90662718617cb448f305a4..f7b89ad1246a1cac9d48dcf60697dbed
                          )
                          .whenComplete((reloadableServerResources, throwable) -> {
                              if (throwable != null) {
-@@ -1642,6 +1642,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1697,6 +1697,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      @Override
      public abstract boolean shouldInformAdmins();
  
@@ -247,47 +247,45 @@ index 9e7502f04edc25977b90662718617cb448f305a4..f7b89ad1246a1cac9d48dcf60697dbed
          return this.resources.managers.getRecipeManager();
      }
 diff --git a/net/minecraft/server/ReloadableServerResources.java b/net/minecraft/server/ReloadableServerResources.java
-index 788f7ffeae5349a6fe6564bb523218d45af93afc..bf2ff6f449e8ebf2ef1f24a6038c2f61ec292a7a 100644
+index e1855f6298145fa58a373032caee15fa4a90fc7c..76fd9e9d0ec1ebec1c1cc572bc150ba5998fa290 100644
 --- a/net/minecraft/server/ReloadableServerResources.java
 +++ b/net/minecraft/server/ReloadableServerResources.java
-@@ -40,14 +40,14 @@ public class ReloadableServerResources {
-     private final ServerFunctionLibrary functionLibrary;
- 
-     private ReloadableServerResources(
--        RegistryAccess.Frozen registryAccess, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, int functionCompilationLevel
-+        RegistryAccess.Frozen registryAccess, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, int functionCompilationLevel, me.glicz.airflow.Airflow airflow // Airflow - Command API
-     ) {
-         this.fullRegistryHolder = new ReloadableServerRegistries.Holder(registryAccess);
-         this.registryLookup = new ReloadableServerResources.ConfigurableRegistryLookup(registryAccess);
-         this.registryLookup.missingTagAccessPolicy(ReloadableServerResources.MissingTagAccessPolicy.CREATE_NEW);
-         this.recipes = new RecipeManager(this.registryLookup);
-         this.tagManager = new TagManager(registryAccess);
--        this.commands = new Commands(commandSelection, CommandBuildContext.simple(this.registryLookup, enabledFeatures));
-+        this.commands = new Commands(commandSelection, CommandBuildContext.simple(this.registryLookup, enabledFeatures), airflow); // Airflow - Command API
-         this.advancements = new ServerAdvancementManager(this.registryLookup);
-         this.functionLibrary = new ServerFunctionLibrary(functionCompilationLevel, this.commands.getDispatcher());
-     }
-@@ -83,13 +83,13 @@ public class ReloadableServerResources {
+@@ -33,12 +33,12 @@ public class ReloadableServerResources {
+         FeatureFlagSet featureFlagSet,
          Commands.CommandSelection commandSelection,
-         int functionCompilationLevel,
-         Executor backgroundExecutor,
--        Executor gameExecutor
-+        Executor gameExecutor, me.glicz.airflow.Airflow airflow // Airflow - Command API
+         List<Registry.PendingTags<?>> list,
+-        int i
++        int i, me.glicz.airflow.Airflow airflow // Airflow - Command API
      ) {
-         return ReloadableServerRegistries.reload(registries, resourceManager, backgroundExecutor)
+         this.fullRegistryHolder = new ReloadableServerRegistries.Holder(layeredRegistryAccess.compositeAccess());
+         this.postponedTags = list;
+         this.recipes = new RecipeManager(provider);
+-        this.commands = new Commands(commandSelection, CommandBuildContext.simple(provider, featureFlagSet));
++        this.commands = new Commands(commandSelection, CommandBuildContext.simple(provider, featureFlagSet), airflow); // Airflow - Command API
+         this.advancements = new ServerAdvancementManager(provider);
+         this.functionLibrary = new ServerFunctionLibrary(i, this.commands.getDispatcher());
+     }
+@@ -75,13 +75,13 @@ public class ReloadableServerResources {
+         Commands.CommandSelection commandSelection,
+         int i,
+         Executor executor,
+-        Executor executor1
++        Executor executor1, me.glicz.airflow.Airflow airflow // Airflow - Command API
+     ) {
+         return ReloadableServerRegistries.reload(layeredRegistryAccess, list, resourceManager, executor)
              .thenCompose(
-                 layeredRegistryAccess -> {
+                 loadResult -> {
                      ReloadableServerResources reloadableServerResources = new ReloadableServerResources(
--                        layeredRegistryAccess.compositeAccess(), enabledFeatures, commandSelection, functionCompilationLevel
-+                        layeredRegistryAccess.compositeAccess(), enabledFeatures, commandSelection, functionCompilationLevel, airflow // Airflow - Command API
+-                        loadResult.layers(), loadResult.lookupWithUpdatedTags(), featureFlagSet, commandSelection, list, i
++                        loadResult.layers(), loadResult.lookupWithUpdatedTags(), featureFlagSet, commandSelection, list, i, airflow // Airflow - Command API
                      );
                      return SimpleReloadInstance.create(
-                             resourceManager,
+                             resourceManager, reloadableServerResources.listeners(), executor, executor1, DATA_RELOAD_INITIAL_TASK, LOGGER.isDebugEnabled()
 diff --git a/net/minecraft/server/WorldLoader.java b/net/minecraft/server/WorldLoader.java
-index 99820d0d3ba5326f84decbbc658d87592a042501..318eaa929ea6c29d4ea811a92cf3e27ce21d4b0c 100644
+index bd25223c38209498325004d6c8e24b02a7699fa8..8fb150b4b6d9af99bbe5e40a54776a6ade8f6998 100644
 --- a/net/minecraft/server/WorldLoader.java
 +++ b/net/minecraft/server/WorldLoader.java
-@@ -26,7 +26,7 @@ public class WorldLoader {
+@@ -30,7 +30,7 @@ public class WorldLoader {
          WorldLoader.WorldDataSupplier<D> worldDataSupplier,
          WorldLoader.ResultFactory<D, R> resultFactory,
          Executor backgroundExecutor,
@@ -296,7 +294,7 @@ index 99820d0d3ba5326f84decbbc658d87592a042501..318eaa929ea6c29d4ea811a92cf3e27c
      ) {
          try {
              Pair<WorldDataConfiguration, CloseableResourceManager> pair = initConfig.packConfig.createResourceManager();
-@@ -51,7 +51,7 @@ public class WorldLoader {
+@@ -60,7 +60,7 @@ public class WorldLoader {
                      initConfig.commandSelection(),
                      initConfig.functionCompilationLevel(),
                      backgroundExecutor,
@@ -324,10 +322,10 @@ index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e439191
          public void close() {
              IOUtils.closeQuietly((Writer)this.output);
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index ca468cf3a3835b6db81bd0918645ea643d1df56f..427928e13bb6004a6761e85180fd6f720e95e5fd 100644
+index 28807e0edfbb8d79087b45a97430b432fb5f424c..77dfb2c9692b618b415cf923c46f668f46aee571 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -67,7 +67,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -66,7 +66,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      private final List<ConsoleInput> consoleInput = Collections.synchronizedList(Lists.newArrayList());
      @Nullable
      private QueryThreadGs4 queryThreadGs4;
@@ -353,10 +351,10 @@ index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e6
 +    // Airflow end - Command API
  }
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 1b32d5352e7b47f71580e7d998c43131e905f988..eadc47e3146b0e4f11b88efcdae548d4c86dfd0c 100644
+index ba4e48540f7d16517d7de74909743684c62b82fc..ac47d323f3d84d10149d1cda201684d31135dcdd 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -3113,6 +3113,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -3192,6 +3192,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          return true;
      }
  
@@ -371,7 +369,7 @@ index 1b32d5352e7b47f71580e7d998c43131e905f988..eadc47e3146b0e4f11b88efcdae548d4
          Vec3 vec3 = anchor.apply(this);
          double d = target.x - vec3.x;
 diff --git a/net/minecraft/world/level/BaseCommandBlock.java b/net/minecraft/world/level/BaseCommandBlock.java
-index ff3ba6c76cd2de1b67b9561d4eeb5498061bee2c..a9f64886808ab6db295143582773a9c66bb231a5 100644
+index 1176f6eb91dd70dfe2659d1f081b6bf67c7ee139..03ae3c6afaf55bce0e486ca790e4ca020e8156e0 100644
 --- a/net/minecraft/world/level/BaseCommandBlock.java
 +++ b/net/minecraft/world/level/BaseCommandBlock.java
 @@ -32,6 +32,11 @@ public abstract class BaseCommandBlock implements CommandSource {

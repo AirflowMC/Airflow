@@ -5,10 +5,10 @@ Subject: [PATCH] Entity API
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..9052a3899aedddb7265b8cef7c80e3addd79d3ab 100644
+index acf97ca628577ce260a369179fb04b6c38955df0..0264a23c0d6b6bc4443e1312d55c4dfb77ffb018 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -288,6 +288,18 @@ public class ServerPlayer extends Player {
+@@ -308,6 +308,18 @@ public class ServerPlayer extends Player {
          this.object = null;
      }
  
@@ -27,7 +27,7 @@ index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..9052a3899aedddb7265b8cef7c80e3ad
      @Override
      public BlockPos adjustSpawnLocation(ServerLevel level, BlockPos pos) {
          AABB aabb = this.getDimensions(Pose.STANDING).makeBoundingBox(Vec3.ZERO);
-@@ -1629,7 +1641,7 @@ public class ServerPlayer extends Player {
+@@ -1781,7 +1793,7 @@ public class ServerPlayer extends Player {
  
      @Nullable
      public Component getTabListDisplayName() {
@@ -35,20 +35,20 @@ index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..9052a3899aedddb7265b8cef7c80e3ad
 +        return super.getTabListDisplayName(); // Airflow - Entity API
      }
  
-     @Override
+     public int getTabListOrder() {
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index fdef434e0553c24ba0a25179896028e892d6b3ba..1b32d5352e7b47f71580e7d998c43131e905f988 100644
+index c3b90e54978ed144829b135ae639d27a639aa586..ba4e48540f7d16517d7de74909743684c62b82fc 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -242,6 +242,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
-     private boolean hasVisualFire;
+@@ -246,6 +246,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      @Nullable
      private BlockState inBlockState = null;
+     private final Map<BlockPos, BlockState> blocksInside = new HashMap<>();
 +    private final me.glicz.airflow.entity.AirEntity airEntity; // Airflow - Entity API
  
      public Entity(EntityType<?> entityType, Level level) {
          this.type = entityType;
-@@ -263,8 +264,19 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -267,8 +268,19 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          this.entityData = builder.build();
          this.setPos(0.0, 0.0, 0.0);
          this.eyeHeight = this.dimensions.eyeHeight();
@@ -69,22 +69,22 @@ index fdef434e0553c24ba0a25179896028e892d6b3ba..1b32d5352e7b47f71580e7d998c43131
          VoxelShape collisionShape = state.getCollisionShape(this.level(), pos, CollisionContext.of(this));
          VoxelShape voxelShape = collisionShape.move(pos.getX(), pos.getY(), pos.getZ());
 diff --git a/net/minecraft/world/entity/EntityType.java b/net/minecraft/world/entity/EntityType.java
-index 7c1ee0965de421a195fba2f2bba953dc695f94ee..046cb8b6b1e1718213fed104a631facf667d0299 100644
+index 418ce2cd8e86f5b24f6fcc32a21d1d7ba48153ac..9e520bc21807669188b5c6b55ba211283d2cd970 100644
 --- a/net/minecraft/world/entity/EntityType.java
 +++ b/net/minecraft/world/entity/EntityType.java
-@@ -833,6 +833,7 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+@@ -905,6 +905,7 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
      private final EntityDimensions dimensions;
      private final float spawnDimensionsScale;
      private final FeatureFlagSet requiredFeatures;
 +    public final me.glicz.airflow.entity.AirEntityType<?> airEntityType = new me.glicz.airflow.entity.AirEntityType<>(this); // Airflow - Entity API
  
-     private static <T extends Entity> EntityType<T> register(String key, EntityType.Builder<T> builder) {
-         return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
+     private static <T extends Entity> EntityType<T> register(ResourceKey<EntityType<?>> resourceKey, EntityType.Builder<T> builder) {
+         return Registry.register(BuiltInRegistries.ENTITY_TYPE, resourceKey, builder.build(resourceKey));
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index f86edec07abf454ef7b58575482910e9ed1b5b1a..bd9f19eede3657cf4f35708accc63a468b682e2c 100644
+index 343facf935a60707960a3b37aff019086ac661a6..b8470a74694696dcb5604aaad730bbf65015d39a 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -269,6 +269,18 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -274,6 +274,18 @@ public abstract class LivingEntity extends Entity implements Attackable {
          this.brain = this.makeBrain(new Dynamic<>(nbtOps, nbtOps.createMap(ImmutableMap.of(nbtOps.createString("memories"), nbtOps.emptyMap()))));
      }
  
@@ -104,10 +104,10 @@ index f86edec07abf454ef7b58575482910e9ed1b5b1a..bd9f19eede3657cf4f35708accc63a46
          return this.brain;
      }
 diff --git a/net/minecraft/world/entity/Mob.java b/net/minecraft/world/entity/Mob.java
-index b6a83f7f2c1f5b438252dc236c31aa31c766f832..282ac1ea5bb7081c9d2735adadc9ad4ab8c07b1c 100644
+index 60e649bbdab48dc10473adcd936c67bcc5b766b1..ea58abc2706360f9602765b91b946c86982d0d55 100644
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -150,6 +150,18 @@ public abstract class Mob extends LivingEntity implements EquipmentUser, Leashab
+@@ -155,6 +155,18 @@ public abstract class Mob extends LivingEntity implements EquipmentUser, Leashab
          }
      }
  
@@ -127,10 +127,10 @@ index b6a83f7f2c1f5b438252dc236c31aa31c766f832..282ac1ea5bb7081c9d2735adadc9ad4a
      }
  
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..46499a3204c287ee9a31e280a4344073a0a6d173 100644
+index 2f39c3d153018baf349b30ec6b0883f1bdd1e476..56522aa42fd777165b5d852496085c98e135b069 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -202,6 +202,22 @@ public abstract class Player extends LivingEntity {
+@@ -204,6 +204,22 @@ public abstract class Player extends LivingEntity {
          this.rotOffs = 180.0F;
      }
  

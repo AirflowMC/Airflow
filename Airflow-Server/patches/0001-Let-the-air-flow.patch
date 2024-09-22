@@ -5,7 +5,7 @@ Subject: [PATCH] Let the air flow!
 
 
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index 3cde0044772e568e2d5f89f2f946d49629725484..af4ce09ebe936428aa3a4f007612cb0b7b8fc5c7 100644
+index cc30200e535ec95c11640cf4791cca038030536d..13158e9c56cb615897332e7857952a3eed5bcf7e 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
 @@ -82,6 +82,7 @@ public class Main {
@@ -41,10 +41,10 @@ index 3cde0044772e568e2d5f89f2f946d49629725484..af4ce09ebe936428aa3a4f007612cb0b
                      dedicatedServer1.setPort(optionSet.valueOf(optionSpec11));
                      dedicatedServer1.setDemo(optionSet.has(optionSpec2));
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 8f55652820ee340addf8e221f792d4f29b47e726..9e7502f04edc25977b90662718617cb448f305a4 100644
+index b0b9058fd7f300b1307f0ae446ade6c831a4b42b..4f691e70cfa9f0830d3ce321a44f1cdd4d785015 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1119,7 +1119,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1177,7 +1177,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -53,7 +53,7 @@ index 8f55652820ee340addf8e221f792d4f29b47e726..9e7502f04edc25977b90662718617cb4
      }
  
      public SystemReport fillSystemReport(SystemReport systemReport) {
-@@ -2060,4 +2060,15 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2122,4 +2122,15 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              };
          }
      }
@@ -70,10 +70,10 @@ index 8f55652820ee340addf8e221f792d4f29b47e726..9e7502f04edc25977b90662718617cb4
 +    // Airflow end
  }
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea643d1df56f 100644
+index 2247a5e996e4293e1e3d21e86a3bbed9bb517d33..28807e0edfbb8d79087b45a97430b432fb5f424c 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -80,6 +80,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -79,6 +79,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      @Nullable
      private DebugSampleSubscriptionTracker debugSampleSubscriptionTracker;
      private final ServerLinks serverLinks;
@@ -81,7 +81,7 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea64
  
      public DedicatedServer(
          Thread serverThread,
-@@ -89,13 +90,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -88,13 +89,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          DedicatedServerSettings settings,
          DataFixer fixerUpper,
          Services services,
@@ -91,7 +91,7 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea64
          super(serverThread, storageSource, packRepository, worldStem, Proxy.NO_PROXY, fixerUpper, services, progressListenerFactory);
          this.settings = settings;
          this.rconConsoleSource = new RconConsoleSource(this);
-         this.textFilterClient = TextFilterClient.createFromConfig(settings.getProperties().textFilteringConfig);
+         this.serverTextFilter = ServerTextFilter.createFromConfig(settings.getProperties());
          this.serverLinks = createServerLinks(settings);
 +        // Airflow start
 +        this.airflow = airflow;
@@ -100,16 +100,16 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea64
      }
  
      @Override
-@@ -118,7 +123,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -117,7 +122,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          thread.setDaemon(true);
          thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER));
          thread.start();
 -        LOGGER.info("Starting minecraft server version {}", SharedConstants.getCurrentVersion().getName());
-+        LOGGER.info("Starting {} minecraft server version {}-{}@{}", getServerModName(), SharedConstants.getCurrentVersion().getName(), airflow.version.getBranch(), airflow.version.getShortCommit());
++        LOGGER.info("Starting {} Minecraft server version {}-{}@{}", getServerModName(), SharedConstants.getCurrentVersion().getName(), airflow.version.getBranch(), airflow.version.getShortCommit());
          if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
              LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
          }
-@@ -178,6 +183,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -177,6 +182,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              return false;
          } else {
              this.setPlayerList(new DedicatedPlayerList(this, this.registries(), this.playerDataStorage));
@@ -117,7 +117,7 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea64
              this.debugSampleSubscriptionTracker = new DebugSampleSubscriptionTracker(this.getPlayerList());
              this.tickTimeLogger = new RemoteSampleLogger(
                  TpsDebugDimensions.values().length, this.debugSampleSubscriptionTracker, RemoteDebugSampleType.TICK_TIME
-@@ -187,6 +193,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -186,6 +192,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
              LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
              this.loadLevel();
@@ -125,11 +125,11 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea64
              long l = Util.getNanos() - nanos;
              String string = String.format(Locale.ROOT, "%.3fs", l / 1.0E9);
              LOGGER.info("Done ({})! For help, type \"help\"", string);
-@@ -550,6 +557,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -532,6 +539,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      @Override
      public void stopServer() {
          super.stopServer();
-+        airflow.pluginLoader.disablePlugins(); // Airflow
++        this.airflow.pluginLoader.disablePlugins(); // Airflow
          Util.shutdownExecutors();
          SkullBlockEntity.clear();
      }

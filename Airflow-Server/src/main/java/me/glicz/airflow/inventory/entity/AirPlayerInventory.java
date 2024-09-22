@@ -5,7 +5,7 @@ import me.glicz.airflow.api.inventory.entity.PlayerInventory;
 import me.glicz.airflow.api.item.stack.ItemStack;
 import me.glicz.airflow.entity.living.AirHumanoid;
 import me.glicz.airflow.item.stack.AirItemStack;
-import net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket;
+import net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -66,7 +66,7 @@ public class AirPlayerInventory extends AirEntityEquipment implements PlayerInve
         this.player.getHandle().getInventory().selected = slot;
 
         if (this.player.getHandle() instanceof ServerPlayer serverPlayer) {
-            serverPlayer.connection.send(new ClientboundSetCarriedItemPacket(slot));
+            serverPlayer.connection.send(new ClientboundSetHeldSlotPacket(slot));
         }
     }
 

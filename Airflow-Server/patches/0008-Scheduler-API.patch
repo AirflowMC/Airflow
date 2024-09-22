@@ -5,14 +5,14 @@ Subject: [PATCH] Scheduler API
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index f7b89ad1246a1cac9d48dcf60697dbed0a6c4cb2..72732dff3952d60b2639da255f3be648292f2646 100644
+index 8361adaf8111429f413c601d9bdbabefe774cc04..010dfef13ad721a472c7b3a47c4244c0f38d5c39 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -993,6 +993,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
- 
-     public void tickChildren(BooleanSupplier hasTimeLeft) {
+@@ -1046,6 +1046,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     protected void tickChildren(BooleanSupplier hasTimeLeft) {
+         ProfilerFiller profilerFiller = Profiler.get();
          this.getPlayerList().getPlayers().forEach(serverPlayer1 -> serverPlayer1.connection.suspendFlushing());
 +        getDedicatedServer().airflow.getServer().serverScheduler.tick(); // Airflow - Scheduler API
-         this.profiler.push("commandFunctions");
+         profilerFiller.push("commandFunctions");
          this.getFunctions().tick();
-         this.profiler.popPush("levels");
+         profilerFiller.popPush("levels");

@@ -9,6 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 public class AirBlockTypeProvider extends BlockTypeProvider {
     @Override
     protected BlockType get(Key key) {
-        return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(key.toString())).airBlockType;
+        return BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(key.toString())).airBlockType;
     }
 }

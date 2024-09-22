@@ -5,10 +5,10 @@ Subject: [PATCH] Inventory API
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 9052a3899aedddb7265b8cef7c80e3addd79d3ab..d6a0cd9c22785edb7e7966141b301c02c456d076 100644
+index 82f3c121c67a50efbd99ebddd460d5550bfeaef9..7305c9f03963e0c8b1fd7a5e4cf6ef616971dccd 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -1081,8 +1081,14 @@ public class ServerPlayer extends Player {
+@@ -1271,8 +1271,14 @@ public class ServerPlayer extends Player {
  
                  return OptionalInt.empty();
              } else {
@@ -55,10 +55,10 @@ index 85103db441fe865c0d5e51d28e4a4d812cb5fde2..b463a7d53ddc601d598653b8b6664b9a
  
      ItemStack removeItemNoUpdate(int slot);
 diff --git a/net/minecraft/world/entity/player/Inventory.java b/net/minecraft/world/entity/player/Inventory.java
-index 2ddb11406650e74a181e90353bcd8b20cf69336c..2c1becb791fe3857d6e2dddcedca16d1bf319fee 100644
+index 1fcc1df8b14cf2a2d67d5745023ce3e191266c8d..7e42c6a60f4f898ea751ef036bb9328feea0738f 100644
 --- a/net/minecraft/world/entity/player/Inventory.java
 +++ b/net/minecraft/world/entity/player/Inventory.java
-@@ -41,6 +41,13 @@ public class Inventory implements Container, Nameable {
+@@ -40,6 +40,13 @@ public class Inventory implements Container, Nameable {
          this.player = player;
      }
  
@@ -73,7 +73,7 @@ index 2ddb11406650e74a181e90353bcd8b20cf69336c..2c1becb791fe3857d6e2dddcedca16d1
          return isHotbarSlot(this.selected) ? this.items.get(this.selected) : ItemStack.EMPTY;
      }
 diff --git a/net/minecraft/world/entity/vehicle/ContainerEntity.java b/net/minecraft/world/entity/vehicle/ContainerEntity.java
-index b37fa0ff629f41f0d2a77b4780f80170ebbae81c..401859610f7494b195f959b3d63b1eb2009fda9e 100644
+index 1cde210aa56f69164161d1e352d6654c5d8557c7..601d0682fbfd07e9fe304a8bbfe095c400d0952b 100644
 --- a/net/minecraft/world/entity/vehicle/ContainerEntity.java
 +++ b/net/minecraft/world/entity/vehicle/ContainerEntity.java
 @@ -33,6 +33,13 @@ import net.minecraft.world.phys.AABB;
@@ -91,10 +91,10 @@ index b37fa0ff629f41f0d2a77b4780f80170ebbae81c..401859610f7494b195f959b3d63b1eb2
  
      AABB getBoundingBox();
 diff --git a/net/minecraft/world/inventory/AbstractContainerMenu.java b/net/minecraft/world/inventory/AbstractContainerMenu.java
-index e37f4c6c73064ab341bc1565aa894952aef66ab0..7522c722e65db2e97b926b3e74291512f2d23954 100644
+index 12a61be73996abebbc0c4d0787611562c4f80043..dd5a0f589041c5c94e06745dee73d5ce411371f6 100644
 --- a/net/minecraft/world/inventory/AbstractContainerMenu.java
 +++ b/net/minecraft/world/inventory/AbstractContainerMenu.java
-@@ -59,13 +59,31 @@ public abstract class AbstractContainerMenu {
+@@ -63,12 +63,29 @@ public abstract class AbstractContainerMenu {
      @Nullable
      private ContainerSynchronizer synchronizer;
      private boolean suppressRemoteUpdates;
@@ -121,17 +121,15 @@ index e37f4c6c73064ab341bc1565aa894952aef66ab0..7522c722e65db2e97b926b3e74291512
 +    }
 +    // Airflow end - Inventory API
 +
-     protected static boolean stillValid(ContainerLevelAccess access, Player player, Block targetBlock) {
-+        if (player.containerMenu.airMenuView.pluginOpened) return true; // Airflow - Inventory API
-         return access.evaluate((level, blockPos) -> !level.getBlockState(blockPos).is(targetBlock) ? false : player.canInteractWithBlock(blockPos, 4.0), true);
-     }
- 
+     protected void addInventoryHotbarSlots(Container container, int i, int i1) {
+         for (int i2 = 0; i2 < 9; i2++) {
+             this.addSlot(new Slot(container, i2, i + i2 * 18, i1));
 diff --git a/net/minecraft/world/inventory/AbstractFurnaceMenu.java b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-index be78cd0fad537ad9de606177ea02fb2950e5fc7a..2576e737fda415266d5686094f6fda788897bb0a 100644
+index 0f75d45dfc85bd88de60c99250354f7e6fe595da..9a578a390a2586f7b7fb8db82e7d4bb5449dc527 100644
 --- a/net/minecraft/world/inventory/AbstractFurnaceMenu.java
 +++ b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-@@ -70,6 +70,13 @@ public abstract class AbstractFurnaceMenu extends RecipeBookMenu<SingleRecipeInp
-         this.addDataSlots(data);
+@@ -72,6 +72,13 @@ public abstract class AbstractFurnaceMenu extends RecipeBookMenu {
+         this.addDataSlots(containerData);
      }
  
 +    // Airflow start - Inventory API
@@ -142,13 +140,13 @@ index be78cd0fad537ad9de606177ea02fb2950e5fc7a..2576e737fda415266d5686094f6fda78
 +    // Airflow end - Inventory API
 +
      @Override
-     public void fillCraftSlotsStackedContents(StackedContents itemHelper) {
+     public void fillCraftSlotsStackedContents(StackedItemContents stackedItemContents) {
          if (this.container instanceof StackedContentsCompatible) {
 diff --git a/net/minecraft/world/inventory/AnvilMenu.java b/net/minecraft/world/inventory/AnvilMenu.java
-index d0dda1059adc2d6a32b147fae8983276b034e96d..799b669b408831a03d5faa233f9dd40a5bfcc675 100644
+index a3d1f07eca1562b50611479b687fe8b90b6cf708..91bfb9f7bd6241e9d62ccf1ffc2c9726abc298b1 100644
 --- a/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/net/minecraft/world/inventory/AnvilMenu.java
-@@ -52,6 +52,23 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -53,6 +53,23 @@ public class AnvilMenu extends ItemCombinerMenu {
          this.addDataSlot(this.cost);
      }
  
@@ -169,15 +167,15 @@ index d0dda1059adc2d6a32b147fae8983276b034e96d..799b669b408831a03d5faa233f9dd40a
 +    }
 +    // Airflow end - Inventory API
 +
-     @Override
-     protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
+     private static ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
          return ItemCombinerMenuSlotDefinition.create()
+             .withSlot(0, 27, 47, itemStack -> true)
 diff --git a/net/minecraft/world/inventory/BeaconMenu.java b/net/minecraft/world/inventory/BeaconMenu.java
-index 879262201e64b76295c44be4145476a92446e66b..dc3bf7c1c79bfe72cc85a2c03215eec4342b38d2 100644
+index 47de37e13bcc7d2fb0caab9c825a8aa178ca435d..6befd9771bff1b582b8d45aa97769e2b7b55710a 100644
 --- a/net/minecraft/world/inventory/BeaconMenu.java
 +++ b/net/minecraft/world/inventory/BeaconMenu.java
-@@ -63,6 +63,13 @@ public class BeaconMenu extends AbstractContainerMenu {
-         }
+@@ -52,6 +52,13 @@ public class BeaconMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(container, 36, 137);
      }
  
 +    // Airflow start - Inventory API
@@ -191,11 +189,11 @@ index 879262201e64b76295c44be4145476a92446e66b..dc3bf7c1c79bfe72cc85a2c03215eec4
      public void removed(Player player) {
          super.removed(player);
 diff --git a/net/minecraft/world/inventory/BrewingStandMenu.java b/net/minecraft/world/inventory/BrewingStandMenu.java
-index 5138b3753ac956fc4f04464acd08406a29164fcf..e2f99a0958fda49cb75b20fa577e4d293347e0d8 100644
+index bf716cf38a61609019b552df5005b2d7d356d3ee..c5428cd60eeefa9bb30623a5bad89e810b209255 100644
 --- a/net/minecraft/world/inventory/BrewingStandMenu.java
 +++ b/net/minecraft/world/inventory/BrewingStandMenu.java
-@@ -59,6 +59,13 @@ public class BrewingStandMenu extends AbstractContainerMenu {
-         }
+@@ -54,6 +54,13 @@ public class BrewingStandMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -209,11 +207,11 @@ index 5138b3753ac956fc4f04464acd08406a29164fcf..e2f99a0958fda49cb75b20fa577e4d29
      public boolean stillValid(Player player) {
          return this.brewingStand.stillValid(player);
 diff --git a/net/minecraft/world/inventory/CartographyTableMenu.java b/net/minecraft/world/inventory/CartographyTableMenu.java
-index 1e63a270ed370c9acd217798aeb19506e828ee66..b183d4b42afebabad383790a94728fda41760eb1 100644
+index 8e7f8ac97b7a1d780234b0a104536c117b475690..f538a209f298acdf096c0e801ba2291c66764fdc 100644
 --- a/net/minecraft/world/inventory/CartographyTableMenu.java
 +++ b/net/minecraft/world/inventory/CartographyTableMenu.java
-@@ -91,6 +91,13 @@ public class CartographyTableMenu extends AbstractContainerMenu {
-         }
+@@ -82,6 +82,13 @@ public class CartographyTableMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -227,10 +225,10 @@ index 1e63a270ed370c9acd217798aeb19506e828ee66..b183d4b42afebabad383790a94728fda
      public boolean stillValid(Player player) {
          return stillValid(this.access, player, Blocks.CARTOGRAPHY_TABLE);
 diff --git a/net/minecraft/world/inventory/ChestMenu.java b/net/minecraft/world/inventory/ChestMenu.java
-index 83047ab2d3120bd15dd0ae0d4beddb484d3854bc..64678917eed982dca1cb40a6ff541b7aff29ce45 100644
+index bb04e0fcb3717cf9085d7673e4773aa46585476a..f383234c524d0a45788eee9314e97a8fd1f51855 100644
 --- a/net/minecraft/world/inventory/ChestMenu.java
 +++ b/net/minecraft/world/inventory/ChestMenu.java
-@@ -72,6 +72,13 @@ public class ChestMenu extends AbstractContainerMenu {
+@@ -66,6 +66,13 @@ public class ChestMenu extends AbstractContainerMenu {
          }
      }
  
@@ -245,7 +243,7 @@ index 83047ab2d3120bd15dd0ae0d4beddb484d3854bc..64678917eed982dca1cb40a6ff541b7a
      public boolean stillValid(Player player) {
          return this.container.stillValid(player);
 diff --git a/net/minecraft/world/inventory/CrafterMenu.java b/net/minecraft/world/inventory/CrafterMenu.java
-index bcd2e48f6a1dfbd7af075cdcbb9374d62bdacfe4..9d06b9ff7efa546f26610ad2d3ff328b079cd49f 100644
+index e5bfe0e221d02095c387506ba27dbec858873fcc..f1c8cd2aaf2807aae72c0aec3f262c2db4200467 100644
 --- a/net/minecraft/world/inventory/CrafterMenu.java
 +++ b/net/minecraft/world/inventory/CrafterMenu.java
 @@ -39,6 +39,13 @@ public class CrafterMenu extends AbstractContainerMenu implements ContainerListe
@@ -263,11 +261,11 @@ index bcd2e48f6a1dfbd7af075cdcbb9374d62bdacfe4..9d06b9ff7efa546f26610ad2d3ff328b
          for (int i = 0; i < 3; i++) {
              for (int i1 = 0; i1 < 3; i1++) {
 diff --git a/net/minecraft/world/inventory/CraftingMenu.java b/net/minecraft/world/inventory/CraftingMenu.java
-index 3c495e29ae1ed56ef3dc6a838bc401425a493d79..262218eb8ec5b5cfedd0aafb9a92220d55b8a9d9 100644
+index 7358d734c05b2a1e205147e32d5d2a3e8d98fe1d..a3dd892532da9a7534cbf96b1f8f71444c5af2ed 100644
 --- a/net/minecraft/world/inventory/CraftingMenu.java
 +++ b/net/minecraft/world/inventory/CraftingMenu.java
-@@ -57,6 +57,18 @@ public class CraftingMenu extends RecipeBookMenu<CraftingInput, CraftingRecipe>
-         }
+@@ -44,6 +44,18 @@ public class CraftingMenu extends AbstractCraftingMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -283,13 +281,13 @@ index 3c495e29ae1ed56ef3dc6a838bc401425a493d79..262218eb8ec5b5cfedd0aafb9a92220d
 +    // Airflow end - Inventory API
 +
      protected static void slotChangedCraftingGrid(
-         AbstractContainerMenu menu,
-         Level level,
+         AbstractContainerMenu abstractContainerMenu,
+         ServerLevel serverLevel,
 diff --git a/net/minecraft/world/inventory/DispenserMenu.java b/net/minecraft/world/inventory/DispenserMenu.java
-index 9d43f7c642228c2dc1b5016758ae2e89f2925b82..146f3c69537e18d657ec955723d4c375004b1b6b 100644
+index 2a2c8f8abe445589bfc65ca47596a398cc317566..76d916bba7925b91207be311c5b43c2cb69ed74a 100644
 --- a/net/minecraft/world/inventory/DispenserMenu.java
 +++ b/net/minecraft/world/inventory/DispenserMenu.java
-@@ -41,6 +41,13 @@ public class DispenserMenu extends AbstractContainerMenu {
+@@ -36,6 +36,13 @@ public class DispenserMenu extends AbstractContainerMenu {
          }
      }
  
@@ -304,10 +302,10 @@ index 9d43f7c642228c2dc1b5016758ae2e89f2925b82..146f3c69537e18d657ec955723d4c375
      public boolean stillValid(Player player) {
          return this.dispenser.stillValid(player);
 diff --git a/net/minecraft/world/inventory/EnchantmentMenu.java b/net/minecraft/world/inventory/EnchantmentMenu.java
-index 84b6db3fd08a4baaf9dec94ea834df08549ba35b..494e93c02dcde639d0e96a6a1bc56f7318c55f83 100644
+index a04411b1c20d4fa494535779b2d8b962c97c5c95..3a71bbd271b0dad5ca90cb4f8123ac80c4e68eca 100644
 --- a/net/minecraft/world/inventory/EnchantmentMenu.java
 +++ b/net/minecraft/world/inventory/EnchantmentMenu.java
-@@ -93,6 +93,13 @@ public class EnchantmentMenu extends AbstractContainerMenu {
+@@ -82,6 +82,13 @@ public class EnchantmentMenu extends AbstractContainerMenu {
          this.addDataSlot(DataSlot.shared(this.levelClue, 2));
      }
  
@@ -322,7 +320,7 @@ index 84b6db3fd08a4baaf9dec94ea834df08549ba35b..494e93c02dcde639d0e96a6a1bc56f73
      public void slotsChanged(Container inventory) {
          if (inventory == this.enchantSlots) {
 diff --git a/net/minecraft/world/inventory/GrindstoneMenu.java b/net/minecraft/world/inventory/GrindstoneMenu.java
-index db85c2e82ea098e1a0306d5727633d3785ac27cf..872936b4d9414d009355cee7f8166187807fd684 100644
+index 775a2926d0219d1380a0cad7e546a30fd4f5c781..5bcf197aff46e59a69913c2bfecb2b095eb2fd0c 100644
 --- a/net/minecraft/world/inventory/GrindstoneMenu.java
 +++ b/net/minecraft/world/inventory/GrindstoneMenu.java
 @@ -28,7 +28,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
@@ -334,8 +332,8 @@ index db85c2e82ea098e1a0306d5727633d3785ac27cf..872936b4d9414d009355cee7f8166187
      final Container repairSlots = new SimpleContainer(2) {
          @Override
          public void setChanged() {
-@@ -115,6 +115,18 @@ public class GrindstoneMenu extends AbstractContainerMenu {
-         }
+@@ -106,6 +106,18 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -354,11 +352,11 @@ index db85c2e82ea098e1a0306d5727633d3785ac27cf..872936b4d9414d009355cee7f8166187
      public void slotsChanged(Container inventory) {
          super.slotsChanged(inventory);
 diff --git a/net/minecraft/world/inventory/HopperMenu.java b/net/minecraft/world/inventory/HopperMenu.java
-index 3a24a46f24760005580e20cfc9b78b8bb5ab129c..346212c63890ee9e9ebc53bdd8947a7350ca6b45 100644
+index 889f035970daaea8072e0436aaa0e5fedb7ba6de..3e5acda3af9a7178ada65686584930175056eebb 100644
 --- a/net/minecraft/world/inventory/HopperMenu.java
 +++ b/net/minecraft/world/inventory/HopperMenu.java
-@@ -36,6 +36,13 @@ public class HopperMenu extends AbstractContainerMenu {
-         }
+@@ -27,6 +27,13 @@ public class HopperMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 51);
      }
  
 +    // Airflow start - Inventory API
@@ -371,12 +369,19 @@ index 3a24a46f24760005580e20cfc9b78b8bb5ab129c..346212c63890ee9e9ebc53bdd8947a73
      @Override
      public boolean stillValid(Player player) {
          return this.hopper.stillValid(player);
+@@ -62,4 +69,4 @@ public class HopperMenu extends AbstractContainerMenu {
+         super.removed(player);
+         this.hopper.stopOpen(player);
+     }
+-}
++}
+\ No newline at end of file
 diff --git a/net/minecraft/world/inventory/HorseInventoryMenu.java b/net/minecraft/world/inventory/HorseInventoryMenu.java
-index 1bbc07d3ce002b5b22fbe160d73fcc035f86179c..ea28928320375c9ac145be7538e632bbe0d0d064 100644
+index 94aa26f0d2c089557eded7b526c02e4d100e79f0..954cf6c893d81b1fdebfd829a7fe1a457979dffb 100644
 --- a/net/minecraft/world/inventory/HorseInventoryMenu.java
 +++ b/net/minecraft/world/inventory/HorseInventoryMenu.java
-@@ -64,6 +64,13 @@ public class HorseInventoryMenu extends AbstractContainerMenu {
-         }
+@@ -65,6 +65,13 @@ public class HorseInventoryMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(inventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -390,11 +395,11 @@ index 1bbc07d3ce002b5b22fbe160d73fcc035f86179c..ea28928320375c9ac145be7538e632bb
      public boolean stillValid(Player player) {
          return !this.horse.hasInventoryChanged(this.horseContainer)
 diff --git a/net/minecraft/world/inventory/InventoryMenu.java b/net/minecraft/world/inventory/InventoryMenu.java
-index f56d3bd4d78a9fc86e6539af92456e7e1b145e87..3a48bb1d8ffc6e14cdd5880c4becf5cc76ec4c61 100644
+index dff7b276213f00e3bc3cd4bcaf08588f84ca8c70..80b90d4f0c6fd6a923dfcca234836eb76e8bc918 100644
 --- a/net/minecraft/world/inventory/InventoryMenu.java
 +++ b/net/minecraft/world/inventory/InventoryMenu.java
-@@ -89,7 +89,16 @@ public class InventoryMenu extends RecipeBookMenu<CraftingInput, CraftingRecipe>
-                 return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+@@ -71,7 +71,16 @@ public class InventoryMenu extends AbstractCraftingMenu {
+                 return InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD;
              }
          });
 +
@@ -411,11 +416,11 @@ index f56d3bd4d78a9fc86e6539af92456e7e1b145e87..3a48bb1d8ffc6e14cdd5880c4becf5cc
      public static boolean isHotbarSlot(int index) {
          return index >= 36 && index < 45 || index == 45;
 diff --git a/net/minecraft/world/inventory/ItemCombinerMenu.java b/net/minecraft/world/inventory/ItemCombinerMenu.java
-index 2de002077b9ce74573782cbc49c9e80d29c68264..75dd22ba0335ba1c4c9295dfa156bacbf8d9cd1b 100644
+index 8484cd0979c7b10ff64b5a3a4735b55cbd6bea74..4ed0e801a7b205d0c6bd9b0f480573bf6c598bd4 100644
 --- a/net/minecraft/world/inventory/ItemCombinerMenu.java
 +++ b/net/minecraft/world/inventory/ItemCombinerMenu.java
-@@ -38,6 +38,18 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
-         this.createInventorySlots(playerInventory);
+@@ -48,6 +48,18 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(inventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -452,10 +457,10 @@ index 72bf19dac2af8eb7ee6b4235f2e4d14da1b069e5..97082968409a250087f0572ad35675cf
      public boolean clickMenuButton(Player player, int id) {
          if (id >= 100) {
 diff --git a/net/minecraft/world/inventory/LoomMenu.java b/net/minecraft/world/inventory/LoomMenu.java
-index 76b279171f639314a34f8a71a61147e898775684..7061e28679f6b613f003864928828f4b17bd3119 100644
+index 09a06d2695d5f1bd80b59bd8e0816010d3e7d759..eb7f1c41b09f852c124e5cb2bffb4384a4a94da0 100644
 --- a/net/minecraft/world/inventory/LoomMenu.java
 +++ b/net/minecraft/world/inventory/LoomMenu.java
-@@ -118,6 +118,18 @@ public class LoomMenu extends AbstractContainerMenu {
+@@ -108,6 +108,18 @@ public class LoomMenu extends AbstractContainerMenu {
          this.patternGetter = playerInventory.player.registryAccess().lookupOrThrow(Registries.BANNER_PATTERN);
      }
  
@@ -514,11 +519,11 @@ index fa35386bc5c295c7bd16aa4f78bd106c711dc191..295e295a959eecf2cddad627db5a423b
      public int getContainerSize() {
          return this.itemStacks.size();
 diff --git a/net/minecraft/world/inventory/MerchantMenu.java b/net/minecraft/world/inventory/MerchantMenu.java
-index 730f17d239f99f7f9da4a7d168e3963dee253f85..c76820629da1f944a0a6fa903ea001f20ee48d11 100644
+index 3dc0dd7408e3bcee07e09cc1a38d58020b94bd2e..0896a41ae13bfeeb2b3b0800a881835ff0ed9f82 100644
 --- a/net/minecraft/world/inventory/MerchantMenu.java
 +++ b/net/minecraft/world/inventory/MerchantMenu.java
-@@ -54,6 +54,13 @@ public class MerchantMenu extends AbstractContainerMenu {
-         }
+@@ -45,6 +45,13 @@ public class MerchantMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 108, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -550,11 +555,11 @@ index c8824479ef16edca8cc12536af97b2af24856773..3ff4c47804ce261a9793cb6e9b40e97c
      public int getContainerSize() {
          return 1;
 diff --git a/net/minecraft/world/inventory/ShulkerBoxMenu.java b/net/minecraft/world/inventory/ShulkerBoxMenu.java
-index e68d121f83b60c418a9fa30ea84d53921716f2bb..91fee8060c88c04b817f571948fd880254e1ad25 100644
+index 9eb5c102a643d8028a188b9230c4f46e667bb392..188ecb5d2b04ff6330584ffa9ff8eb34676f9d50 100644
 --- a/net/minecraft/world/inventory/ShulkerBoxMenu.java
 +++ b/net/minecraft/world/inventory/ShulkerBoxMenu.java
-@@ -39,6 +39,13 @@ public class ShulkerBoxMenu extends AbstractContainerMenu {
-         }
+@@ -31,6 +31,13 @@ public class ShulkerBoxMenu extends AbstractContainerMenu {
+         this.addStandardInventorySlots(playerInventory, 8, 84);
      }
  
 +    // Airflow start - Inventory API
@@ -568,10 +573,10 @@ index e68d121f83b60c418a9fa30ea84d53921716f2bb..91fee8060c88c04b817f571948fd8802
      public boolean stillValid(Player player) {
          return this.container.stillValid(player);
 diff --git a/net/minecraft/world/inventory/StonecutterMenu.java b/net/minecraft/world/inventory/StonecutterMenu.java
-index 3b07ad5c531b15ad36ef2a33746affbcdd4e01d6..982738093590aca10a47b8e5e8260a76b52272ce 100644
+index 3cf8d575168558f7c0df026689af99ad8ccdf1c3..075fef5176c1c3bec57b2108224510ac41df2198 100644
 --- a/net/minecraft/world/inventory/StonecutterMenu.java
 +++ b/net/minecraft/world/inventory/StonecutterMenu.java
-@@ -95,6 +95,13 @@ public class StonecutterMenu extends AbstractContainerMenu {
+@@ -85,6 +85,13 @@ public class StonecutterMenu extends AbstractContainerMenu {
          this.addDataSlot(this.selectedRecipeIndex);
      }
  
@@ -586,10 +591,10 @@ index 3b07ad5c531b15ad36ef2a33746affbcdd4e01d6..982738093590aca10a47b8e5e8260a76
          return this.selectedRecipeIndex.get();
      }
 diff --git a/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 32a8799ee7ce2c9032e52d9192d70b6096382bfd..36e17511ac8222f1fc7ec385efc4e1f44bd57e1a 100644
+index eee517665a3eed4329000e8c3063c930e5a14154..ddbe777edf217edbb85c6a4d18d8d1111f80c378 100644
 --- a/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-@@ -396,7 +396,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -295,7 +295,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
      }
  
      @Override
@@ -599,7 +604,7 @@ index 32a8799ee7ce2c9032e52d9192d70b6096382bfd..36e17511ac8222f1fc7ec385efc4e1f4
      }
  
 diff --git a/net/minecraft/world/level/block/entity/BarrelBlockEntity.java b/net/minecraft/world/level/block/entity/BarrelBlockEntity.java
-index 12472aed995c33412596203c8736dd431a1edd69..d67ddf1a7b4ce298a88ababf41f3ae9bd02ffb5e 100644
+index 359f730f29dd3f6df9240d0866eed5ac0e64130f..e0aae6da12045600700fce15ef2505a8035b0d00 100644
 --- a/net/minecraft/world/level/block/entity/BarrelBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BarrelBlockEntity.java
 @@ -77,7 +77,7 @@ public class BarrelBlockEntity extends RandomizableContainerBlockEntity {
@@ -612,7 +617,7 @@ index 12472aed995c33412596203c8736dd431a1edd69..d67ddf1a7b4ce298a88ababf41f3ae9b
      }
  
 diff --git a/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java b/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
-index 9e7608c4b978e135abbf6658db01b37e293ce0c3..6412587d62c382fa27d64146d6c2578887e2cace 100644
+index 5be532de78e7645bbecd26edf6cbe47c691a7768..02bdb6b85e9fc35fdf9efc9e37fb2aa1d120aa8d 100644
 --- a/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
 @@ -81,7 +81,7 @@ public abstract class BaseContainerBlockEntity extends BlockEntity implements Co
@@ -625,10 +630,10 @@ index 9e7608c4b978e135abbf6658db01b37e293ce0c3..6412587d62c382fa27d64146d6c25788
      protected abstract void setItems(NonNullList<ItemStack> items);
  
 diff --git a/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java b/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
-index d9e63901d037d3ab07718a474e1fb325aea30e6b..dc9ade22f361e3245514a6c3843cbbb7b016e9ec 100644
+index 551df29dcfec77f6dfb61bd1e1e9f2b1e0b12175..6b6ea5350f0adb2cd39aaed815e03d477d6ec290 100644
 --- a/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
-@@ -80,7 +80,7 @@ public class BrewingStandBlockEntity extends BaseContainerBlockEntity implements
+@@ -81,7 +81,7 @@ public class BrewingStandBlockEntity extends BaseContainerBlockEntity implements
      }
  
      @Override
@@ -695,10 +700,10 @@ index ee2921fdfa764793d271d3f428874cca92b18627..d626b4df5aa893a7d7f7cc3398ab5a8e
      }
  
 diff --git a/net/minecraft/world/level/block/entity/LecternBlockEntity.java b/net/minecraft/world/level/block/entity/LecternBlockEntity.java
-index 07bd32f685824a0dddfbb9d51cfd990e940bb5b3..d783446755d610e6dcf01a7c16ce10cd4c88c325 100644
+index 98e36d94ed1d869d3196d0815d8c7ff8d04971c9..8e366ca9f418329a6837122d222a1daacf2816fc 100644
 --- a/net/minecraft/world/level/block/entity/LecternBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/LecternBlockEntity.java
-@@ -34,6 +34,13 @@ public class LecternBlockEntity extends BlockEntity implements Clearable, MenuPr
+@@ -33,6 +33,13 @@ public class LecternBlockEntity extends BlockEntity implements Clearable, MenuPr
      public static final int SLOT_BOOK = 0;
      public static final int NUM_SLOTS = 1;
      private final Container bookAccess = new Container() {
@@ -713,10 +718,10 @@ index 07bd32f685824a0dddfbb9d51cfd990e940bb5b3..d783446755d610e6dcf01a7c16ce10cd
          public int getContainerSize() {
              return 1;
 diff --git a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
-index 5fc4d45d058489e4931fa373fce6fd016c632d44..21fc8d5bcd3078b08f68e9fa4112c358d8a77e08 100644
+index 10b8461b40cf1f292b5cc0be302b50d60e1d3a89..6bed918495f7abb0de9ab62cf222259218461162 100644
 --- a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
-@@ -215,7 +215,7 @@ public class ShulkerBoxBlockEntity extends RandomizableContainerBlockEntity impl
+@@ -216,7 +216,7 @@ public class ShulkerBoxBlockEntity extends RandomizableContainerBlockEntity impl
      }
  
      @Override

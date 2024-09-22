@@ -5,10 +5,10 @@ Subject: [PATCH] Player events
 
 
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 469c0e5fc64b25cef32322d947a38e76d53b9f67..ec87f24b3d4e3715c0e6edd4d4781a6f5c5b807b 100644
+index 470aeb9eaa7ec7fd64c36f2610f5d3ea40f85c9f..3baed91b086ddb6e1b3b67e7c33585d361cac6f9 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1178,11 +1178,22 @@ public class ServerGamePacketListenerImpl
+@@ -1256,11 +1256,22 @@ public class ServerGamePacketListenerImpl
      private void removePlayerFromWorld() {
          this.chatMessageChain.close();
          this.server.invalidateStatus();
@@ -33,10 +33,10 @@ index 469c0e5fc64b25cef32322d947a38e76d53b9f67..ec87f24b3d4e3715c0e6edd4d4781a6f
      }
  
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08b73fbf8c 100644
+index f0fa78caff92a36b2814ec7465212a7e389d2103..4778b96088ffdf19712a476f34324c54e13bd6de 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -213,8 +213,8 @@ public abstract class PlayerList {
+@@ -217,8 +217,8 @@ public abstract class PlayerList {
          } else {
              mutableComponent = Component.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), string);
          }
@@ -46,7 +46,7 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08
          serverGamePacketListenerImpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
          ServerStatus status = this.server.getStatus();
          if (status != null && !cookie.transferred()) {
-@@ -225,6 +225,14 @@ public abstract class PlayerList {
+@@ -229,6 +229,14 @@ public abstract class PlayerList {
          this.players.add(player);
          this.playersByUUID.put(player.getUUID(), player);
          this.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player)));
@@ -61,7 +61,7 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08
          this.sendLevelInfo(player, serverLevel);
          serverLevel.addNewPlayer(player);
          this.server.getCustomBossEvents().onPlayerConnect(player);
-@@ -350,9 +358,22 @@ public abstract class PlayerList {
+@@ -321,9 +329,22 @@ public abstract class PlayerList {
          }
      }
  
@@ -85,7 +85,7 @@ index 77a93d5f21b2369b69c59a1928e779e41e4ff972..2f271f97353d2bbc16004a865d657e08
          this.save(player);
          if (player.isPassenger()) {
              Entity rootVehicle = player.getRootVehicle();
-@@ -377,6 +398,7 @@ public abstract class PlayerList {
+@@ -353,6 +374,7 @@ public abstract class PlayerList {
          }
  
          this.broadcastAll(new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())));

@@ -5,10 +5,10 @@ Subject: [PATCH] Human Entity
 
 
 diff --git a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
-index bb86f6de77053e57219760297e1c018f3f02f256..bf2724d737e219362a3fa9015ca33c108533726e 100644
+index c1c3bc89fce45e86632f032877ccc42bd75103fc..bad9597cc9cfe2a8d52cf42d0785d14fc62f34db 100644
 --- a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
-@@ -28,6 +28,17 @@ public class ClientboundPlayerInfoUpdatePacket implements Packet<ClientGamePacke
+@@ -29,6 +29,17 @@ public class ClientboundPlayerInfoUpdatePacket implements Packet<ClientGamePacke
      private final EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions;
      private final List<ClientboundPlayerInfoUpdatePacket.Entry> entries;
  
@@ -27,10 +27,10 @@ index bb86f6de77053e57219760297e1c018f3f02f256..bf2724d737e219362a3fa9015ca33c10
          this.actions = actions;
          this.entries = players.stream().map(ClientboundPlayerInfoUpdatePacket.Entry::new).toList();
 diff --git a/net/minecraft/server/level/ServerEntity.java b/net/minecraft/server/level/ServerEntity.java
-index 26d9a0378d948011324a5167b934f5c71cf10f9a..94ebe6de554710bbc9b0da435c829da04cd9ff73 100644
+index ef3d71bbf356be866566bc0fe8742042e765391b..0c678d31ef64c40695c1b77869d9c8dcbf645559 100644
 --- a/net/minecraft/server/level/ServerEntity.java
 +++ b/net/minecraft/server/level/ServerEntity.java
-@@ -231,6 +231,11 @@ public class ServerEntity {
+@@ -262,6 +262,11 @@ public class ServerEntity {
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(this.entity.getId()));
@@ -42,7 +42,7 @@ index 26d9a0378d948011324a5167b934f5c71cf10f9a..94ebe6de554710bbc9b0da435c829da0
      }
  
      public void addPairing(ServerPlayer player) {
-@@ -245,6 +250,12 @@ public class ServerEntity {
+@@ -276,6 +281,12 @@ public class ServerEntity {
              LOGGER.warn("Fetching packet for removed entity {}", this.entity);
          }
  
@@ -85,16 +85,16 @@ index 3e2ae10bdbf485be01369ded12c6b4ee276d3df3..606a9b5f0f2f629a2cf7a4a0dc538372
              return this.attach(attachment, new Vec3(x, y, z));
          }
 diff --git a/net/minecraft/world/entity/EntityType.java b/net/minecraft/world/entity/EntityType.java
-index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8ea04bc361 100644
+index 7e654df6d2a73a271910c298628e28af362bc75a..e1697acec305f5d172b003b1ccea49c5c215c307 100644
 --- a/net/minecraft/world/entity/EntityType.java
 +++ b/net/minecraft/world/entity/EntityType.java
-@@ -815,6 +815,19 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
-         "fishing_bobber",
-         EntityType.Builder.<FishingHook>of(FishingHook::new, MobCategory.MISC).noSave().noSummon().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(5)
+@@ -1052,6 +1052,19 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+             .clientTrackingRange(4)
+             .updateInterval(5)
      );
 +    // Airflow start - Human Entity
 +    public static final EntityType<me.glicz.airflow.entity.living.Human> HUMAN = register(
-+            "airflow:human",
++            ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("airflow", "human")),
 +            EntityType.Builder.<me.glicz.airflow.entity.living.Human>createNothing(PLAYER.getCategory())
 +                    .noSave()
 +                    .noSummon()
@@ -105,10 +105,10 @@ index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8e
 +                    .updateInterval(PLAYER.updateInterval)
 +    );
 +    // Airflow end - Human Entity
+     private static final Set<EntityType<?>> OP_ONLY_CUSTOM_DATA = Set.of(FALLING_BLOCK, COMMAND_BLOCK_MINECART, SPAWNER_MINECART);
      private final EntityType.EntityFactory<T> factory;
      private final MobCategory category;
-     private final ImmutableSet<Block> immuneTo;
-@@ -1269,6 +1282,13 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+@@ -1537,6 +1550,13 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
              return this;
          }
  
@@ -123,10 +123,10 @@ index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8e
              this.summon = false;
              return this;
 diff --git a/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java b/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
-index 884ade4aeec2d79377a3ac228173c41d6b6419f2..8f0259c378d11f4a9fd2e7c7d08342422e91e828 100644
+index 33527a1825119f3667fb3c7ccec318f2c7328ec9..e94bb57f6f33e92a2505cb8ab393a9e8ce0fd875 100644
 --- a/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
 +++ b/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
-@@ -170,6 +170,7 @@ public class DefaultAttributes {
+@@ -172,6 +172,7 @@ public class DefaultAttributes {
          .put(EntityType.ZOMBIE_HORSE, ZombieHorse.createAttributes().build())
          .put(EntityType.ZOMBIE_VILLAGER, Zombie.createAttributes().build())
          .put(EntityType.ZOMBIFIED_PIGLIN, ZombifiedPiglin.createAttributes().build())
@@ -135,10 +135,10 @@ index 884ade4aeec2d79377a3ac228173c41d6b6419f2..8f0259c378d11f4a9fd2e7c7d0834242
  
      public static AttributeSupplier getSupplier(EntityType<? extends LivingEntity> livingEntity) {
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 46499a3204c287ee9a31e280a4344073a0a6d173..1532469ce2e28c72722a9f29e9dabc7d60bf3c92 100644
+index 3faad5cc90dbfb4b7f3a197bc492a7432b1f42cc..382c5adbd6549da83fc5843c25ab3f66b0eb5489 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -193,7 +193,13 @@ public abstract class Player extends LivingEntity {
+@@ -200,7 +200,13 @@ public abstract class Player extends LivingEntity {
      private int currentImpulseContextResetGraceTime;
  
      public Player(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {

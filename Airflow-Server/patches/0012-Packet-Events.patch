@@ -47,10 +47,10 @@ index 8e39d689fc5eb405d76dee0a071b45960f74a25b..6b1b289ac3f46b2e726dc72b6d30e168
          try {
              PlayerList playerList = this.server.getPlayerList();
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index 2f271f97353d2bbc16004a865d657e08b73fbf8c..bbb215826685ab3608879119a4772a7bb1c3cf06 100644
+index 4778b96088ffdf19712a476f34324c54e13bd6de..e1d35e38d5d3f6a18301a4107b88bdefe61eafbe 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -177,7 +177,7 @@ public abstract class PlayerList {
+@@ -178,7 +178,7 @@ public abstract class PlayerList {
          player.loadGameTypes(optional.orElse(null));
          ServerGamePacketListenerImpl serverGamePacketListenerImpl = new ServerGamePacketListenerImpl(this.server, connection, player, cookie);
          connection.setupInboundProtocol(
@@ -60,10 +60,10 @@ index 2f271f97353d2bbc16004a865d657e08b73fbf8c..bbb215826685ab3608879119a4772a7b
          GameRules gameRules = serverLevel.getGameRules();
          boolean _boolean = gameRules.getBoolean(GameRules.RULE_DO_IMMEDIATE_RESPAWN);
 diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
-index 014099568e69e8af1466645ac0fedd74de9778c9..5a10f68cec304947216aeadc1b53c41e71475c62 100644
+index 03ac113d88467c9f64f8cdc980391fba07d2a102..226380979819d830e4517327441db1a0677f1dcb 100644
 --- a/net/minecraft/world/item/ItemStack.java
 +++ b/net/minecraft/world/item/ItemStack.java
-@@ -129,12 +129,23 @@ public final class ItemStack implements DataComponentHolder {
+@@ -136,12 +136,23 @@ public final class ItemStack implements DataComponentHolder {
              } else {
                  Holder<Item> holder = ITEM_STREAM_CODEC.decode(buffer);
                  DataComponentPatch dataComponentPatch = DataComponentPatch.STREAM_CODEC.decode(buffer);

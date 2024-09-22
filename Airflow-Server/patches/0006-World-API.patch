@@ -5,10 +5,10 @@ Subject: [PATCH] World API
 
 
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 44e9f311549ae54154941dbe7ad93e6992903ecc..582329cdf456e315cfda0f98d067c6c2fce88523 100644
+index 7900900822e1ae6bf854c4e8c19a98182acaab5c..22af11e00bbe13b096119dd583ac365b27cc2943 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -204,6 +204,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -208,6 +208,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
      private final StructureCheck structureCheck;
      private final boolean tickTime;
      private final RandomSequences randomSequences;

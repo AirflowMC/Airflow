@@ -8,7 +8,7 @@ import me.glicz.airflow.api.inventory.entity.PlayerInventory;
 import me.glicz.airflow.api.item.stack.ItemStack;
 import me.glicz.airflow.entity.living.AirHumanoid;
 import me.glicz.airflow.inventory.AirSimpleInventory;
-import net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket;
+import net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +25,39 @@ public class AirPlayerInventory extends AirSimpleInventory implements PlayerInve
     }
 
     @Override
+    public @NotNull List<ItemStack> getItems() {
+        return this.player.getHandle().getInventory().items.stream().<ItemStack>map(itemStack -> itemStack.airItemStack).toList();
+    }
+
+    @Override
+    public void setItems(@NotNull List<ItemStack> items) {
+        Preconditions.checkArgument(items.size() <= this.player.getHandle().getInventory().items.size(), "items size > inventory size");
+
+        this.player.getHandle().getInventory().items.clear();
+        this.player.getHandle().getInventory().items.addAll(items.stream().map(itemStack -> ((AirItemStack) itemStack).handle).toList());
+    }
+
+    @Override
+    public void setItem(int slot, @NotNull ItemStack item) {
+        this.player.getHandle().getInventory().setItem(slot, ((AirItemStack) item).handle);
+    }
+
+    @Override
+    public boolean addItem(@NotNull ItemStack item) {
+        return this.player.getHandle().getInventory().add(((AirItemStack) item).handle);
+    }
+
+    @Override
+    public void removeItem(@NotNull ItemStack item) {
+        this.player.getHandle().getInventory().removeItem(((AirItemStack) item).handle);
+    }
+
+    @Override
+    public void clear() {
+        this.player.getHandle().getInventory().clearContent();
+    }
+
+    @Override
     public int getSelectedSlot() {
         return this.player.getHandle().getInventory().selected;
     }
@@ -36,7 +69,7 @@ public class AirPlayerInventory extends AirSimpleInventory implements PlayerInve
         this.player.getHandle().getInventory().selected = slot;
 
         if (this.player.getHandle() instanceof ServerPlayer serverPlayer) {
-            serverPlayer.connection.send(new ClientboundSetCarriedItemPacket(slot));
+            serverPlayer.connection.send(new ClientboundSetHeldSlotPacket(slot));
         }
     }
 

@@ -1,3 +1,3 @@
-fun papierMache(version: String): String {
+fun paperMache(version: String): String {
     return "io.papermc:mache:$version@zip"
 }

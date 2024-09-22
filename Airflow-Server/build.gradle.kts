@@ -14,7 +14,7 @@ configurations.apiElements {
 }
 
 dependencies {
-    mache(papierMache(properties["mache-build"] as String))
+    mache(paperMache(properties["mache-build"] as String))
     paperclip("io.papermc:paperclip:3.0.3")
     implementation(project(":airflow-api"))
     implementation(libs.adventure.text.serializer.ansi)
@@ -37,6 +37,8 @@ airplane {
     minecraftVersion = properties["minecraft-version"] as String
     sourcesDir = projectDir.resolve(internalsDir)
     patchesDir = projectDir.resolve("patches").apply { mkdirs() }
+
+    // export some of the dependencies to api in order to avoid version mismatch
     exportFilteredDependencies = mapOf(
         project(":airflow-api") to listOf(
             "com.google.guava:guava",

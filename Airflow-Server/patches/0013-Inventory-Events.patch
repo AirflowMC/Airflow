@@ -5,10 +5,10 @@ Subject: [PATCH] Inventory Events
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index d6a0cd9c22785edb7e7966141b301c02c456d076..45653fe04137c5eca009b108f04bd2812af54348 100644
+index 7305c9f03963e0c8b1fd7a5e4cf6ef616971dccd..a5fa654d70371eadec1ca98489f30b5e43a9d9b3 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -1083,6 +1083,11 @@ public class ServerPlayer extends Player {
+@@ -1273,6 +1273,11 @@ public class ServerPlayer extends Player {
              } else {
                  // Airflow start - Inventory API
                  abstractContainerMenu.getAirMenuView().setTitle(menu.getDisplayName());
@@ -20,7 +20,7 @@ index d6a0cd9c22785edb7e7966141b301c02c456d076..45653fe04137c5eca009b108f04bd281
                  abstractContainerMenu.getAirMenuView().openScreen();
                  /*
                  this.connection
-@@ -1138,6 +1143,7 @@ public class ServerPlayer extends Player {
+@@ -1328,6 +1333,7 @@ public class ServerPlayer extends Player {
  
      @Override
      public void doCloseContainer() {
@@ -29,11 +29,11 @@ index d6a0cd9c22785edb7e7966141b301c02c456d076..45653fe04137c5eca009b108f04bd281
          this.inventoryMenu.transferState(this.containerMenu);
          this.containerMenu = this.inventoryMenu;
 diff --git a/net/minecraft/world/inventory/AbstractContainerMenu.java b/net/minecraft/world/inventory/AbstractContainerMenu.java
-index 7522c722e65db2e97b926b3e74291512f2d23954..796bac3ac2dbc6caae23b523687321519a17e19a 100644
+index dd5a0f589041c5c94e06745dee73d5ce411371f6..acdcf10e24a30816955f741cd31cc5fbb8559a8b 100644
 --- a/net/minecraft/world/inventory/AbstractContainerMenu.java
 +++ b/net/minecraft/world/inventory/AbstractContainerMenu.java
-@@ -296,6 +296,11 @@ public abstract class AbstractContainerMenu {
-     public abstract ItemStack quickMoveStack(Player player, int index);
+@@ -327,6 +327,11 @@ public abstract class AbstractContainerMenu {
+     }
  
      public void clicked(int slotId, int button, ClickType clickType, Player player) {
 +        // Airflow start - Inventory Events

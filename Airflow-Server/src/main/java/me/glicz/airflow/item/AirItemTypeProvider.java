@@ -9,6 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 public class AirItemTypeProvider extends ItemTypeProvider {
     @Override
     protected ItemType get(Key key) {
-        return BuiltInRegistries.ITEM.get(ResourceLocation.parse(key.asString())).airItemType;
+        return BuiltInRegistries.ITEM.getValue(ResourceLocation.parse(key.asString())).airItemType;
     }
 }

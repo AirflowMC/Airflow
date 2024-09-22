@@ -1,0 +1,32 @@
+name: Build Airflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-airflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+      - name: Setup JDK 21 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: corretto
+          architecture: x64
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Apply Patches
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "GitHub Actions"
+          ./gradlew applyPatches --stacktrace
+      - name: Create Paperclip Jar
+        run: ./gradlew createPaperclipJar --stacktrace
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: Airflow-Server/build/libs/Airflow-paperclip-*.jar

@@ -324,7 +324,7 @@ index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e439191
          public void close() {
              IOUtils.closeQuietly((Writer)this.output);
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index 492c3117f2eee29a7054fda2c0e4e4b5886eb2af..a7f9ed38ec466485f91c31354da07c9fad87de21 100644
+index ca468cf3a3835b6db81bd0918645ea643d1df56f..427928e13bb6004a6761e85180fd6f720e95e5fd 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -67,7 +67,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

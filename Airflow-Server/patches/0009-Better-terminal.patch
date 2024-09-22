@@ -22,7 +22,7 @@ index 72732dff3952d60b2639da255f3be648292f2646..ec526493a1e0a0c7c8637a0ec06dd41c
  
      public KeyPair getKeyPair() {
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index a7f9ed38ec466485f91c31354da07c9fad87de21..13baf0b2c53fbcc093fa1fc09791f4b5b0c19a85 100644
+index 427928e13bb6004a6761e85180fd6f720e95e5fd..184e8b65a8b361a9b39023890ebe4890eab638c3 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -108,6 +108,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

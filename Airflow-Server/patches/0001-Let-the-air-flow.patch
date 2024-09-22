@@ -70,7 +70,7 @@ index 8f55652820ee340addf8e221f792d4f29b47e726..9e7502f04edc25977b90662718617cb4
 +    // Airflow end
  }
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index b406930be0d896371c7d2ee0a22b987bc2408bef..492c3117f2eee29a7054fda2c0e4e4b5886eb2af 100644
+index b406930be0d896371c7d2ee0a22b987bc2408bef..ca468cf3a3835b6db81bd0918645ea643d1df56f 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -80,6 +80,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -105,7 +105,7 @@ index b406930be0d896371c7d2ee0a22b987bc2408bef..492c3117f2eee29a7054fda2c0e4e4b5
          thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER));
          thread.start();
 -        LOGGER.info("Starting minecraft server version {}", SharedConstants.getCurrentVersion().getName());
-+        LOGGER.info("Starting {} minecraft server version {}", getServerModName(), SharedConstants.getCurrentVersion().getName());
++        LOGGER.info("Starting {} minecraft server version {}-{}@{}", getServerModName(), SharedConstants.getCurrentVersion().getName(), airflow.version.getBranch(), airflow.version.getShortCommit());
          if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
              LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
          }

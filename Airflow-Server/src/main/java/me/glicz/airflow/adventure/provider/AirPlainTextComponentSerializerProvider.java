@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AirPlainTextComponentProvider implements PlainTextComponentSerializer.Provider {
+public class AirPlainTextComponentSerializerProvider implements PlainTextComponentSerializer.Provider {
     @Override
     public @NotNull PlainTextComponentSerializer plainTextSimple() {
         return PlainTextComponentSerializer.builder().flattener(AdventureUtils.FLATTENER).build();

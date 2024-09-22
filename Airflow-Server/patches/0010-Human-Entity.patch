@@ -1,0 +1,155 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Sat, 21 Sep 2024 23:09:39 +0200
+Subject: [PATCH] Human Entity
+
+
+diff --git a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
+index bb86f6de77053e57219760297e1c018f3f02f256..bf2724d737e219362a3fa9015ca33c108533726e 100644
+--- a/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundPlayerInfoUpdatePacket.java
+@@ -28,6 +28,17 @@ public class ClientboundPlayerInfoUpdatePacket implements Packet<ClientGamePacke
+     private final EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions;
+     private final List<ClientboundPlayerInfoUpdatePacket.Entry> entries;
+ 
++    // Airflow start - Human Entity
++    public ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action action, ClientboundPlayerInfoUpdatePacket.Entry entry) {
++        this(EnumSet.of(action), entry);
++    }
++
++    public ClientboundPlayerInfoUpdatePacket(EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions, ClientboundPlayerInfoUpdatePacket.Entry entry) {
++        this.actions = actions;
++        this.entries = List.of(entry);
++    }
++    // Airflow end - Human Entity
++
+     public ClientboundPlayerInfoUpdatePacket(EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions, Collection<ServerPlayer> players) {
+         this.actions = actions;
+         this.entries = players.stream().map(ClientboundPlayerInfoUpdatePacket.Entry::new).toList();
+diff --git a/net/minecraft/server/level/ServerEntity.java b/net/minecraft/server/level/ServerEntity.java
+index 26d9a0378d948011324a5167b934f5c71cf10f9a..94ebe6de554710bbc9b0da435c829da04cd9ff73 100644
+--- a/net/minecraft/server/level/ServerEntity.java
++++ b/net/minecraft/server/level/ServerEntity.java
+@@ -231,6 +231,11 @@ public class ServerEntity {
+     public void removePairing(ServerPlayer player) {
+         this.entity.stopSeenByPlayer(player);
+         player.connection.send(new ClientboundRemoveEntitiesPacket(this.entity.getId()));
++        // Airflow start - Human Entity
++        if (this.entity instanceof me.glicz.airflow.entity.living.Human human) {
++            player.connection.send(human.createPlayerInfoRemovePacket());
++        }
++        // Airflow end - Human Entity
+     }
+ 
+     public void addPairing(ServerPlayer player) {
+@@ -245,6 +250,12 @@ public class ServerEntity {
+             LOGGER.warn("Fetching packet for removed entity {}", this.entity);
+         }
+ 
++        // Airflow start - Human Entity
++        if (this.entity instanceof me.glicz.airflow.entity.living.Human human) {
++            consumer.accept(human.createPlayerInfoUpdatePacket());
++        }
++        // Airflow end - Human Entity
++
+         Packet<ClientGamePacketListener> addEntityPacket = this.entity.getAddEntityPacket(this);
+         consumer.accept(addEntityPacket);
+         if (this.trackedDataValues != null) {
+diff --git a/net/minecraft/world/entity/EntityAttachments.java b/net/minecraft/world/entity/EntityAttachments.java
+index 3e2ae10bdbf485be01369ded12c6b4ee276d3df3..606a9b5f0f2f629a2cf7a4a0dc5383729228c138 100644
+--- a/net/minecraft/world/entity/EntityAttachments.java
++++ b/net/minecraft/world/entity/EntityAttachments.java
+@@ -73,12 +73,24 @@ public class EntityAttachments {
+         return point.yRot(-yRot * (float) (Math.PI / 180.0));
+     }
+ 
++    // Airflow start - Human Entity
++    public Builder toBuilder() {
++        return new Builder(attachments);
++    }
++    // Airflow end - Human Entity
++
+     public static class Builder {
+         private final Map<EntityAttachment, List<Vec3>> attachments = new EnumMap<>(EntityAttachment.class);
+ 
+         Builder() {
+         }
+ 
++        // Airflow start - Human Entity
++        Builder(Map<EntityAttachment, List<Vec3>> attachments) {
++            this.attachments.putAll(attachments);
++        }
++        // Airflow end - Human Entity
++
+         public EntityAttachments.Builder attach(EntityAttachment attachment, float x, float y, float z) {
+             return this.attach(attachment, new Vec3(x, y, z));
+         }
+diff --git a/net/minecraft/world/entity/EntityType.java b/net/minecraft/world/entity/EntityType.java
+index 046cb8b6b1e1718213fed104a631facf667d0299..e27ba98b2920438444d529fd2be83e8ea04bc361 100644
+--- a/net/minecraft/world/entity/EntityType.java
++++ b/net/minecraft/world/entity/EntityType.java
+@@ -815,6 +815,19 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+         "fishing_bobber",
+         EntityType.Builder.<FishingHook>of(FishingHook::new, MobCategory.MISC).noSave().noSummon().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(5)
+     );
++    // Airflow start - Human Entity
++    public static final EntityType<me.glicz.airflow.entity.living.Human> HUMAN = register(
++            "airflow:human",
++            EntityType.Builder.<me.glicz.airflow.entity.living.Human>createNothing(PLAYER.getCategory())
++                    .noSave()
++                    .noSummon()
++                    .sized(PLAYER.getWidth(), PLAYER.getHeight())
++                    .eyeHeight(PLAYER.dimensions.eyeHeight())
++                    .attachments(PLAYER.dimensions.attachments())
++                    .clientTrackingRange(PLAYER.clientTrackingRange)
++                    .updateInterval(PLAYER.updateInterval)
++    );
++    // Airflow end - Human Entity
+     private final EntityType.EntityFactory<T> factory;
+     private final MobCategory category;
+     private final ImmutableSet<Block> immuneTo;
+@@ -1269,6 +1282,13 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+             return this;
+         }
+ 
++        // Airflow start - Human Entity
++        public EntityType.Builder<T> attachments(EntityAttachments attachments) {
++            this.attachments = attachments.toBuilder();
++            return this;
++        }
++        // Airflow end - Human Entity
++
+         public EntityType.Builder<T> noSummon() {
+             this.summon = false;
+             return this;
+diff --git a/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java b/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
+index 884ade4aeec2d79377a3ac228173c41d6b6419f2..8f0259c378d11f4a9fd2e7c7d08342422e91e828 100644
+--- a/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
++++ b/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
+@@ -170,6 +170,7 @@ public class DefaultAttributes {
+         .put(EntityType.ZOMBIE_HORSE, ZombieHorse.createAttributes().build())
+         .put(EntityType.ZOMBIE_VILLAGER, Zombie.createAttributes().build())
+         .put(EntityType.ZOMBIFIED_PIGLIN, ZombifiedPiglin.createAttributes().build())
++        .put(EntityType.HUMAN, Player.createAttributes().build()) // Airflow - Human Entity
+         .build();
+ 
+     public static AttributeSupplier getSupplier(EntityType<? extends LivingEntity> livingEntity) {
+diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
+index 6fda4f56edc01f535b663afcbb71d9b1b6d726eb..512d325cd19c43fc1c16edb8dccf5f2bbfc618d8 100644
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -193,7 +193,13 @@ public abstract class Player extends LivingEntity {
+     private int currentImpulseContextResetGraceTime;
+ 
+     public Player(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {
+-        super(EntityType.PLAYER, level);
++        // Airflow start - Human Entity
++        this(EntityType.PLAYER, level, pos, yRot, gameProfile);
++    }
++
++    public Player(EntityType<? extends Player> type, Level level, BlockPos pos, float yRot, GameProfile gameProfile) {
++        super(type, level);
++        // Airflow end - Human Entity
+         this.setUUID(gameProfile.getId());
+         this.gameProfile = gameProfile;
+         this.inventoryMenu = new InventoryMenu(this.inventory, !level.isClientSide, this);

@@ -5,7 +5,7 @@ Subject: [PATCH] Entity API
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..73462d0a0f61ef3b885bd315e9e619ab87f4b4e9 100644
+index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..9052a3899aedddb7265b8cef7c80e3addd79d3ab 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
 @@ -288,6 +288,18 @@ public class ServerPlayer extends Player {
@@ -27,6 +27,15 @@ index 27c18422134d2416b792ea8976e1fc5f7d4a7ed9..73462d0a0f61ef3b885bd315e9e619ab
      @Override
      public BlockPos adjustSpawnLocation(ServerLevel level, BlockPos pos) {
          AABB aabb = this.getDimensions(Pose.STANDING).makeBoundingBox(Vec3.ZERO);
+@@ -1629,7 +1641,7 @@ public class ServerPlayer extends Player {
+ 
+     @Nullable
+     public Component getTabListDisplayName() {
+-        return null;
++        return super.getTabListDisplayName(); // Airflow - Entity API
+     }
+ 
+     @Override
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
 index fdef434e0553c24ba0a25179896028e892d6b3ba..1b32d5352e7b47f71580e7d998c43131e905f988 100644
 --- a/net/minecraft/world/entity/Entity.java
@@ -118,22 +127,24 @@ index b6a83f7f2c1f5b438252dc236c31aa31c766f832..282ac1ea5bb7081c9d2735adadc9ad4a
      }
  
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..7baf25e6f31f05ad3ece612861782ce004f9e8fa 100644
+index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..6fda4f56edc01f535b663afcbb71d9b1b6d726eb 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -202,6 +202,18 @@ public abstract class Player extends LivingEntity {
+@@ -202,6 +202,20 @@ public abstract class Player extends LivingEntity {
          this.rotOffs = 180.0F;
      }
  
 +    // Airflow start - Entity API
 +    @Override
-+    protected me.glicz.airflow.entity.living.AirHumanoid createAirEntity() {
-+        return new me.glicz.airflow.entity.living.AirHumanoid(this);
-+    }
++    protected abstract me.glicz.airflow.entity.living.AirHumanoid createAirEntity();
 +
 +    @Override
 +    public me.glicz.airflow.entity.living.AirHumanoid getAirEntity() {
 +        return (me.glicz.airflow.entity.living.AirHumanoid) super.getAirEntity();
++    }
++
++    public Component getTabListDisplayName() {
++        return getAirEntity().componentSerializer().serializeOrNull(getAirEntity().getPlayerListName());
 +    }
 +    // Airflow end - Entity API
 +

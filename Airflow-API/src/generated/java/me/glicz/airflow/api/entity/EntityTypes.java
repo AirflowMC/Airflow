@@ -3,6 +3,7 @@ package me.glicz.airflow.api.entity;
 import static me.glicz.airflow.api.entity.EntityTypeProvider.provider;
 import static net.kyori.adventure.key.Key.key;
 
+import me.glicz.airflow.api.entity.living.Human;
 import me.glicz.airflow.api.entity.living.LivingEntity;
 import me.glicz.airflow.api.entity.living.Mob;
 import me.glicz.airflow.api.entity.living.Player;
@@ -348,6 +349,12 @@ public final class EntityTypes {
    * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
    */
   public static final EntityType<Mob> HORSE = provider().get(key("minecraft:horse"));
+
+  /**
+   * {@code airflow:human}
+   * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+   */
+  public static final EntityType<Human> HUMAN = provider().get(key("airflow:human"));
 
   /**
    * {@code minecraft:husk}

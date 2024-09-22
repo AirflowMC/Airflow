@@ -12,10 +12,17 @@ import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
+import java.util.EnumSet;
+import java.util.List;
 
 public class AirPlayer extends AirHumanoid implements Player {
     public AirPlayer(ServerPlayer handle) {
         super(handle);
+    }
+
+    @Override
+    protected ClientboundPlayerInfoUpdatePacket createPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action... actions) {
+        return new ClientboundPlayerInfoUpdatePacket(EnumSet.copyOf(List.of(actions)), List.of(getHandle()));
     }
 
     @Override

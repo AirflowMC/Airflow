@@ -127,16 +127,18 @@ index b6a83f7f2c1f5b438252dc236c31aa31c766f832..282ac1ea5bb7081c9d2735adadc9ad4a
      }
  
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..6fda4f56edc01f535b663afcbb71d9b1b6d726eb 100644
+index 937fbb102bdefc2b382549dbfcf81a84d9ee6cf9..46499a3204c287ee9a31e280a4344073a0a6d173 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -202,6 +202,20 @@ public abstract class Player extends LivingEntity {
+@@ -202,6 +202,22 @@ public abstract class Player extends LivingEntity {
          this.rotOffs = 180.0F;
      }
  
 +    // Airflow start - Entity API
 +    @Override
-+    protected abstract me.glicz.airflow.entity.living.AirHumanoid createAirEntity();
++    protected me.glicz.airflow.entity.living.AirHumanoid createAirEntity() {
++        return null;
++    }
 +
 +    @Override
 +    public me.glicz.airflow.entity.living.AirHumanoid getAirEntity() {

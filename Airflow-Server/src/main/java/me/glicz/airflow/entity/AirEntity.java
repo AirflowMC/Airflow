@@ -1,5 +1,6 @@
 package me.glicz.airflow.entity;
 
+import me.glicz.airflow.api.block.Block;
 import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.entity.EntityType;
 import me.glicz.airflow.api.util.math.Vector2f;
@@ -7,8 +8,10 @@ import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.World;
 import me.glicz.airflow.command.sender.AirCommandSender;
 import net.kyori.adventure.text.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +48,18 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     }
 
     @Override
+    public @NotNull Vector3d getVelocity() {
+        Vec3 velocity = getHandle().getDeltaMovement();
+        return new Vector3d(velocity.x, velocity.y, velocity.y);
+    }
+
+    @Override
+    public void setVelocity(@NotNull Vector3d velocity) {
+        getHandle().setDeltaMovement(velocity.x(), velocity.y(), velocity.z());
+        getHandle().hurtMarked = true;
+    }
+
+    @Override
     public @Nullable Component getCustomName() {
         return componentSerializer().deserializeOrNull(getHandle().getCustomName());
     }
@@ -67,6 +82,18 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
     @Override
     public boolean isAlive() {
         return getHandle().isAlive();
+    }
+
+    @Override
+    public @NotNull Block getBlockBelow() {
+        BlockPos pos = getHandle().getOnPos();
+        return getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Override
+    public @NotNull Block getMovementAffectingBlock() {
+        BlockPos pos = getHandle().getBlockPosBelowThatAffectsMyMovement();
+        return getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override

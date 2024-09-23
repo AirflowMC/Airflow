@@ -1,5 +1,6 @@
 package me.glicz.airflow.api.entity;
 
+import me.glicz.airflow.api.block.Block;
 import me.glicz.airflow.api.command.sender.CommandSender;
 import me.glicz.airflow.api.util.Typed;
 import me.glicz.airflow.api.util.math.Vector2f;
@@ -25,6 +26,14 @@ public interface Entity extends CommandSender, Typed<EntityType<?>> {
         return new Location(getWorld(), getPosition(), getRotation());
     }
 
+    @NotNull Vector3d getVelocity();
+
+    void setVelocity(@NotNull Vector3d velocity);
+
+    default void addVelocity(@NotNull Vector3d velocity) {
+        setVelocity(getVelocity().add(velocity));
+    }
+
     @Nullable Component getCustomName();
 
     void setCustomName(@Nullable Component name);
@@ -34,4 +43,8 @@ public interface Entity extends CommandSender, Typed<EntityType<?>> {
     void setCustomNameVisible(boolean visible);
 
     boolean isAlive();
+
+    @NotNull Block getBlockBelow();
+
+    @NotNull Block getMovementAffectingBlock();
 }

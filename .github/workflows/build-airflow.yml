@@ -3,7 +3,7 @@ name: Build Airflow
 on:
   push:
     branches:
-      - main
+      - 'version/**'
 
 jobs:
   build-airflow:

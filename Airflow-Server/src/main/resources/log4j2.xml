@@ -7,13 +7,13 @@
     </Properties>
     <Appenders>
         <Queue name="ServerGuiConsole">
-            <PatternLayout pattern="%stripAnsi{${Gui}}" />
+            <PatternLayout pattern="%stripAnsi{${Gui}}"/>
         </Queue>
 
         <TerminalConsole name="TerminalConsole">
             <PatternLayout>
                 <LoggerNamePatternSelector defaultPattern="${Default}">
-                    <PatternMatch key=",net.minecraft.,com.mojang.,me.glicz.airflow." pattern="${NoLogger}" />
+                    <PatternMatch key=",net.minecraft.,com.mojang.,me.glicz.airflow." pattern="${NoLogger}"/>
                 </LoggerNamePatternSelector>
             </PatternLayout>
         </TerminalConsole>
@@ -21,12 +21,13 @@
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
                 <LoggerNamePatternSelector defaultPattern="%stripAnsi{${Default}}">
-                    <PatternMatch key=",net.minecraft.,com.mojang.,me.glicz.airflow." pattern="%stripAnsi{${NoLogger}}" />
+                    <PatternMatch key=",net.minecraft.,com.mojang.,me.glicz.airflow."
+                                  pattern="%stripAnsi{${NoLogger}}"/>
                 </LoggerNamePatternSelector>
             </PatternLayout>
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
             </Policies>
             <DefaultRolloverStrategy max="1000"/>
         </RollingRandomAccessFile>

@@ -1,6 +1,9 @@
 package me.glicz.airflow.entity.living;
 
 import me.glicz.airflow.api.entity.living.Player;
+import me.glicz.airflow.api.inventory.menu.MenuType;
+import me.glicz.airflow.api.inventory.menu.view.MenuView;
+import me.glicz.airflow.inventory.menu.AirMenuType;
 import net.kyori.adventure.chat.SignedMessage;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -9,11 +12,15 @@ import net.kyori.adventure.util.Ticks;
 import net.minecraft.network.chat.MessageSignature;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AirPlayer extends AirHumanoid implements Player {
     public AirPlayer(ServerPlayer handle) {
@@ -93,5 +100,22 @@ public class AirPlayer extends AirHumanoid implements Player {
         }
 
         return (int) (duration.getSeconds() / Ticks.SINGLE_TICK_DURATION_MS);
+    }
+
+    @Override
+    public <T extends MenuView> @NotNull T openMenu(@NotNull MenuType<T> menuType, @NotNull Component title, @Nullable Consumer<T> consumer) {
+        getHandle().openMenu(new SimpleMenuProvider((containerId, playerInventory, player) -> {
+            AbstractContainerMenu containerMenu = ((AirMenuType<T>) menuType).handle.create(containerId, playerInventory);
+            containerMenu.getAirMenuView().pluginOpened = true;
+
+            if (consumer != null) {
+                //noinspection unchecked
+                consumer.accept((T) containerMenu.getAirMenuView());
+            }
+
+            return containerMenu;
+        }, componentSerializer().serialize(title)));
+        //noinspection unchecked
+        return (T) getHandle().containerMenu.getAirMenuView();
     }
 }

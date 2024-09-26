@@ -12,12 +12,12 @@ public interface BlockType extends ItemTypeLike {
     @NotNull BlockState createBlockState(String state) throws CommandSyntaxException;
 
     @Override
-    default @NotNull BlockType getBlockType() {
+    default @NotNull BlockType asBlockType() {
         return this;
     }
 
     @Override
     default @NotNull ItemStack newItemStack(int amount) {
-        return getItemType().newItemStack(amount);
+        return asItemType().newItemStack(amount);
     }
 }

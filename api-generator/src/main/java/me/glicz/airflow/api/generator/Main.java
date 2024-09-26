@@ -6,6 +6,7 @@ import joptsimple.OptionSpec;
 import me.glicz.airflow.api.generator.block.BlockTypesGenerator;
 import me.glicz.airflow.api.generator.block.state.BlockStatePropertiesGenerator;
 import me.glicz.airflow.api.generator.entity.EntityTypesGenerator;
+import me.glicz.airflow.api.generator.inventory.menu.MenuTypesGenerator;
 import me.glicz.airflow.api.generator.item.ItemTypesGenerator;
 import me.glicz.airflow.api.generator.item.component.ItemComponentTypesGenerator;
 import net.minecraft.SharedConstants;
@@ -35,6 +36,7 @@ public class Main {
         new BlockStatePropertiesGenerator().run(version, sourceFolder);
         new BlockTypesGenerator().run(version, sourceFolder);
         new EntityTypesGenerator().run(version, sourceFolder);
+        new MenuTypesGenerator().run(version, sourceFolder);
         new ItemComponentTypesGenerator().run(version, sourceFolder);
         new ItemTypesGenerator().run(version, sourceFolder);
     }

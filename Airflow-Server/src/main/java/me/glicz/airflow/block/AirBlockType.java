@@ -10,6 +10,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class AirBlockType implements BlockType {
     private final Block handle;
 
@@ -18,7 +20,7 @@ public class AirBlockType implements BlockType {
     }
 
     @Override
-    public @NotNull ItemType getItemType() {
+    public @NotNull ItemType asItemType() {
         return this.handle.asItem().airItemType;
     }
 
@@ -41,5 +43,17 @@ public class AirBlockType implements BlockType {
     @Override
     public @NotNull String translationKey() {
         return this.handle.getDescriptionId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AirBlockType that)) return false;
+        return Objects.equals(this.handle, that.handle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.handle);
     }
 }

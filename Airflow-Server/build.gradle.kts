@@ -62,7 +62,11 @@ afterEvaluate {
             project(":test-plugin").tasks.jar.let { testPluginJar ->
                 dependsOn(testPluginJar)
 
-                testPluginJar.get().destinationDirectory.set(project.rootDir.resolve("run/plugins"))
+                testPluginJar.get().destinationDirectory.set(
+                    project.rootDir.resolve("run/plugins").apply {
+                        deleteRecursively()
+                    }
+                )
             }
         }
     }

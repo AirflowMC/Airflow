@@ -9,8 +9,11 @@ import net.kyori.adventure.key.Key;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class AirItemType implements ItemType {
     private final Item handle;
@@ -20,7 +23,7 @@ public class AirItemType implements ItemType {
     }
 
     @Override
-    public @Nullable BlockType getBlockType() {
+    public @Nullable BlockType asBlockType() {
         if (this.handle instanceof BlockItem blockItem) {
             return blockItem.getBlock().airBlockType;
         }
@@ -35,8 +38,8 @@ public class AirItemType implements ItemType {
 
     @Override
     public @NotNull Key key() {
-        //noinspection PatternValidation
-        return Key.key(BuiltInRegistries.ITEM.getKey(this.handle).toString());
+        @Subst("minecraft:item") String key = BuiltInRegistries.ITEM.getKey(this.handle).toString();
+        return Key.key(key);
     }
 
     @Override
@@ -47,5 +50,17 @@ public class AirItemType implements ItemType {
     @Override
     public @NotNull ItemComponentMap getItemComponentMap() {
         return new AirItemComponentMap(this.handle.components());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AirItemType that)) return false;
+        return Objects.equals(this.handle, that.handle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.handle);
     }
 }

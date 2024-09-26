@@ -10,9 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public interface ItemTypeLike extends Keyed, Translatable {
-    @NotNull ItemType getItemType();
+    @NotNull ItemType asItemType();
 
-    @Nullable BlockType getBlockType();
+    @Nullable BlockType asBlockType();
 
     default @NotNull ItemStack newItemStack() {
         return newItemStack(1);

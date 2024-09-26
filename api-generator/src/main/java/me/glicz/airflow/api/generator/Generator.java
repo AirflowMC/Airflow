@@ -18,6 +18,7 @@ public abstract class Generator {
             {@code $L}
             @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
             """;
+    private static final int INDENT_SIZE = 4;
 
     private final String packageName;
     private final String className;
@@ -47,6 +48,7 @@ public abstract class Generator {
         JavaFile javaFile = JavaFile.builder(this.packageName, builder.build())
                 .addStaticImport(this.providerType, "provider")
                 .addStaticImport(Key.class, "key")
+                .indent(" ".repeat(INDENT_SIZE))
                 .build();
 
         javaFile.writeToFile(sourceFolder);

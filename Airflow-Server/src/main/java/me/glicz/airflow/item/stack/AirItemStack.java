@@ -29,6 +29,21 @@ public class AirItemStack implements ItemStack {
     }
 
     @Override
+    public int getAmount() {
+        return this.handle.getCount();
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        this.handle.setCount(amount);
+    }
+
+    @Override
+    public @NotNull ItemStack withAmount(int amount) {
+        return this.handle.copyWithCount(amount).airItemStack;
+    }
+
+    @Override
     public boolean isEmpty() {
         return this.handle.isEmpty();
     }

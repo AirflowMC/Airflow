@@ -5,8 +5,10 @@ import me.glicz.airflow.api.block.BlockTypes;
 import me.glicz.airflow.api.block.state.BlockStateProperties;
 import me.glicz.airflow.api.event.bus.EventHandler;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
+import me.glicz.airflow.api.inventory.Inventory;
 import me.glicz.airflow.api.inventory.entity.EquipmentSlot;
 import me.glicz.airflow.api.inventory.entity.EquipmentSlotGroup;
+import me.glicz.airflow.api.inventory.menu.MenuTypes;
 import me.glicz.airflow.api.item.ItemTypes;
 import me.glicz.airflow.api.item.component.ItemComponentTypes;
 import me.glicz.airflow.api.item.lore.ItemLore;
@@ -53,6 +55,13 @@ public class JoinListener implements EventHandler<PlayerJoinEvent> {
                 .taskBuilder(() -> {
                     e.getPlayer().getInventory().setSelectedSlot(2);
                     e.getPlayer().getInventory().setItem(1, ItemTypes.DIRT.newItemStack());
+
+                    e.getPlayer().openMenu(MenuTypes.GENERIC_9x3, Component.text("Hello ").append(e.getPlayer().getDisplayName()), view -> {
+                        Inventory inventory = view.getComposedInventory();
+                        inventory.setItem(1, ItemTypes.EMERALD.newItemStack());
+                        inventory.setItem(4, ItemTypes.DIRT.newItemStack());
+                        inventory.setItem(7, ItemTypes.DIAMOND.newItemStack());
+                    });
                 })
                 .delay(5 * 20)
                 .schedule();

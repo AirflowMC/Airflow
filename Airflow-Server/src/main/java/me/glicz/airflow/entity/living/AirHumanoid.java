@@ -2,6 +2,8 @@ package me.glicz.airflow.entity.living;
 
 import me.glicz.airflow.api.entity.living.Humanoid;
 import me.glicz.airflow.api.inventory.entity.PlayerInventory;
+import me.glicz.airflow.api.inventory.menu.view.MenuView;
+import me.glicz.airflow.api.util.LazyReference;
 import me.glicz.airflow.inventory.entity.AirPlayerInventory;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
@@ -10,12 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AirHumanoid extends AirLivingEntity implements Humanoid {
-    private final PlayerInventory inventory;
+    private final LazyReference<PlayerInventory> inventory = LazyReference.lazy(() -> new AirPlayerInventory(this));
     protected Component playerListName;
 
     public AirHumanoid(Player handle) {
         super(handle);
-        this.inventory = new AirPlayerInventory(this);
     }
 
     protected abstract ClientboundPlayerInfoUpdatePacket createPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action... actions);
@@ -27,7 +28,12 @@ public abstract class AirHumanoid extends AirLivingEntity implements Humanoid {
 
     @Override
     public @NotNull PlayerInventory getInventory() {
-        return this.inventory;
+        return this.inventory.get();
+    }
+
+    @Override
+    public @NotNull MenuView getMenuView() {
+        return getHandle().containerMenu.getAirMenuView();
     }
 
     @Override

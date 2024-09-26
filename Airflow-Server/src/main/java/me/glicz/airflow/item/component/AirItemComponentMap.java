@@ -8,6 +8,7 @@ import net.minecraft.core.component.DataComponentType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,5 +43,17 @@ public class AirItemComponentMap implements ItemComponentMap {
     @Override
     public String toString() {
         return getHandle().toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AirItemComponentMap that)) return false;
+        return Objects.equals(this.handle, that.handle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.handle);
     }
 }

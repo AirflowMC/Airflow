@@ -7,7 +7,7 @@ public interface ItemType extends ItemTypeLike {
     @NotNull ItemComponentMap getItemComponentMap();
 
     @Override
-    default @NotNull ItemType getItemType() {
+    default @NotNull ItemType asItemType() {
         return this;
     }
 }

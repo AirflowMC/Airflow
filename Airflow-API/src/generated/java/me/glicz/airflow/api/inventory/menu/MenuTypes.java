@@ -4,6 +4,7 @@ import static me.glicz.airflow.api.inventory.menu.MenuTypeProvider.provider;
 import static net.kyori.adventure.key.Key.key;
 
 import me.glicz.airflow.api.generator.GenerationVersion;
+import me.glicz.airflow.api.inventory.menu.view.AnvilView;
 import me.glicz.airflow.api.inventory.menu.view.ItemCombinerView;
 import me.glicz.airflow.api.inventory.menu.view.LoomView;
 import me.glicz.airflow.api.inventory.menu.view.MenuView;
@@ -17,7 +18,7 @@ public final class MenuTypes {
      * {@code minecraft:anvil}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
-    public static final MenuType<ItemCombinerView> ANVIL = provider().get(key("minecraft:anvil"));
+    public static final MenuType<AnvilView> ANVIL = provider().get(key("minecraft:anvil"));
 
     /**
      * {@code minecraft:beacon}

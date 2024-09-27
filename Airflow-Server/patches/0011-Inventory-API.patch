@@ -143,6 +143,34 @@ index be78cd0fad537ad9de606177ea02fb2950e5fc7a..2576e737fda415266d5686094f6fda78
      @Override
      public void fillCraftSlotsStackedContents(StackedContents itemHelper) {
          if (this.container instanceof StackedContentsCompatible) {
+diff --git a/net/minecraft/world/inventory/AnvilMenu.java b/net/minecraft/world/inventory/AnvilMenu.java
+index d0dda1059adc2d6a32b147fae8983276b034e96d..799b669b408831a03d5faa233f9dd40a5bfcc675 100644
+--- a/net/minecraft/world/inventory/AnvilMenu.java
++++ b/net/minecraft/world/inventory/AnvilMenu.java
+@@ -52,6 +52,23 @@ public class AnvilMenu extends ItemCombinerMenu {
+         this.addDataSlot(this.cost);
+     }
+ 
++    // Airflow start - Inventory API
++    @Override
++    protected me.glicz.airflow.inventory.menu.view.AirAnvilView createAirMenuView(Player player) {
++        return new me.glicz.airflow.inventory.menu.view.AirAnvilView(player, this, this.inputSlots, this.resultSlots);
++    }
++
++    @Override
++    public me.glicz.airflow.inventory.menu.view.AirAnvilView getAirMenuView() {
++        return (me.glicz.airflow.inventory.menu.view.AirAnvilView) super.getAirMenuView();
++    }
++
++    @Nullable
++    public String getItemName() {
++        return this.itemName;
++    }
++    // Airflow end - Inventory API
++
+     @Override
+     protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
+         return ItemCombinerMenuSlotDefinition.create()
 diff --git a/net/minecraft/world/inventory/BeaconMenu.java b/net/minecraft/world/inventory/BeaconMenu.java
 index 879262201e64b76295c44be4145476a92446e66b..dc3bf7c1c79bfe72cc85a2c03215eec4342b38d2 100644
 --- a/net/minecraft/world/inventory/BeaconMenu.java

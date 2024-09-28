@@ -1,0 +1,90 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: GliczDev <67753196+GliczDev@users.noreply.github.com>
+Date: Sat, 28 Sep 2024 14:24:52 +0200
+Subject: [PATCH] Packet Events
+
+
+diff --git a/net/minecraft/network/RegistryFriendlyByteBuf.java b/net/minecraft/network/RegistryFriendlyByteBuf.java
+index e1651db791e55a6621157116359aa9aca6919475..432aad956ae1b3d91da077652d6e096eaf34b832 100644
+--- a/net/minecraft/network/RegistryFriendlyByteBuf.java
++++ b/net/minecraft/network/RegistryFriendlyByteBuf.java
+@@ -6,17 +6,21 @@ import net.minecraft.core.RegistryAccess;
+ 
+ public class RegistryFriendlyByteBuf extends FriendlyByteBuf {
+     private final RegistryAccess registryAccess;
++    public final net.minecraft.server.dedicated.DedicatedServer server; // Airflow - Packet Events
+ 
+-    public RegistryFriendlyByteBuf(ByteBuf source, RegistryAccess registryAccess) {
++    public RegistryFriendlyByteBuf(ByteBuf source, RegistryAccess registryAccess, net.minecraft.server.dedicated.DedicatedServer server) { // Airflow - Packet Events
+         super(source);
+         this.registryAccess = registryAccess;
++        this.server = server; // Airflow - Packet Events
+     }
+ 
+     public RegistryAccess registryAccess() {
+         return this.registryAccess;
+     }
+ 
+-    public static Function<ByteBuf, RegistryFriendlyByteBuf> decorator(RegistryAccess registry) {
+-        return byteBuf -> new RegistryFriendlyByteBuf(byteBuf, registry);
++    // Airflow start - Packet Events
++    public static Function<ByteBuf, RegistryFriendlyByteBuf> decorator(RegistryAccess registry, net.minecraft.server.dedicated.DedicatedServer server) {
++        return byteBuf -> new RegistryFriendlyByteBuf(byteBuf, registry, server);
++    // Airflow end - Packet Events
+     }
+ }
+diff --git a/net/minecraft/server/network/ServerConfigurationPacketListenerImpl.java b/net/minecraft/server/network/ServerConfigurationPacketListenerImpl.java
+index 8e39d689fc5eb405d76dee0a071b45960f74a25b..6b1b289ac3f46b2e726dc72b6d30e168cdb750c7 100644
+--- a/net/minecraft/server/network/ServerConfigurationPacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerConfigurationPacketListenerImpl.java
+@@ -130,7 +130,7 @@ public class ServerConfigurationPacketListenerImpl extends ServerCommonPacketLis
+     public void handleConfigurationFinished(ServerboundFinishConfigurationPacket packet) {
+         PacketUtils.ensureRunningOnSameThread(packet, this, this.server);
+         this.finishCurrentTask(JoinWorldTask.TYPE);
+-        this.connection.setupOutboundProtocol(GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(this.server.registryAccess())));
++        this.connection.setupOutboundProtocol(GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(this.server.registryAccess(), this.server.getDedicatedServer()))); // Airflow - Packet Events
+ 
+         try {
+             PlayerList playerList = this.server.getPlayerList();
+diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
+index 2f271f97353d2bbc16004a865d657e08b73fbf8c..bbb215826685ab3608879119a4772a7bb1c3cf06 100644
+--- a/net/minecraft/server/players/PlayerList.java
++++ b/net/minecraft/server/players/PlayerList.java
+@@ -177,7 +177,7 @@ public abstract class PlayerList {
+         player.loadGameTypes(optional.orElse(null));
+         ServerGamePacketListenerImpl serverGamePacketListenerImpl = new ServerGamePacketListenerImpl(this.server, connection, player, cookie);
+         connection.setupInboundProtocol(
+-            GameProtocols.SERVERBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(this.server.registryAccess())), serverGamePacketListenerImpl
++            GameProtocols.SERVERBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(this.server.registryAccess(), this.server.getDedicatedServer())), serverGamePacketListenerImpl // Airflow - Packet Events
+         );
+         GameRules gameRules = serverLevel.getGameRules();
+         boolean _boolean = gameRules.getBoolean(GameRules.RULE_DO_IMMEDIATE_RESPAWN);
+diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
+index 014099568e69e8af1466645ac0fedd74de9778c9..5a10f68cec304947216aeadc1b53c41e71475c62 100644
+--- a/net/minecraft/world/item/ItemStack.java
++++ b/net/minecraft/world/item/ItemStack.java
+@@ -129,12 +129,23 @@ public final class ItemStack implements DataComponentHolder {
+             } else {
+                 Holder<Item> holder = ITEM_STREAM_CODEC.decode(buffer);
+                 DataComponentPatch dataComponentPatch = DataComponentPatch.STREAM_CODEC.decode(buffer);
+-                return new ItemStack(holder, varInt, dataComponentPatch);
++                // Airflow start - Packet Events
++                me.glicz.airflow.api.event.packet.ItemStackDecodeEvent event = buffer.server.airflow.serverEventBus.dispatchItemStackDecode(
++                        new ItemStack(holder, varInt, dataComponentPatch)
++                );
++                return ((me.glicz.airflow.item.stack.AirItemStack) event.getItemStack()).handle;
++                // Airflow end - Packet Events
+             }
+         }
+ 
+         @Override
+         public void encode(RegistryFriendlyByteBuf buffer, ItemStack value) {
++            // Airflow start - Packet Events
++            if (!value.isEmpty()) {
++                me.glicz.airflow.api.event.packet.ItemStackEncodeEvent event = buffer.server.airflow.serverEventBus.dispatchItemStackEncode(value);
++                value = ((me.glicz.airflow.item.stack.AirItemStack) event.getItemStack()).handle;
++            }
++            // Airflow end - Packet Events
+             if (value.isEmpty()) {
+                 buffer.writeVarInt(0);
+             } else {

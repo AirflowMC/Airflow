@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.glicz.airflow.api.block.BlockTypes;
 import me.glicz.airflow.api.command.Commands;
 import me.glicz.airflow.api.event.command.CommandsRegisterEvent;
+import me.glicz.airflow.api.event.packet.ItemStackEncodeEvent;
 import me.glicz.airflow.api.event.player.PlayerJoinEvent;
 import me.glicz.airflow.api.event.player.PlayerQuitEvent;
 import me.glicz.airflow.api.permission.DummyPermissionsSource;
@@ -15,6 +16,7 @@ import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
 import me.glicz.airflow.api.service.ServiceProvider;
 import me.glicz.testplugin.event.TestEvent;
+import me.glicz.testplugin.listener.EmeraldEncodeListener;
 import me.glicz.testplugin.listener.JoinListener;
 import me.glicz.testplugin.listener.QuitListener;
 import me.glicz.testplugin.listener.TestListener;
@@ -98,6 +100,7 @@ public class TestPlugin extends Plugin {
 
     @Override
     public void onEnable() {
+        getEventBus().subscribe(ItemStackEncodeEvent.class, new EmeraldEncodeListener());
         getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener(this));
         getEventBus().subscribe(PlayerQuitEvent.class, new QuitListener());
 

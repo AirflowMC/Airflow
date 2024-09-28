@@ -8,6 +8,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ResultContainer;
+import org.jetbrains.annotations.NotNull;
 
 public class AirItemCombinerView extends AirMenuView implements ItemCombinerView {
     private final AirSimpleInventory resultInventory;
@@ -23,7 +24,7 @@ public class AirItemCombinerView extends AirMenuView implements ItemCombinerView
     }
 
     @Override
-    public Inventory getResultInventory() {
+    public @NotNull Inventory getResultInventory() {
         return this.resultInventory;
     }
 }

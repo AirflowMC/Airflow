@@ -16,10 +16,7 @@ import me.glicz.airflow.api.plugin.bootstrap.BootstrapContext;
 import me.glicz.airflow.api.service.ServicePriority;
 import me.glicz.airflow.api.service.ServiceProvider;
 import me.glicz.testplugin.event.TestEvent;
-import me.glicz.testplugin.listener.EmeraldEncodeListener;
-import me.glicz.testplugin.listener.JoinListener;
-import me.glicz.testplugin.listener.QuitListener;
-import me.glicz.testplugin.listener.TestListener;
+import me.glicz.testplugin.listener.*;
 import me.glicz.testplugin.service.TestService;
 import me.glicz.testplugin.service.TestServiceImpl;
 import net.kyori.adventure.key.Key;
@@ -103,6 +100,8 @@ public class TestPlugin extends Plugin {
         getEventBus().subscribe(ItemStackEncodeEvent.class, new EmeraldEncodeListener());
         getEventBus().subscribe(PlayerJoinEvent.class, new JoinListener(this));
         getEventBus().subscribe(PlayerQuitEvent.class, new QuitListener());
+
+        new InventoryListener(this).register();
 
         getServer().getPermissions().registerPermission(this, "nice_permission", Permission.DefaultValue.OP);
 

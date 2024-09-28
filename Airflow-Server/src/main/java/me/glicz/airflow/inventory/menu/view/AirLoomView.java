@@ -7,6 +7,7 @@ import me.glicz.airflow.inventory.AirSimpleInventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import org.jetbrains.annotations.NotNull;
 
 public class AirLoomView extends AirMenuView implements LoomView {
     private final AirSimpleInventory outputContainer;
@@ -22,7 +23,7 @@ public class AirLoomView extends AirMenuView implements LoomView {
     }
 
     @Override
-    public Inventory getOutputInventory() {
+    public @NotNull Inventory getOutputInventory() {
         return this.outputContainer;
     }
 }

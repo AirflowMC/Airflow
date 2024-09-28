@@ -5,15 +5,16 @@ Subject: [PATCH] Inventory API
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 9052a3899aedddb7265b8cef7c80e3addd79d3ab..7ad86e7721107065d9c26d98ca4d4ea3f920652e 100644
+index 9052a3899aedddb7265b8cef7c80e3addd79d3ab..d6a0cd9c22785edb7e7966141b301c02c456d076 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -1081,8 +1081,13 @@ public class ServerPlayer extends Player {
+@@ -1081,8 +1081,14 @@ public class ServerPlayer extends Player {
  
                  return OptionalInt.empty();
              } else {
 +                // Airflow start - Inventory API
 +                abstractContainerMenu.getAirMenuView().setTitle(menu.getDisplayName());
++                abstractContainerMenu.getAirMenuView().openScreen();
 +                /*
                  this.connection
                      .send(new ClientboundOpenScreenPacket(abstractContainerMenu.containerId, abstractContainerMenu.getType(), menu.getDisplayName()));

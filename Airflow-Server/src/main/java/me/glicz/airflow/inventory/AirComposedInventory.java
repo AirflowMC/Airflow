@@ -26,7 +26,7 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
 
     @Override
     public @NotNull ItemStack getItem(int slot) {
-        Preconditions.checkArgument(slot < getSize(), "slot >= inventory size");
+        Preconditions.checkArgument(slot >= 0 && slot < getSize(), "slot < 0 || slot >= inventory size");
 
         Iterator<AirInventory> it = this.inventories.iterator();
         int i = 0;
@@ -99,7 +99,26 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
     }
 
     @Override
-    public Collection<Inventory> getInventories() {
+    public @NotNull Collection<Inventory> getInventories() {
         return this.inventories.stream().<Inventory>map(Function.identity()).toList();
+    }
+
+    @Override
+    public @NotNull Inventory getInventoryForSlot(int slot) {
+        Preconditions.checkArgument(slot >= 0 && slot < getSize(), "slot < 0 || slot >= inventory size");
+
+        Iterator<AirInventory> it = this.inventories.iterator();
+        int i = 0;
+
+        while (it.hasNext()) {
+            AirInventory inventory = it.next();
+            if (i <= slot && i + inventory.getSize() > slot) {
+                return inventory;
+            }
+
+            i += inventory.getSize();
+        }
+
+        throw new RuntimeException(); // shouldn't happen?
     }
 }

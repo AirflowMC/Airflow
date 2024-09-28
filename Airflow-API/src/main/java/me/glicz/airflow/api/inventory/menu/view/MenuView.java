@@ -28,4 +28,6 @@ public interface MenuView {
     default @NotNull PlayerInventory getViewerInventory() {
         return getViewer().getInventory();
     }
+
+    @NotNull Inventory getInventoryForSlot(int slot);
 }

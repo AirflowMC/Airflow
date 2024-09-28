@@ -1,5 +1,6 @@
 package me.glicz.airflow.inventory.menu.view;
 
+import com.google.common.base.Preconditions;
 import me.glicz.airflow.api.entity.living.Humanoid;
 import me.glicz.airflow.api.inventory.ComposedInventory;
 import me.glicz.airflow.api.inventory.Inventory;
@@ -60,6 +61,18 @@ public class AirMenuView implements MenuView {
     }
 
     private void sendTitle(net.minecraft.network.chat.Component title) {
+        if (this.viewer instanceof AirPlayer player && player.getHandle().containerMenu == getContainerMenu()) {
+            openScreen0(title);
+        }
+    }
+
+    public void openScreen() {
+        if (this.viewer instanceof AirPlayer player && player.getHandle().containerMenu != getContainerMenu()) {
+            openScreen0(this.viewer.componentSerializer().serialize(this.title));
+        }
+    }
+
+    private void openScreen0(net.minecraft.network.chat.Component title) {
         if (this.viewer instanceof AirPlayer player) {
             player.getHandle().connection.send(new ClientboundOpenScreenPacket(
                     this.containerMenu.containerId,
@@ -77,5 +90,17 @@ public class AirMenuView implements MenuView {
     @Override
     public @NotNull ComposedInventory getComposedInventory() {
         return this.composedInventory;
+    }
+
+    @Override
+    public @NotNull Inventory getInventoryForSlot(int slot) {
+        if (slot < this.composedInventory.getSize()) {
+            return this.composedInventory.getInventoryForSlot(slot);
+        } else {
+            int relativeSlot = slot - this.composedInventory.getSize();
+            Preconditions.checkArgument(relativeSlot >= 0 && relativeSlot < getViewerInventory().getSize(), "slot < 0 || slot >= inventory size");
+
+            return getViewerInventory();
+        }
     }
 }

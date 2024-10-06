@@ -390,23 +390,26 @@ index 1bbc07d3ce002b5b22fbe160d73fcc035f86179c..ea28928320375c9ac145be7538e632bb
      public boolean stillValid(Player player) {
          return !this.horse.hasInventoryChanged(this.horseContainer)
 diff --git a/net/minecraft/world/inventory/InventoryMenu.java b/net/minecraft/world/inventory/InventoryMenu.java
-index f56d3bd4d78a9fc86e6539af92456e7e1b145e87..c59ed0db06f33bc20484a1db67814d42e1aeec60 100644
+index f56d3bd4d78a9fc86e6539af92456e7e1b145e87..3a48bb1d8ffc6e14cdd5880c4becf5cc76ec4c61 100644
 --- a/net/minecraft/world/inventory/InventoryMenu.java
 +++ b/net/minecraft/world/inventory/InventoryMenu.java
-@@ -91,6 +91,13 @@ public class InventoryMenu extends RecipeBookMenu<CraftingInput, CraftingRecipe>
+@@ -89,7 +89,16 @@ public class InventoryMenu extends RecipeBookMenu<CraftingInput, CraftingRecipe>
+                 return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+             }
          });
-     }
- 
++
++        init(owner); // Airflow - Inventory API
++    }
++
 +    // Airflow start - Inventory API
 +    @Override
 +    protected me.glicz.airflow.inventory.menu.view.AirMenuView createAirMenuView(Player player) {
 +        return new me.glicz.airflow.inventory.menu.view.AirMenuView(player, this, player.getInventory());
-+    }
+     }
 +    // Airflow end - Inventory API
-+
+ 
      public static boolean isHotbarSlot(int index) {
          return index >= 36 && index < 45 || index == 45;
-     }
 diff --git a/net/minecraft/world/inventory/ItemCombinerMenu.java b/net/minecraft/world/inventory/ItemCombinerMenu.java
 index 2de002077b9ce74573782cbc49c9e80d29c68264..75dd22ba0335ba1c4c9295dfa156bacbf8d9cd1b 100644
 --- a/net/minecraft/world/inventory/ItemCombinerMenu.java

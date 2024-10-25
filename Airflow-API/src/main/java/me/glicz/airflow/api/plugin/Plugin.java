@@ -20,7 +20,7 @@ public abstract class Plugin implements Namespaced, ServerAware {
     private EventBus eventBus;
     private Scheduler scheduler;
     private Logger logger;
-    private boolean enabled;
+    private boolean enabled, disabled;
 
     @Override
     public @NotNull @KeyPattern.Namespace String namespace() {
@@ -58,6 +58,10 @@ public abstract class Plugin implements Namespaced, ServerAware {
     }
 
     public final void setEnabled(boolean enabled) {
+        if (this.disabled) {
+            throw new IllegalStateException("Plugin cannot be re-enabled");
+        }
+
         if (this.enabled == enabled) {
             return;
         }
@@ -66,7 +70,9 @@ public abstract class Plugin implements Namespaced, ServerAware {
         if (enabled) {
             onEnable();
         } else {
+            this.disabled = true;
             onDisable();
+
             getServer().getCommands().unregisterAll(this);
             getServer().getPermissions().unregisterAll(this);
             getServer().getServices().unregisterAll(this);

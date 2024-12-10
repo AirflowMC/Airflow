@@ -1,7 +1,6 @@
 package me.glicz.airflow.api.permission;
 
 import com.google.common.base.Predicates;
-import me.glicz.airflow.api.command.sender.CommandSender;
 import net.kyori.adventure.key.Keyed;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,16 +11,16 @@ public interface Permission extends Keyed {
 
     enum DefaultValue {
         FALSE(Predicates.alwaysFalse()),
-        OP(CommandSender::isOperator),
+        OP(holder -> holder instanceof Operator operator && operator.isOperator()),
         TRUE(Predicates.alwaysTrue());
 
-        private final Predicate<CommandSender> predicate;
+        private final Predicate<PermissionsHolder> predicate;
 
-        DefaultValue(Predicate<CommandSender> predicate) {
+        DefaultValue(Predicate<PermissionsHolder> predicate) {
             this.predicate = predicate;
         }
 
-        public boolean test(@NotNull CommandSender sender) {
+        public boolean test(@NotNull PermissionsHolder sender) {
             return predicate.test(sender);
         }
     }

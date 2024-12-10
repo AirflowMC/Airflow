@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +16,10 @@ public abstract class AbstractPermissionsHolder implements PermissionsHolder {
 
     protected AbstractPermissionsHolder(Multimap<PermissionSourcePriority, PermissionsSource> permissionSourceMap) {
         this.permissionSourceMap = permissionSourceMap;
+    }
+
+    protected PermissionsHolder getHolder() {
+        return this;
     }
 
     @Override
@@ -41,6 +46,21 @@ public abstract class AbstractPermissionsHolder implements PermissionsHolder {
         return permissionSourceMap.values().stream().anyMatch(source -> source.isPermissionSet(permission));
     }
 
+    @Override
+    public boolean hasPermission(@NotNull Key permission) {
+        Permission perm = getServer().getPermissions().getPermission(permission);
+        if (perm != null) {
+            return hasPermission(perm);
+        }
+
+        return Boolean.TRUE.equals(hasPermission0(permission));
+    }
+
+    @Override
+    public boolean hasPermission(@NotNull Permission permission) {
+        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(getHolder()));
+    }
+
     protected Boolean hasPermission0(Key permission) {
         synchronized (permissionSourceMap) {
             PermissionSourcePriority[] priorities = PermissionSourcePriority.values();
@@ -48,9 +68,11 @@ public abstract class AbstractPermissionsHolder implements PermissionsHolder {
                 PermissionSourcePriority priority = priorities[i];
 
                 for (PermissionsSource source : permissionSourceMap.get(priority)) {
-                    if (source.isPermissionSet(permission)) {
-                        return source.hasPermission(permission);
+                    if (!source.isPermissionSet(permission)) {
+                        continue;
                     }
+
+                    return source.hasPermission(permission);
                 }
             }
         }

@@ -2,13 +2,11 @@ package me.glicz.airflow.api.permission;
 
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
-import me.glicz.airflow.api.command.sender.CommandSender;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -19,12 +17,13 @@ import java.util.stream.Stream;
  */
 public class DummyPermissionsSource extends AbstractPermissionsHolder implements PermissionsSource {
     private final Map<Key, Boolean> permissionMap = new HashMap<>();
-    private final CommandSender holder;
+    private final PermissionsHolder holder;
 
-    public DummyPermissionsSource(CommandSender holder) {
+    public DummyPermissionsSource(PermissionsHolder holder) {
         super(Multimaps.synchronizedMultimap(
                 MultimapBuilder.hashKeys().arrayListValues().build()
         ));
+
         this.holder = holder;
     }
 
@@ -41,7 +40,7 @@ public class DummyPermissionsSource extends AbstractPermissionsHolder implements
         return Stream.concat(
                 permissionMap.entrySet().stream()
                         .map(entry -> {
-                            Permission permission = holder.getServer().getPermissions().getPermission(entry.getKey());
+                            Permission permission = getServer().getPermissions().getPermission(entry.getKey());
                             return new PermissionInfo(
                                     entry.getKey(),
                                     entry.getValue(),
@@ -60,26 +59,16 @@ public class DummyPermissionsSource extends AbstractPermissionsHolder implements
     }
 
     @Override
-    public boolean hasPermission(@NotNull Key permission) {
-        Permission perm = holder.getServer().getPermissions().getPermission(permission);
-        if (perm != null) {
-            return hasPermission(perm);
-        }
-
-        return Boolean.TRUE.equals(hasPermission0(permission));
-    }
-
-    @Override
-    public boolean hasPermission(@NotNull Permission permission) {
-        return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(holder));
-    }
-
-    @Override
     protected Boolean hasPermission0(Key permission) {
         if (permissionMap.containsKey(permission)) {
             return permissionMap.get(permission);
         }
 
         return super.hasPermission0(permission);
+    }
+
+    @Override
+    public @NotNull PermissionsHolder getHolder() {
+        return holder;
     }
 }

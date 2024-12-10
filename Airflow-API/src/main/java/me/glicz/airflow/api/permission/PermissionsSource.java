@@ -1,5 +1,8 @@
 package me.glicz.airflow.api.permission;
 
+import me.glicz.airflow.api.Server;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents permissions source created by plugins.
  * <p>
@@ -11,4 +14,10 @@ package me.glicz.airflow.api.permission;
  * @see DummyPermissionsSource
  */
 public interface PermissionsSource extends PermissionsHolder {
+    @NotNull PermissionsHolder getHolder();
+
+    @Override
+    default Server getServer() {
+        return getHolder().getServer();
+    }
 }

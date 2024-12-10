@@ -1,5 +1,6 @@
 package me.glicz.airflow.api.permission;
 
+import me.glicz.airflow.api.ServerAware;
 import net.kyori.adventure.key.InvalidKeyException;
 import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ import java.util.Collection;
  * @see Permission
  * @see PermissionsSource
  */
-public interface PermissionsHolder {
+public interface PermissionsHolder extends ServerAware {
     @NotNull Collection<PermissionInfo> getPermissions();
 
     default boolean isPermissionSet(@NotNull String permission) {

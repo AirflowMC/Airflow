@@ -2,7 +2,6 @@ package me.glicz.airflow.plugin;
 
 import me.glicz.airflow.api.plugin.PluginMeta;
 import me.glicz.airflow.util.serializer.DependencySerializer;
-import net.kyori.adventure.key.KeyPattern;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;

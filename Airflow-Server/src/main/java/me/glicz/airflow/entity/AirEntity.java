@@ -7,11 +7,9 @@ import me.glicz.airflow.Handleable;
 import me.glicz.airflow.api.block.Block;
 import me.glicz.airflow.api.entity.EntityType;
 import me.glicz.airflow.api.permission.AbstractPermissionsHolder;
-import me.glicz.airflow.api.permission.Permission;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.World;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -20,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class AirEntity extends AbstractPermissionsHolder implements me.glicz.airflow.api.entity.Entity, Handleable<Entity> {
@@ -124,22 +121,6 @@ public class AirEntity extends AbstractPermissionsHolder implements me.glicz.air
     @Override
     public EntityType<?> getType() {
         return getHandle().getType().airEntityType;
-    }
-
-    @Override
-    public boolean hasPermission(@NotNull Key permission) {
-        Permission perm = server.getPermissions().getPermission(permission);
-        if (perm != null) {
-            return hasPermission(perm);
-        }
-
-        return Boolean.TRUE.equals(hasPermission0(permission));
-    }
-
-    @Override
-    public boolean hasPermission(@NotNull Permission permission) {
-        //TODO return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(this));
-        return Objects.requireNonNullElse(hasPermission0(permission.key()), false);
     }
 
     @Override

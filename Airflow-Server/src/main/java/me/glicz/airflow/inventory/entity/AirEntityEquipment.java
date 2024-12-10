@@ -25,7 +25,7 @@ public class AirEntityEquipment implements EntityEquipment {
 
     @Override
     public @NotNull ItemStack getItem(@NotNull EquipmentSlot slot) {
-        return this.entity.getHandle().getItemBySlot(equipmentSlot(slot)).airItemStack;
+        return entity.getHandle().getItemBySlot(equipmentSlot(slot)).airItemStack;
     }
 
     @Override
@@ -44,6 +44,6 @@ public class AirEntityEquipment implements EntityEquipment {
 
     @Override
     public void setItem(@NotNull EquipmentSlot slot, @NotNull ItemStack itemStack) {
-        this.entity.getHandle().setItemSlot(equipmentSlot(slot), ((AirItemStack) itemStack).handle);
+        entity.getHandle().setItemSlot(equipmentSlot(slot), ((AirItemStack) itemStack).handle);
     }
 }

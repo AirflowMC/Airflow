@@ -19,31 +19,31 @@ public class AirBootstrapContext implements BootstrapContext {
 
     @Override
     public @NotNull Version getServerVersion() {
-        return this.airflow.version;
+        return airflow.version;
     }
 
     @Override
     public @NotNull ServerProperties getServerProperties() {
-        return this.airflow.serverProperties;
+        return airflow.serverProperties;
     }
 
     @Override
     public @NotNull PluginsLoader getPluginsLoader() {
-        return this.airflow.pluginLoader;
+        return airflow.pluginLoader;
     }
 
     @Override
     public @NotNull ServerEventBus getServerEventBus() {
-        return this.airflow.serverEventBus;
+        return airflow.serverEventBus;
     }
 
     @Override
     public @NotNull Permissions getPermissions() {
-        return this.airflow.permissions;
+        return airflow.permissions;
     }
 
     @Override
     public @NotNull Services getServices() {
-        return this.airflow.services;
+        return airflow.services;
     }
 }

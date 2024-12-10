@@ -16,6 +16,6 @@ public class AirMenuType<T extends MenuView> implements me.glicz.airflow.api.inv
     @SuppressWarnings({"PatternValidation", "DataFlowIssue"})
     @Override
     public @NotNull Key key() {
-        return Key.key(BuiltInRegistries.MENU.getKey(this.handle).toString());
+        return Key.key(BuiltInRegistries.MENU.getKey(handle).toString());
     }
 }

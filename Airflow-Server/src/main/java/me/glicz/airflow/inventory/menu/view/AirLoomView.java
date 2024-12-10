@@ -19,11 +19,11 @@ public class AirLoomView extends AirMenuView implements LoomView {
 
     @Override
     protected AirComposedInventory createComposedInventory() {
-        return new AirComposedInventory(this.primaryInventory, this.outputContainer);
+        return new AirComposedInventory(this.primaryInventory, outputContainer);
     }
 
     @Override
     public @NotNull Inventory getOutputInventory() {
-        return this.outputContainer;
+        return outputContainer;
     }
 }

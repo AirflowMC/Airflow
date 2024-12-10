@@ -5,7 +5,7 @@ Subject: [PATCH] Scheduler API
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 900e55ea0622bfe7c8c4d496a3c83d4a2e6f2859..d7004687c67a453fbcb341ac6c292425d9cdbc31 100644
+index dccb8937e909a1f22164a458c09413374b76fb7e..27a0456799eee616b2d02655595ecd091c8cb871 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1046,6 +1046,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa

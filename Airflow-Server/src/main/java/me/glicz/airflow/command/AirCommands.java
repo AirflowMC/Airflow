@@ -115,7 +115,7 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
     }
 
     private CommandNode<? extends CommandSourceStack> unregister0(String name) {
-        this.pluginCommands.values().remove(name);
+        pluginCommands.values().remove(name);
 
         RootCommandNode<? extends CommandSourceStack> rootNode = commands.getDispatcher().getRoot();
         CommandNode<? extends CommandSourceStack> child = rootNode.getChild(name);
@@ -126,11 +126,11 @@ public class AirCommands implements me.glicz.airflow.api.command.Commands {
 
     @Override
     public void unregisterAll(@NotNull Plugin plugin) {
-        this.pluginCommands.removeAll(plugin).forEach(this::unregister0);
+        pluginCommands.removeAll(plugin).forEach(this::unregister0);
     }
 
     @Override
     public void dispatchCommand(@NotNull CommandSourceStack stack, @NotNull String command) {
-        this.commands.performPrefixedCommand((net.minecraft.commands.CommandSourceStack) stack, command);
+        commands.performPrefixedCommand((net.minecraft.commands.CommandSourceStack) stack, command);
     }
 }

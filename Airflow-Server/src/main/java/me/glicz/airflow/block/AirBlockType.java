@@ -21,12 +21,12 @@ public class AirBlockType implements BlockType {
 
     @Override
     public @NotNull ItemType asItemType() {
-        return this.handle.asItem().airItemType;
+        return handle.asItem().airItemType;
     }
 
     @Override
     public @NotNull BlockState createBlockState() {
-        return this.handle.defaultBlockState().airBlockState;
+        return handle.defaultBlockState().airBlockState;
     }
 
     @Override
@@ -37,12 +37,12 @@ public class AirBlockType implements BlockType {
     @Override
     public @NotNull Key key() {
         //noinspection PatternValidation
-        return Key.key(BuiltInRegistries.BLOCK.getKey(this.handle).toString());
+        return Key.key(BuiltInRegistries.BLOCK.getKey(handle).toString());
     }
 
     @Override
     public @NotNull String translationKey() {
-        return this.handle.getDescriptionId();
+        return handle.getDescriptionId();
     }
 
     @Override
@@ -54,6 +54,6 @@ public class AirBlockType implements BlockType {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.handle);
+        return Objects.hashCode(handle);
     }
 }

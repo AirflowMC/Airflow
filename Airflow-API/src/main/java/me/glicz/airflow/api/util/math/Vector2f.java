@@ -90,9 +90,9 @@ public record Vector2f(float x, float y) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vector2f vector)) return false;
+        if (!(o instanceof Vector2f(float x1, float y1))) return false;
 
-        return x() == vector.x() && y() == vector.y();
+        return x() == x1 && y() == y1;
     }
 
     @Override

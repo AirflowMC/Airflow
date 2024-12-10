@@ -2,6 +2,7 @@ package me.glicz.airflow.plugin;
 
 import me.glicz.airflow.api.plugin.PluginMeta;
 import me.glicz.airflow.util.serializer.DependencySerializer;
+import net.kyori.adventure.key.KeyPattern;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
@@ -57,32 +58,32 @@ public class AirPluginMeta implements PluginMeta {
 
     @Override
     public @NotNull @org.intellij.lang.annotations.Pattern("[a-zA-Z0-9_]+") String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public @NotNull String getVersion() {
-        return this.version;
+        return version;
     }
 
     @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     @Override
     public @NotNull Collection<String> getAuthors() {
-        return List.copyOf(this.authors);
+        return List.copyOf(authors);
     }
 
     @Override
     public @NotNull Collection<String> getContributors() {
-        return List.copyOf(this.contributors);
+        return List.copyOf(contributors);
     }
 
     @Override
     public @NotNull Collection<Dependency> getDependencies() {
-        return List.copyOf(this.dependencies);
+        return List.copyOf(dependencies);
     }
 
     public static class AirDependency implements Dependency {

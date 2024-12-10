@@ -36,7 +36,7 @@ public class AirServerEventBus implements ServerEventBus {
     @Override
     public <E extends Event> @NotNull E dispatch(@NotNull E event) {
         //noinspection unchecked
-        List<EventHandlers<E>> eventHandlers = this.airflow.pluginLoader.getPlugins().stream()
+        List<EventHandlers<E>> eventHandlers = airflow.pluginLoader.getPlugins().stream()
                 .map(plugin -> (EventHandlers<E>) ((AirEventBus) plugin.getEventBus()).handlersMap.get(event.getClass()))
                 .filter(Objects::nonNull)
                 .toList();

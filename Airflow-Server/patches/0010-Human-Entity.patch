@@ -135,7 +135,7 @@ index 33527a1825119f3667fb3c7ccec318f2c7328ec9..e94bb57f6f33e92a2505cb8ab393a9e8
  
      public static AttributeSupplier getSupplier(EntityType<? extends LivingEntity> livingEntity) {
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 3faad5cc90dbfb4b7f3a197bc492a7432b1f42cc..382c5adbd6549da83fc5843c25ab3f66b0eb5489 100644
+index 07f49c1e0ba835772b3346623535c37b93bd817d..9ecf1c07c38a63d72492545e928a1c6e46e82540 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
 @@ -200,7 +200,13 @@ public abstract class Player extends LivingEntity {

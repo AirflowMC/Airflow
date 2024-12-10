@@ -54,6 +54,6 @@ public class AirItemComponentMap implements ItemComponentMap {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.handle);
+        return Objects.hashCode(handle);
     }
 }

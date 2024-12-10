@@ -5,10 +5,10 @@ Subject: [PATCH] Inventory Events
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 7305c9f03963e0c8b1fd7a5e4cf6ef616971dccd..a5fa654d70371eadec1ca98489f30b5e43a9d9b3 100644
+index 21b917a2579dece25f61a0eae78bc1374c8bd306..3be4f767c5aa5f963a671bbf0cfa52de9b89ba24 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -1273,6 +1273,11 @@ public class ServerPlayer extends Player {
+@@ -1280,6 +1280,11 @@ public class ServerPlayer extends Player {
              } else {
                  // Airflow start - Inventory API
                  abstractContainerMenu.getAirMenuView().setTitle(menu.getDisplayName());
@@ -20,7 +20,7 @@ index 7305c9f03963e0c8b1fd7a5e4cf6ef616971dccd..a5fa654d70371eadec1ca98489f30b5e
                  abstractContainerMenu.getAirMenuView().openScreen();
                  /*
                  this.connection
-@@ -1328,6 +1333,7 @@ public class ServerPlayer extends Player {
+@@ -1335,6 +1340,7 @@ public class ServerPlayer extends Player {
  
      @Override
      public void doCloseContainer() {

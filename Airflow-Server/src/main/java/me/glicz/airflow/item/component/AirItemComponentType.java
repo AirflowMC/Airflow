@@ -15,7 +15,7 @@ public class AirItemComponentType implements ItemComponentType {
 
     @Override
     public boolean isPersistent() {
-        return !this.handle.isTransient();
+        return !handle.isTransient();
     }
 
     @Override

@@ -18,17 +18,17 @@ public class AirServiceProvider<T> implements Comparable<AirServiceProvider<T>>,
 
     @Override
     public @NotNull T getProvider() {
-        return this.provider;
+        return provider;
     }
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return this.plugin;
+        return plugin;
     }
 
     @Override
     public @NotNull ServicePriority getPriority() {
-        return this.priority;
+        return priority;
     }
 
     @Override

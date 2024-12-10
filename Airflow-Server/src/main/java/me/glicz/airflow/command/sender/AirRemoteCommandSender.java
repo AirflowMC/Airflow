@@ -13,7 +13,7 @@ public class AirRemoteCommandSender extends AirCommandSender implements RemoteCo
 
     @Override
     public @NotNull CommandSourceStack createCommandSourceStack() {
-        return this.server.minecraftServer.rconConsoleSource.createCommandSourceStack();
+        return server.minecraftServer.rconConsoleSource.createCommandSourceStack();
     }
 
     @Override

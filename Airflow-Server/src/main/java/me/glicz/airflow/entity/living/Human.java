@@ -79,7 +79,7 @@ public class Human extends Player {
 
     protected ClientboundPlayerInfoUpdatePacket.Entry playerInfoEntry() {
         return new ClientboundPlayerInfoUpdatePacket.Entry(
-                getUUID(), getGameProfile(), false, latency, gameType, getTabListDisplayName(), 0, null
+                getUUID(), getGameProfile(), false, latency, gameType, getTabListDisplayName(), isModelPartShown(PlayerModelPart.HAT), 0, null
         );
     }
 

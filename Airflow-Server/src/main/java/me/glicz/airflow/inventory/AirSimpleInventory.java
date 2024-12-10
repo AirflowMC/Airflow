@@ -19,17 +19,17 @@ public class AirSimpleInventory extends AirInventory {
 
     @Override
     public int getSize() {
-        return this.container.getContainerSize();
+        return container.getContainerSize();
     }
 
     @Override
     public @NotNull ItemStack getItem(int slot) {
-        return this.container.getItem(slot).airItemStack;
+        return container.getItem(slot).airItemStack;
     }
 
     @Override
     public @NotNull List<ItemStack> getItems() {
-        return this.container.getItems().stream().<ItemStack>map(itemStack -> itemStack.airItemStack).toList();
+        return container.getItems().stream().<ItemStack>map(itemStack -> itemStack.airItemStack).toList();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AirSimpleInventory extends AirInventory {
 
     @Override
     protected void setItem0(int slot, Either<ItemStack, net.minecraft.world.item.ItemStack> either) {
-        this.container.setItem(slot, either.map(itemStack -> ((AirItemStack) itemStack).handle, Function.identity()));
+        container.setItem(slot, either.map(itemStack -> ((AirItemStack) itemStack).handle, Function.identity()));
     }
 
     @Override
@@ -96,6 +96,6 @@ public class AirSimpleInventory extends AirInventory {
 
     @Override
     public void clear() {
-        this.container.clearContent();
+        container.clearContent();
     }
 }

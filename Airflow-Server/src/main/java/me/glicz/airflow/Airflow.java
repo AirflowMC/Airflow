@@ -62,14 +62,14 @@ public class Airflow {
     }
 
     public void createServer(final DedicatedServer minecraftServer) {
-        this.serverRef.setServer(() -> new AirServer(this, minecraftServer));
+        serverRef.setServer(() -> new AirServer(this, minecraftServer));
     }
 
     public void registerMinecraftPermission(LiteralArgumentBuilder<?> builder, boolean defaultValue) {
         if (builder.getRedirect() != null) return;
 
         //noinspection PatternValidation
-        this.permissions.registerPermission(
+        permissions.registerPermission(
                 Key.key("command/" + builder.getLiteral()),
                 defaultValue ? Permission.DefaultValue.TRUE : Permission.DefaultValue.FALSE
         );

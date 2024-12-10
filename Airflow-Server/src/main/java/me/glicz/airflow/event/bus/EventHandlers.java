@@ -21,11 +21,11 @@ public class EventHandlers<E extends Event> {
     }
 
     public void add(EventPriority priority, EventHandler<E> handler) {
-        this.handlerMap.put(priority, handler);
+        handlerMap.put(priority, handler);
     }
 
     public void remove(EventHandler<E> handler) {
-        this.handlerMap.values().remove(handler);
+        handlerMap.values().remove(handler);
     }
 
     public void dispatch(E event) {

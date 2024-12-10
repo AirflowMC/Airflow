@@ -23,27 +23,27 @@ public class AirPermissions implements Permissions {
 
     @Override
     public @NotNull Collection<Permission> getPermissions() {
-        return List.copyOf(this.permissionMap.values());
+        return List.copyOf(permissionMap.values());
     }
 
     @Override
     public @Nullable Permission getPermission(@NotNull Key permission) {
-        return this.permissionMap.get(permission);
+        return permissionMap.get(permission);
     }
 
     @Override
     public void registerPermission(@NotNull Key permission, Permission.@NotNull DefaultValue defaultValue) {
-        this.permissionMap.put(permission, new AirPermission(permission, defaultValue));
+        permissionMap.put(permission, new AirPermission(permission, defaultValue));
     }
 
     @Override
     public void registerPermission(@NotNull Plugin plugin, @NotNull Key permission, Permission.@NotNull DefaultValue defaultValue) {
-        this.pluginPermissionMap.put(plugin, permission);
+        pluginPermissionMap.put(plugin, permission);
         registerPermission(permission, defaultValue);
     }
 
     @Override
     public void unregisterAll(@NotNull Plugin plugin) {
-        this.pluginPermissionMap.removeAll(plugin).forEach(this.permissionMap::remove);
+        pluginPermissionMap.removeAll(plugin).forEach(permissionMap::remove);
     }
 }

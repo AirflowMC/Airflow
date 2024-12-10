@@ -5,7 +5,7 @@ Subject: [PATCH] Better terminal
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index d7004687c67a453fbcb341ac6c292425d9cdbc31..d6226d36f275011b27e4cfce1ecb93a88d8489fb 100644
+index 27a0456799eee616b2d02655595ecd091c8cb871..ce6f381dbd8fbe0c444fa1d9cbb3ddea9ebda4e5 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1213,7 +1213,11 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa

@@ -1,7 +1,10 @@
 package me.glicz.airflow.api.entity;
 
+import me.glicz.airflow.api.ServerAware;
 import me.glicz.airflow.api.block.Block;
-import me.glicz.airflow.api.command.sender.CommandSender;
+import me.glicz.airflow.api.message.MessageReceiver;
+import me.glicz.airflow.api.permission.PermissionsHolder;
+import me.glicz.airflow.api.util.Nameable;
 import me.glicz.airflow.api.util.Typed;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
@@ -13,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public interface Entity extends CommandSender, Typed<EntityType<?>> {
+public interface Entity extends MessageReceiver, Nameable, PermissionsHolder, ServerAware, Typed<EntityType<?>> {
     @NotNull UUID getUniqueId();
 
     @NotNull World getWorld();
@@ -33,8 +36,6 @@ public interface Entity extends CommandSender, Typed<EntityType<?>> {
     default void addVelocity(@NotNull Vector3d velocity) {
         setVelocity(getVelocity().add(velocity));
     }
-
-    @Nullable Component getCustomName();
 
     void setCustomName(@Nullable Component name);
 

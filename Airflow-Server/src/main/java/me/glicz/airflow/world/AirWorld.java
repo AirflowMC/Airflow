@@ -26,17 +26,17 @@ public class AirWorld implements World {
 
     @Override
     public @NotNull String getName() {
-        return ((ServerLevelData) this.handle.getLevelData()).getLevelName();
+        return ((ServerLevelData) handle.getLevelData()).getLevelName();
     }
 
     @Override
     public @NotNull Block getBlockAt(int x, int y, int z) {
-        return new AirBlock(this.handle, new Vector3i(x, y, z));
+        return new AirBlock(handle, new Vector3i(x, y, z));
     }
 
     @Override
     public @Nullable Entity getEntity(@NotNull UUID uniqueId) {
-        net.minecraft.world.entity.Entity entity = this.handle.getEntity(uniqueId);
+        net.minecraft.world.entity.Entity entity = handle.getEntity(uniqueId);
         if (entity != null) {
             return entity.getAirEntity();
         }
@@ -46,14 +46,14 @@ public class AirWorld implements World {
 
     @Override
     public @NotNull Collection<Entity> getEntities() {
-        return Streams.of(this.handle.getAllEntities())
+        return Streams.of(handle.getAllEntities())
                 .<Entity>map(net.minecraft.world.entity.Entity::getAirEntity)
                 .toList();
     }
 
     @Override
     public @Nullable Player getPlayer(@NotNull UUID uniqueId) {
-        ServerPlayer player = (ServerPlayer) this.handle.getPlayerByUUID(uniqueId);
+        ServerPlayer player = (ServerPlayer) handle.getPlayerByUUID(uniqueId);
         if (player != null) {
             return player.getAirEntity();
         }
@@ -63,13 +63,13 @@ public class AirWorld implements World {
 
     @Override
     public @NotNull Collection<Player> getPlayers() {
-        return this.handle.players().stream()
+        return handle.players().stream()
                 .<Player>map(ServerPlayer::getAirEntity)
                 .toList();
     }
 
     @Override
     public Server getServer() {
-        return this.handle.getServer().getDedicatedServer().airflow.getServer();
+        return handle.getServer().getDedicatedServer().airflow.getServer();
     }
 }

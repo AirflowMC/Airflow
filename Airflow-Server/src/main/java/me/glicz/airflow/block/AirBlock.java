@@ -25,22 +25,22 @@ public class AirBlock implements Block {
 
     @Override
     public @NotNull World getWorld() {
-        return this.level.airWorld;
+        return level.airWorld;
     }
 
     @Override
     public @NotNull Vector3i getPosition() {
-        return this.position;
+        return position;
     }
 
     @Override
     public @NotNull BlockState getState() {
-        return this.level.getBlockState(getBlockPos()).airBlockState;
+        return level.getBlockState(getBlockPos()).airBlockState;
     }
 
     @Override
     public void setState(@NotNull BlockState state) {
-        this.level.setBlockAndUpdate(getBlockPos(), ((AirBlockState) state).handle);
+        level.setBlockAndUpdate(getBlockPos(), ((AirBlockState) state).handle);
     }
 
     @Override

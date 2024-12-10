@@ -95,9 +95,9 @@ public record Vector3i(int x, int y, int z) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vector3i vector)) return false;
+        if (!(o instanceof Vector3i(int x1, int y1, int z1))) return false;
 
-        return x() == vector.x() && y() == vector.y() && z() == vector.z();
+        return x() == x1 && y() == y1 && z() == z1;
     }
 
     @Override

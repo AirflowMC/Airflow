@@ -92,9 +92,9 @@ public record Vector3d(double x, double y, double z) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vector3d vector)) return false;
+        if (!(o instanceof Vector3d(double x1, double y1, double z1))) return false;
 
-        return x() == vector.x() && y() == vector.y() && z() == vector.z();
+        return x() == x1 && y() == y1 && z() == z1;
     }
 
     @Override

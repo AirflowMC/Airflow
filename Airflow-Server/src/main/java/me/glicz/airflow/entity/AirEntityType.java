@@ -16,11 +16,11 @@ public class AirEntityType<T extends Entity> implements EntityType<T> {
     @Override
     public @NotNull Key key() {
         //noinspection PatternValidation
-        return Key.key(BuiltInRegistries.ENTITY_TYPE.getKey(this.handle).toString());
+        return Key.key(BuiltInRegistries.ENTITY_TYPE.getKey(handle).toString());
     }
 
     @Override
     public @NotNull String translationKey() {
-        return this.handle.getDescriptionId();
+        return handle.getDescriptionId();
     }
 }

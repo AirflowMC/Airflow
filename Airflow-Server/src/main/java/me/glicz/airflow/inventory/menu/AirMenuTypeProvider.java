@@ -8,9 +8,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 public class AirMenuTypeProvider extends MenuTypeProvider {
-    @SuppressWarnings({"DataFlowIssue", "unchecked"})
     @Override
     protected <T extends MenuView> MenuType<T> get(Key key) {
-        return (MenuType<T>) BuiltInRegistries.MENU.get(ResourceLocation.parse(key.asString())).airMenuType;
+        //noinspection unchecked,DataFlowIssue
+        return (MenuType<T>) BuiltInRegistries.MENU.getValue(ResourceLocation.parse(key.asString())).airMenuType;
     }
 }

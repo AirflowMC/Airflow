@@ -24,16 +24,16 @@ public class AirflowConsole extends SimpleTerminalConsole {
 
     @Override
     protected boolean isRunning() {
-        return !this.server.isStopped() && this.server.isRunning();
+        return !server.isStopped() && server.isRunning();
     }
 
     @Override
     protected void runCommand(String command) {
-        this.server.handleConsoleInput(command, this.server.createCommandSourceStack());
+        server.handleConsoleInput(command, server.createCommandSourceStack());
     }
 
     @Override
     protected void shutdown() {
-        this.server.halt(false);
+        server.halt(false);
     }
 }

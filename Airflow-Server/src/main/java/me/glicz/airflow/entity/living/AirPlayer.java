@@ -1,10 +1,13 @@
 package me.glicz.airflow.entity.living;
 
+import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.entity.living.Player;
 import me.glicz.airflow.api.inventory.menu.MenuType;
 import me.glicz.airflow.api.inventory.menu.view.MenuView;
 import me.glicz.airflow.inventory.menu.AirMenuType;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.chat.SignedMessage;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
@@ -38,8 +41,10 @@ public class AirPlayer extends AirHumanoid implements Player {
     }
 
     @Override
-    public boolean isOperator() {
-        return getHandle().getServer().getPlayerList().isOp(getHandle().getGameProfile());
+    public void sendMessage(@NotNull Identity source, @NotNull Component message, @NotNull MessageType type) {
+        if (type != MessageType.SYSTEM) return;
+
+        getHandle().sendSystemMessage(server.componentSerializer().serialize(message));
     }
 
     @Override
@@ -49,14 +54,14 @@ public class AirPlayer extends AirHumanoid implements Player {
 
     @Override
     public void sendActionBar(@NotNull Component message) {
-        getHandle().connection.send(new ClientboundSetActionBarTextPacket(componentSerializer().serialize(message)));
+        getHandle().connection.send(new ClientboundSetActionBarTextPacket(server.componentSerializer().serialize(message)));
     }
 
     @Override
     public void sendPlayerListHeaderAndFooter(@NotNull Component header, @NotNull Component footer) {
         getHandle().connection.send(new ClientboundTabListPacket(
-                componentSerializer().serialize(header),
-                componentSerializer().serialize(footer)
+                server.componentSerializer().serialize(header),
+                server.componentSerializer().serialize(footer)
         ));
     }
 
@@ -64,11 +69,11 @@ public class AirPlayer extends AirHumanoid implements Player {
     public <T> void sendTitlePart(@NotNull TitlePart<T> part, @NotNull T value) {
         if (part == TitlePart.TITLE) {
             getHandle().connection.send(new ClientboundSetTitleTextPacket(
-                    componentSerializer().serialize((Component) value)
+                    server.componentSerializer().serialize((Component) value)
             ));
         } else if (part == TitlePart.SUBTITLE) {
             getHandle().connection.send(new ClientboundSetSubtitleTextPacket(
-                    componentSerializer().serialize((Component) value)
+                    server.componentSerializer().serialize((Component) value)
             ));
         } else if (part == TitlePart.TIMES) {
             Title.Times times = (Title.Times) value;
@@ -114,8 +119,13 @@ public class AirPlayer extends AirHumanoid implements Player {
             }
 
             return containerMenu;
-        }, componentSerializer().serialize(title)));
+        }, server.componentSerializer().serialize(title)));
         //noinspection unchecked
         return (T) getHandle().containerMenu.getAirMenuView();
+    }
+
+    @Override
+    public @NotNull CommandSourceStack createCommandSourceStack() {
+        return getHandle().createCommandSourceStack();
     }
 }

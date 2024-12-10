@@ -52,31 +52,31 @@ public class AirMenuView implements MenuView {
     @Override
     public void setTitle(@NotNull Component title) {
         this.title = title;
-        sendTitle(this.viewer.componentSerializer().serialize(title));
+        sendTitle(viewer.getServer().componentSerializer().serialize(title));
     }
 
     public void setTitle(net.minecraft.network.chat.Component title) {
-        this.title = this.viewer.componentSerializer().deserialize(title);
+        this.title = viewer.getServer().componentSerializer().deserialize(title);
         sendTitle(title);
     }
 
     private void sendTitle(net.minecraft.network.chat.Component title) {
-        if (this.viewer instanceof AirPlayer player && player.getHandle().containerMenu == getContainerMenu()) {
+        if (viewer instanceof AirPlayer player && player.getHandle().containerMenu == getContainerMenu()) {
             openScreen0(title);
         }
     }
 
     public void openScreen() {
         if (this.viewer instanceof AirPlayer player && player.getHandle().containerMenu != getContainerMenu()) {
-            openScreen0(this.viewer.componentSerializer().serialize(this.title));
+            openScreen0(viewer.getServer().componentSerializer().serialize(title));
         }
     }
 
     private void openScreen0(net.minecraft.network.chat.Component title) {
-        if (this.viewer instanceof AirPlayer player) {
+        if (viewer instanceof AirPlayer player) {
             player.getHandle().connection.send(new ClientboundOpenScreenPacket(
-                    this.containerMenu.containerId,
-                    this.containerMenu.getType(),
+                    containerMenu.containerId,
+                    containerMenu.getType(),
                     title
             ));
         }
@@ -84,20 +84,20 @@ public class AirMenuView implements MenuView {
 
     @Override
     public @NotNull Inventory getPrimaryInventory() {
-        return this.primaryInventory;
+        return primaryInventory;
     }
 
     @Override
     public @NotNull ComposedInventory getComposedInventory() {
-        return this.composedInventory;
+        return composedInventory;
     }
 
     @Override
     public @NotNull Inventory getInventoryForSlot(int slot) {
-        if (slot < this.composedInventory.getSize()) {
-            return this.composedInventory.getInventoryForSlot(slot);
+        if (slot < composedInventory.getSize()) {
+            return composedInventory.getInventoryForSlot(slot);
         } else {
-            int relativeSlot = slot - this.composedInventory.getSize();
+            int relativeSlot = slot - composedInventory.getSize();
             Preconditions.checkArgument(relativeSlot >= 0 && relativeSlot < getViewerInventory().getSize(), "slot < 0 || slot >= inventory size");
 
             return getViewerInventory();

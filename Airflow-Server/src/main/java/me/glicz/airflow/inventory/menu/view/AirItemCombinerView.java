@@ -20,11 +20,11 @@ public class AirItemCombinerView extends AirMenuView implements ItemCombinerView
 
     @Override
     protected AirComposedInventory createComposedInventory() {
-        return new AirComposedInventory(this.primaryInventory, this.resultInventory);
+        return new AirComposedInventory(primaryInventory, resultInventory);
     }
 
     @Override
     public @NotNull Inventory getResultInventory() {
-        return this.resultInventory;
+        return resultInventory;
     }
 }

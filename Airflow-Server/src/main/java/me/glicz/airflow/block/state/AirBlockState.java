@@ -16,23 +16,23 @@ public class AirBlockState implements BlockState {
 
     @Override
     public BlockType getType() {
-        return this.handle.getBlock().airBlockType;
+        return handle.getBlock().airBlockType;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T extends Comparable<T>> @NotNull T getProperty(@NotNull BlockStateProperty<T> property) {
-        return (T) this.handle.getValue((Property) ((AirBlockStateProperty<T>) property).getHandle());
+        return (T) handle.getValue((Property) ((AirBlockStateProperty<T>) property).getHandle());
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T extends Comparable<T>> @NotNull BlockState withProperty(@NotNull BlockStateProperty<T> property, @NotNull T value) {
-        return this.handle.setValue((Property) ((AirBlockStateProperty<T>) property).getHandle(), value).airBlockState;
+        return handle.setValue((Property) ((AirBlockStateProperty<T>) property).getHandle(), value).airBlockState;
     }
 
     @Override
     public String toString() {
-        return BlockStateParser.serialize(this.handle);
+        return BlockStateParser.serialize(handle);
     }
 }

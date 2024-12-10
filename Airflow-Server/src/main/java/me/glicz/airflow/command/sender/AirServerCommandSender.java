@@ -13,7 +13,7 @@ public class AirServerCommandSender extends AirCommandSender implements ServerCo
 
     @Override
     public @NotNull CommandSourceStack createCommandSourceStack() {
-        return this.server.minecraftServer.createCommandSourceStack();
+        return server.minecraftServer.createCommandSourceStack();
     }
 
     @Override

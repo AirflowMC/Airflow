@@ -17,22 +17,22 @@ public class AirCommandBlockSender extends AirCommandSender implements CommandSe
     }
 
     @Override
+    public @NotNull CommandSourceStack createCommandSourceStack() {
+        return getCommandBlock().createCommandSourceStack();
+    }
+
+    @Override
     public @NotNull String getName() {
         return getCommandBlock().getName().getString();
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return componentSerializer().deserialize(getCommandBlock().getName());
+        return server.componentSerializer().deserialize(getCommandBlock().getName());
     }
 
     @Override
     public boolean isOperator() {
         return true;
-    }
-
-    @Override
-    public @NotNull CommandSourceStack createCommandSourceStack() {
-        return getCommandBlock().createCommandSourceStack();
     }
 }

@@ -25,71 +25,38 @@ public class AirPlayerInventory extends AirSimpleInventory implements PlayerInve
     }
 
     @Override
-    public @NotNull List<ItemStack> getItems() {
-        return this.player.getHandle().getInventory().items.stream().<ItemStack>map(itemStack -> itemStack.airItemStack).toList();
-    }
-
-    @Override
-    public void setItems(@NotNull List<ItemStack> items) {
-        Preconditions.checkArgument(items.size() <= this.player.getHandle().getInventory().items.size(), "items size > inventory size");
-
-        this.player.getHandle().getInventory().items.clear();
-        this.player.getHandle().getInventory().items.addAll(items.stream().map(itemStack -> ((AirItemStack) itemStack).handle).toList());
-    }
-
-    @Override
-    public void setItem(int slot, @NotNull ItemStack item) {
-        this.player.getHandle().getInventory().setItem(slot, ((AirItemStack) item).handle);
-    }
-
-    @Override
-    public boolean addItem(@NotNull ItemStack item) {
-        return this.player.getHandle().getInventory().add(((AirItemStack) item).handle);
-    }
-
-    @Override
-    public void removeItem(@NotNull ItemStack item) {
-        this.player.getHandle().getInventory().removeItem(((AirItemStack) item).handle);
-    }
-
-    @Override
-    public void clear() {
-        this.player.getHandle().getInventory().clearContent();
-    }
-
-    @Override
     public int getSelectedSlot() {
-        return this.player.getHandle().getInventory().selected;
+        return player.getHandle().getInventory().selected;
     }
 
     @Override
     public void setSelectedSlot(@Range(from = 0, to = 8) int slot) {
         Preconditions.checkArgument(Inventory.isHotbarSlot(slot), "slot < 0 || slot > 8");
 
-        this.player.getHandle().getInventory().selected = slot;
+        player.getHandle().getInventory().selected = slot;
 
-        if (this.player.getHandle() instanceof ServerPlayer serverPlayer) {
+        if (player.getHandle() instanceof ServerPlayer serverPlayer) {
             serverPlayer.connection.send(new ClientboundSetHeldSlotPacket(slot));
         }
     }
 
     @Override
     public @NotNull ItemStack getSelectedItem() {
-        return this.player.getHandle().getInventory().getSelected().airItemStack;
+        return player.getHandle().getInventory().getSelected().airItemStack;
     }
 
     @Override
     public @NotNull ItemStack getItem(@NotNull EquipmentSlot slot) {
-        return this.player.getEquipment().getItem(slot);
+        return player.getEquipment().getItem(slot);
     }
 
     @Override
     public @NotNull Collection<ItemStack> getItems(EquipmentSlotGroup group) {
-        return this.player.getEquipment().getItems(group);
+        return player.getEquipment().getItems(group);
     }
 
     @Override
     public void setItem(@NotNull EquipmentSlot slot, @NotNull ItemStack itemStack) {
-        this.player.getEquipment().setItem(slot, itemStack);
+        player.getEquipment().setItem(slot, itemStack);
     }
 }

@@ -127,7 +127,7 @@ index fe566bcd9387e9d91bc9c0eb29dc81d7b0be25bc..f49655fc3ca9ae82e7249ae89db5a54b
      }
  
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 658f3372785d490610e2a68601a63d88abfa75dd..3faad5cc90dbfb4b7f3a197bc492a7432b1f42cc 100644
+index 658f3372785d490610e2a68601a63d88abfa75dd..07f49c1e0ba835772b3346623535c37b93bd817d 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
 @@ -209,6 +209,22 @@ public abstract class Player extends LivingEntity {
@@ -146,7 +146,7 @@ index 658f3372785d490610e2a68601a63d88abfa75dd..3faad5cc90dbfb4b7f3a197bc492a743
 +    }
 +
 +    public Component getTabListDisplayName() {
-+        return getAirEntity().componentSerializer().serializeOrNull(getAirEntity().getPlayerListName());
++        return getAirEntity().getServer().componentSerializer().serializeOrNull(getAirEntity().getPlayerListName());
 +    }
 +    // Airflow end - Entity API
 +

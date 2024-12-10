@@ -49,4 +49,18 @@ public abstract class AirHumanoid extends AirLivingEntity implements Humanoid {
                 ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME
         ));
     }
+
+    @Override
+    public boolean isOperator() {
+        return server.minecraftServer.getPlayerList().isOp(getHandle().getGameProfile());
+    }
+
+    @Override
+    public void setOperator(boolean operator) {
+        if (operator) {
+            server.minecraftServer.getPlayerList().op(getHandle().getGameProfile());
+        } else {
+            server.minecraftServer.getPlayerList().deop(getHandle().getGameProfile());
+        }
+    }
 }

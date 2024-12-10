@@ -5,10 +5,10 @@ Subject: [PATCH] Inventory API
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 82f3c121c67a50efbd99ebddd460d5550bfeaef9..7305c9f03963e0c8b1fd7a5e4cf6ef616971dccd 100644
+index 8c74db1e7abb17a49423d5837a71e8a88ab797d8..21b917a2579dece25f61a0eae78bc1374c8bd306 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -1271,8 +1271,14 @@ public class ServerPlayer extends Player {
+@@ -1278,8 +1278,14 @@ public class ServerPlayer extends Player {
  
                  return OptionalInt.empty();
              } else {

@@ -21,14 +21,14 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
 
     @Override
     public int getSize() {
-        return this.inventories.stream().mapToInt(AirInventory::getSize).sum();
+        return inventories.stream().mapToInt(AirInventory::getSize).sum();
     }
 
     @Override
     public @NotNull ItemStack getItem(int slot) {
         Preconditions.checkArgument(slot >= 0 && slot < getSize(), "slot < 0 || slot >= inventory size");
 
-        Iterator<AirInventory> it = this.inventories.iterator();
+        Iterator<AirInventory> it = inventories.iterator();
         int i = 0;
 
         while (it.hasNext()) {
@@ -45,7 +45,7 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
 
     @Override
     public @NotNull List<ItemStack> getItems() {
-        return this.inventories.stream().flatMap(inventory -> inventory.getItems().stream()).toList();
+        return inventories.stream().flatMap(inventory -> inventory.getItems().stream()).toList();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
 
     @Override
     protected void setItem0(int slot, Either<ItemStack, net.minecraft.world.item.ItemStack> either) {
-        Iterator<AirInventory> it = this.inventories.iterator();
+        Iterator<AirInventory> it = inventories.iterator();
         int i = 0;
 
         while (it.hasNext()) {
@@ -78,36 +78,36 @@ public class AirComposedInventory extends AirInventory implements ComposedInvent
 
     @Override
     public boolean addItem(@NotNull ItemStack item) {
-        return this.inventories.stream().anyMatch(inventory -> inventory.addItem(item));
+        return inventories.stream().anyMatch(inventory -> inventory.addItem(item));
     }
 
     @Override
     public boolean removeItem(@NotNull ItemStack item) {
         //noinspection SimplifyStreamApiCallChains
-        return this.inventories.stream().map(inventory -> inventory.removeItem(item)).anyMatch(Boolean::booleanValue);
+        return inventories.stream().map(inventory -> inventory.removeItem(item)).anyMatch(Boolean::booleanValue);
     }
 
     @Override
     public boolean removeItemExact(@NotNull ItemStack item) {
         //noinspection SimplifyStreamApiCallChains
-        return this.inventories.stream().map(inventory -> inventory.removeItemExact(item)).anyMatch(Boolean::booleanValue);
+        return inventories.stream().map(inventory -> inventory.removeItemExact(item)).anyMatch(Boolean::booleanValue);
     }
 
     @Override
     public void clear() {
-        this.inventories.forEach(AirInventory::clear);
+        inventories.forEach(AirInventory::clear);
     }
 
     @Override
     public @NotNull Collection<Inventory> getInventories() {
-        return this.inventories.stream().<Inventory>map(Function.identity()).toList();
+        return inventories.stream().<Inventory>map(Function.identity()).toList();
     }
 
     @Override
     public @NotNull Inventory getInventoryForSlot(int slot) {
         Preconditions.checkArgument(slot >= 0 && slot < getSize(), "slot < 0 || slot >= inventory size");
 
-        Iterator<AirInventory> it = this.inventories.iterator();
+        Iterator<AirInventory> it = inventories.iterator();
         int i = 0;
 
         while (it.hasNext()) {

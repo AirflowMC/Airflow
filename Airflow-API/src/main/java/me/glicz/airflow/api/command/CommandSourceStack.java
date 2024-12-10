@@ -2,6 +2,7 @@ package me.glicz.airflow.api.command;
 
 import me.glicz.airflow.api.command.sender.CommandSender;
 import me.glicz.airflow.api.entity.Entity;
+import me.glicz.airflow.api.message.MessageReceiver;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.Location;
@@ -16,7 +17,7 @@ public interface CommandSourceStack {
 
     @Nullable Entity getExecutor();
 
-    default @NotNull CommandSender getTarget() {
+    default @NotNull MessageReceiver getTarget() {
         return Objects.requireNonNullElse(getExecutor(), getSender());
     }
 

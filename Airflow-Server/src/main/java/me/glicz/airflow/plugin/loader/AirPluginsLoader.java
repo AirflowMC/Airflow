@@ -39,7 +39,7 @@ public class AirPluginsLoader implements PluginsLoader {
 
     @Override
     public @Nullable Plugin getPlugin(String name) {
-        return this.pluginMap.get(name);
+        return pluginMap.get(name);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AirPluginsLoader implements PluginsLoader {
 
     @Override
     public @NotNull File getPluginsFolder() {
-        return this.pluginsFolder;
+        return pluginsFolder;
     }
 
     public boolean preloadPlugins() {
@@ -63,7 +63,7 @@ public class AirPluginsLoader implements PluginsLoader {
                 AirPluginClassLoader classLoader = new AirPluginClassLoader(file);
                 PluginMeta pluginMeta = new AirPluginMeta(classLoader.getResourceAsStream("airflow.yml"));
 
-                if (this.pluginMap.containsKey(pluginMeta.getName())) {
+                if (pluginMap.containsKey(pluginMeta.getName())) {
                     LOGGER.error("Cannot load {}, because plugin with name {} already exists", file.getName(), pluginMeta.getName());
                     return;
                 }
@@ -76,7 +76,7 @@ public class AirPluginsLoader implements PluginsLoader {
                 PluginInjector.inject(plugin, airflow, pluginMeta);
                 classLoader.setPlugin(plugin);
 
-                this.pluginMap.put(pluginMeta.getName(), plugin);
+                pluginMap.put(pluginMeta.getName(), plugin);
             } catch (MalformedURLException e) {
                 LOGGER.atError()
                         .setCause(e)

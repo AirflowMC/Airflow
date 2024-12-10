@@ -14,6 +14,7 @@ import me.glicz.airflow.api.util.Version;
 import me.glicz.airflow.command.sender.AirRemoteCommandSender;
 import me.glicz.airflow.command.sender.AirServerCommandSender;
 import me.glicz.airflow.scheduler.AirServerScheduler;
+import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -41,27 +42,27 @@ public class AirServer implements Server {
 
     @Override
     public @NotNull String getServerBrandName() {
-        return this.minecraftServer.getServerModName();
+        return minecraftServer.getServerModName();
     }
 
     @Override
     public @NotNull ServerCommandSender getServerCommandSender() {
-        return this.serverCommandSender;
+        return serverCommandSender;
     }
 
     @Override
     public @NotNull RemoteCommandSender getRemoteCommandSender() {
-        return this.remoteCommandSender;
+        return remoteCommandSender;
     }
 
     @Override
     public @NotNull Commands getCommands() {
-        return this.minecraftServer.getCommands().airCommands;
+        return minecraftServer.getCommands().airCommands;
     }
 
     @Override
     public @Nullable Player getPlayer(String name) {
-        ServerPlayer player = this.minecraftServer.getPlayerList().getPlayerByName(name);
+        ServerPlayer player = minecraftServer.getPlayerList().getPlayerByName(name);
         if (player != null) {
             return player.getAirEntity();
         }
@@ -71,7 +72,7 @@ public class AirServer implements Server {
 
     @Override
     public @Nullable Player getPlayer(UUID uniqueId) {
-        ServerPlayer player = this.minecraftServer.getPlayerList().getPlayer(uniqueId);
+        ServerPlayer player = minecraftServer.getPlayerList().getPlayer(uniqueId);
         if (player != null) {
             return player.getAirEntity();
         }
@@ -81,38 +82,42 @@ public class AirServer implements Server {
 
     @Override
     public @NotNull Collection<Player> getOnlinePlayers() {
-        return this.minecraftServer.getPlayerList().getPlayers().stream()
+        return minecraftServer.getPlayerList().getPlayers().stream()
                 .<Player>map(ServerPlayer::getAirEntity)
                 .toList();
     }
 
     @Override
     public @NotNull Permissions getPermissions() {
-        return this.airflow.permissions;
+        return airflow.permissions;
     }
 
     @Override
     public @NotNull Version getServerVersion() {
-        return this.airflow.version;
+        return airflow.version;
     }
 
     @Override
     public @NotNull ServerProperties getServerProperties() {
-        return this.airflow.serverProperties;
+        return airflow.serverProperties;
     }
 
     @Override
     public @NotNull PluginsLoader getPluginsLoader() {
-        return this.airflow.pluginLoader;
+        return airflow.pluginLoader;
     }
 
     @Override
     public @NotNull ServerEventBus getServerEventBus() {
-        return this.airflow.serverEventBus;
+        return airflow.serverEventBus;
     }
 
     @Override
     public @NotNull Services getServices() {
-        return this.airflow.services;
+        return airflow.services;
+    }
+
+    public MinecraftComponentSerializer componentSerializer() {
+        return new MinecraftComponentSerializer(minecraftServer::registryAccess);
     }
 }

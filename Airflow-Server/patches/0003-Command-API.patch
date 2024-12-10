@@ -32,7 +32,7 @@ index 95fa22d6d1f2387cd5cbdbe9650a46433bbf660c..0b92ba758cfb76415dd420a166301f34
  
      default void onSuccess(int result) {
 diff --git a/net/minecraft/commands/CommandSource.java b/net/minecraft/commands/CommandSource.java
-index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f25322863b821ae5 100644
+index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..786de5d6e361aa345d6d7baaec586c449fd140f9 100644
 --- a/net/minecraft/commands/CommandSource.java
 +++ b/net/minecraft/commands/CommandSource.java
 @@ -22,6 +22,13 @@ public interface CommandSource {
@@ -42,7 +42,7 @@ index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f2532286
 +
 +        // Airflow start - Command API
 +        @Override
-+        public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
 +            return null;
 +        }
 +        // Airflow end - Command API
@@ -54,7 +54,7 @@ index 3ce267c99c6dd4cb8364d39cfdf97b6cb97f41c2..308ecb4c2badc6af5267ea95f2532286
          return false;
      }
 +
-+    me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender(); // Airflow - Command API
++    me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender(); // Airflow - Command API
  }
 diff --git a/net/minecraft/commands/CommandSourceStack.java b/net/minecraft/commands/CommandSourceStack.java
 index 35124733772411d52515d1c3bbace54dfe2fc5e7..a35209802b019d8b93bc67443e2a2672a0d88c84 100644
@@ -220,7 +220,7 @@ index 37ea3900ec3a8668607acb91362eb68a202fd4ac..df535a87ae486c1585132c06383a264c
                      )
                      .get();
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 778672065f2ac0068bd4e4c381685e597b7c28e3..900e55ea0622bfe7c8c4d496a3c83d4a2e6f2859 100644
+index 778672065f2ac0068bd4e4c381685e597b7c28e3..dccb8937e909a1f22164a458c09413374b76fb7e 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -1508,7 +1508,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -238,8 +238,8 @@ index 778672065f2ac0068bd4e4c381685e597b7c28e3..900e55ea0622bfe7c8c4d496a3c83d4a
  
 +    // Airflow start - Command API
 +    @Override
-+    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
-+        return (me.glicz.airflow.command.sender.AirServerCommandSender) this.getDedicatedServer().airflow.getServer().getServerCommandSender();
++    public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
++        return this.getDedicatedServer().airflow.getServer().getServerCommandSender();
 +    }
 +    // Airflow end - Command API
 +
@@ -304,7 +304,7 @@ index bd25223c38209498325004d6c8e24b02a7699fa8..8fb150b4b6d9af99bbe5e40a54776a6a
                  .whenComplete((result, exception1) -> {
                      if (exception1 != null) {
 diff --git a/net/minecraft/server/commands/DebugCommand.java b/net/minecraft/server/commands/DebugCommand.java
-index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e43919187d9819d 100644
+index ebacf8b467cae4224a5ba2ed651de56b14f84041..fb7cb61a538695baf8510fef0948f05b8da9b41c 100644
 --- a/net/minecraft/server/commands/DebugCommand.java
 +++ b/net/minecraft/server/commands/DebugCommand.java
 @@ -262,6 +262,13 @@ public class DebugCommand {
@@ -313,7 +313,7 @@ index ebacf8b467cae4224a5ba2ed651de56b14f84041..b17d18f8c07a506c0022175d3e439191
  
 +        // Airflow start - Command API
 +        @Override
-+        public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++        public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
 +            return null;
 +        }
 +        // Airflow end - Command API
@@ -334,8 +334,26 @@ index 28807e0edfbb8d79087b45a97430b432fb5f424c..77dfb2c9692b618b415cf923c46f668f
      @Nullable
      private RconThread rconThread;
      private final DedicatedServerSettings settings;
+diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
+index 82f3c121c67a50efbd99ebddd460d5550bfeaef9..8c74db1e7abb17a49423d5837a71e8a88ab797d8 100644
+--- a/net/minecraft/server/level/ServerPlayer.java
++++ b/net/minecraft/server/level/ServerPlayer.java
+@@ -316,6 +316,13 @@ public class ServerPlayer extends Player {
+         public void sendSystemMessage(Component component) {
+             ServerPlayer.this.sendSystemMessage(component);
+         }
++
++        // Airflow start - Command API
++        @Override
++        public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
++            return ServerPlayer.this.getAirEntity();
++        }
++        // Airflow end - Command API
+     };
+     private int containerCounter;
+     public boolean wonGame;
 diff --git a/net/minecraft/server/rcon/RconConsoleSource.java b/net/minecraft/server/rcon/RconConsoleSource.java
-index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e612427e9c 100644
+index 34693c6468e9795a34742fdff5281ef13f272b08..55dd70593450c4095de08262dce9f66cb1d7a86e 100644
 --- a/net/minecraft/server/rcon/RconConsoleSource.java
 +++ b/net/minecraft/server/rcon/RconConsoleSource.java
 @@ -52,4 +52,11 @@ public class RconConsoleSource implements CommandSource {
@@ -345,31 +363,13 @@ index 34693c6468e9795a34742fdff5281ef13f272b08..794b3113fb5e946e7ed3e4d0c51301e6
 +
 +    // Airflow start - Command API
 +    @Override
-+    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
-+        return (me.glicz.airflow.command.sender.AirRemoteCommandSender) this.server.getDedicatedServer().airflow.getServer().getRemoteCommandSender();
++    public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
++        return this.server.getDedicatedServer().airflow.getServer().getRemoteCommandSender();
 +    }
 +    // Airflow end - Command API
  }
-diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index cfeeb62cd9c4ec02b1f37fa5767ba88680c3250d..3a52b367f3d028482c58b656b6b4277c1fe7d65f 100644
---- a/net/minecraft/world/entity/Entity.java
-+++ b/net/minecraft/world/entity/Entity.java
-@@ -3286,6 +3286,13 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
-         );
-     }
- 
-+    // Airflow start - Command API
-+    @Override
-+    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
-+        return this.airEntity;
-+    }
-+    // Airflow end - Command API
-+
-     public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 target) {
-         Vec3 vec3 = anchor.apply(this);
-         double d = target.x - vec3.x;
 diff --git a/net/minecraft/world/level/BaseCommandBlock.java b/net/minecraft/world/level/BaseCommandBlock.java
-index 1176f6eb91dd70dfe2659d1f081b6bf67c7ee139..03ae3c6afaf55bce0e486ca790e4ca020e8156e0 100644
+index 1176f6eb91dd70dfe2659d1f081b6bf67c7ee139..f1a0b5fe0b1d6bac8d454d068bb70e9a501b9984 100644
 --- a/net/minecraft/world/level/BaseCommandBlock.java
 +++ b/net/minecraft/world/level/BaseCommandBlock.java
 @@ -32,6 +32,11 @@ public abstract class BaseCommandBlock implements CommandSource {
@@ -390,7 +390,7 @@ index 1176f6eb91dd70dfe2659d1f081b6bf67c7ee139..03ae3c6afaf55bce0e486ca790e4ca02
  
 +    // Airflow start - Command API
 +    @Override
-+    public me.glicz.airflow.command.sender.AirCommandSender getAirCommandSender() {
++    public me.glicz.airflow.api.command.sender.CommandSender getAirCommandSender() {
 +        return airCommandSender;
 +    }
 +    // Airflow end - Command API

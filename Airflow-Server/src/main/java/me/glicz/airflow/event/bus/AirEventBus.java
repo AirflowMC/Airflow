@@ -20,13 +20,13 @@ public class AirEventBus implements EventBus {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return this.plugin;
+        return plugin;
     }
 
     @Override
     public <E extends Event> @NotNull EventHandler<E> subscribe(@NotNull Class<E> event, @NotNull EventPriority priority, @NotNull EventHandler<E> handler) {
         //noinspection unchecked
-        EventHandlers<E> handlers = (EventHandlers<E>) this.handlersMap.computeIfAbsent(event, $ -> new EventHandlers<E>(plugin));
+        EventHandlers<E> handlers = (EventHandlers<E>) handlersMap.computeIfAbsent(event, $ -> new EventHandlers<E>(plugin));
         handlers.add(priority, handler);
         return handler;
     }
@@ -34,14 +34,14 @@ public class AirEventBus implements EventBus {
     @Override
     public <E extends Event> void unsubscribe(@NotNull Class<E> event, @NotNull EventHandler<E> handler) {
         //noinspection unchecked
-        EventHandlers<E> handlers = (EventHandlers<E>) this.handlersMap.get(event);
+        EventHandlers<E> handlers = (EventHandlers<E>) handlersMap.get(event);
         handlers.remove(handler);
     }
 
     @Override
     public <E extends Event> @NotNull E dispatch(@NotNull E event) {
         //noinspection unchecked
-        EventHandlers<E> handlers = (EventHandlers<E>) this.handlersMap.get(event.getClass());
+        EventHandlers<E> handlers = (EventHandlers<E>) handlersMap.get(event.getClass());
         if (handlers != null) {
             handlers.dispatch(event);
         }

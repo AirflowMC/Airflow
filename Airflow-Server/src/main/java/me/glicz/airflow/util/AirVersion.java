@@ -27,26 +27,26 @@ public class AirVersion implements Version {
 
     @Override
     public String getName() {
-        return this.worldVersion.getName();
+        return worldVersion.getName();
     }
 
     @Override
     public int getProtocolVersion() {
-        return this.worldVersion.getProtocolVersion();
+        return worldVersion.getProtocolVersion();
     }
 
     @Override
     public boolean isStable() {
-        return this.worldVersion.isStable();
+        return worldVersion.isStable();
     }
 
     @Override
     public String getBranch() {
-        return this.branch;
+        return branch;
     }
 
     @Override
     public String getCommit() {
-        return this.commit;
+        return commit;
     }
 }

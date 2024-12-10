@@ -14,7 +14,7 @@ public class AirServerReference implements ServerReference {
     }
 
     public void setServer(Supplier<AirServer> supplier) {
-        Preconditions.checkState(this.server == null, "Server is already set");
+        Preconditions.checkState(server == null, "Server is already set");
         this.server = supplier.get();
     }
 }

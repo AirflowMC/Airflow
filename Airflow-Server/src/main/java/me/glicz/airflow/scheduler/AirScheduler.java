@@ -22,7 +22,7 @@ public class AirScheduler implements Scheduler {
     }
 
     void tick() {
-        this.taskMap.values().forEach(task -> {
+        taskMap.values().forEach(task -> {
             try {
                 task.tick();
             } catch (Exception e) {
@@ -33,13 +33,13 @@ public class AirScheduler implements Scheduler {
 
     AirTask schedule(AirTask.Builder builder) {
         AirTask task = builder.build(TASK_COUNTER.getAndIncrement());
-        this.taskMap.put(task.getId(), task);
+        taskMap.put(task.getId(), task);
         return task;
     }
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return this.plugin;
+        return plugin;
     }
 
     @Override

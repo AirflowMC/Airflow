@@ -1,12 +1,17 @@
 package me.glicz.airflow.entity;
 
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
+import me.glicz.airflow.AirServer;
+import me.glicz.airflow.Handleable;
 import me.glicz.airflow.api.block.Block;
-import me.glicz.airflow.api.command.CommandSourceStack;
 import me.glicz.airflow.api.entity.EntityType;
+import me.glicz.airflow.api.permission.AbstractPermissionsHolder;
+import me.glicz.airflow.api.permission.Permission;
 import me.glicz.airflow.api.util.math.Vector2f;
 import me.glicz.airflow.api.util.math.Vector3d;
 import me.glicz.airflow.api.world.World;
-import me.glicz.airflow.command.sender.AirCommandSender;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -15,15 +20,25 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.UUID;
 
-public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.entity.Entity {
+public class AirEntity extends AbstractPermissionsHolder implements me.glicz.airflow.api.entity.Entity, Handleable<Entity> {
+    protected final AirServer server;
+    private final Entity handle;
+
     public AirEntity(Entity handle) {
-        super(handle.getServer().getDedicatedServer().airflow.getServer(), handle);
+        super(Multimaps.synchronizedMultimap(
+                MultimapBuilder.hashKeys().arrayListValues().build()
+        ));
+
+        this.handle = handle;
+        //noinspection DataFlowIssue
+        this.server = getHandle().getServer().getDedicatedServer().airflow.getServer();
     }
 
     public Entity getHandle() {
-        return (Entity) commandSource;
+        return handle;
     }
 
     @Override
@@ -61,12 +76,12 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
 
     @Override
     public @Nullable Component getCustomName() {
-        return componentSerializer().deserializeOrNull(getHandle().getCustomName());
+        return server.componentSerializer().deserializeOrNull(getHandle().getCustomName());
     }
 
     @Override
     public void setCustomName(@Nullable Component name) {
-        getHandle().setCustomName(componentSerializer().serializeOrNull(name));
+        getHandle().setCustomName(server.componentSerializer().serializeOrNull(name));
     }
 
     @Override
@@ -103,21 +118,32 @@ public class AirEntity extends AirCommandSender implements me.glicz.airflow.api.
 
     @Override
     public @NotNull Component getDisplayName() {
-        return componentSerializer().deserialize(getHandle().getDisplayName());
-    }
-
-    @Override
-    public boolean isOperator() {
-        return false;
-    }
-
-    @Override
-    public @NotNull CommandSourceStack createCommandSourceStack() {
-        return getHandle().createCommandSourceStack();
+        return server.componentSerializer().deserialize(getHandle().getDisplayName());
     }
 
     @Override
     public EntityType<?> getType() {
         return getHandle().getType().airEntityType;
+    }
+
+    @Override
+    public boolean hasPermission(@NotNull Key permission) {
+        Permission perm = server.getPermissions().getPermission(permission);
+        if (perm != null) {
+            return hasPermission(perm);
+        }
+
+        return Boolean.TRUE.equals(hasPermission0(permission));
+    }
+
+    @Override
+    public boolean hasPermission(@NotNull Permission permission) {
+        //TODO return Objects.requireNonNullElseGet(hasPermission0(permission.key()), () -> permission.getDefaultValue().test(this));
+        return Objects.requireNonNullElse(hasPermission0(permission.key()), false);
+    }
+
+    @Override
+    public AirServer getServer() {
+        return server;
     }
 }

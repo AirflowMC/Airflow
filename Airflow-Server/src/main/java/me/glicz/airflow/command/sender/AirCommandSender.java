@@ -7,7 +7,6 @@ import me.glicz.airflow.api.Server;
 import me.glicz.airflow.api.command.sender.CommandSender;
 import me.glicz.airflow.api.permission.AbstractPermissionsHolder;
 import me.glicz.airflow.api.permission.Permission;
-import me.glicz.airflow.util.MinecraftComponentSerializer;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
@@ -29,26 +28,21 @@ public abstract class AirCommandSender extends AbstractPermissionsHolder impleme
         this.commandSource = commandSource;
     }
 
-    public MinecraftComponentSerializer componentSerializer() {
-        return new MinecraftComponentSerializer(this.server.minecraftServer::registryAccess);
-    }
-
     @Override
     public @NotNull Server getServer() {
         return this.server;
     }
 
-    @SuppressWarnings({"UnstableApiUsage", "deprecation"}) // TODO Adventure 5.0.0
     @Override
     public void sendMessage(@NotNull Identity source, @NotNull Component message, @NotNull MessageType type) {
         if (type != MessageType.SYSTEM) return;
 
-        this.commandSource.sendSystemMessage(componentSerializer().serialize(message));
+        commandSource.sendSystemMessage(server.componentSerializer().serialize(message));
     }
 
     @Override
     public boolean hasPermission(@NotNull Key permission) {
-        Permission perm = this.server.getPermissions().getPermission(permission);
+        Permission perm = server.getPermissions().getPermission(permission);
         if (perm != null) {
             return hasPermission(perm);
         }

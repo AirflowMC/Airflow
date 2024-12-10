@@ -8,7 +8,7 @@ import me.glicz.airflow.api.generator.GenerationVersion;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class ItemTypes {
     /**
      * {@code minecraft:acacia_boat}
@@ -587,6 +587,12 @@ public final class ItemTypes {
     public static final ItemType BLACK_BED = provider().get(key("minecraft:black_bed"));
 
     /**
+     * {@code minecraft:black_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType BLACK_BUNDLE = provider().get(key("minecraft:black_bundle"));
+
+    /**
      * {@code minecraft:black_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -719,6 +725,12 @@ public final class ItemTypes {
     public static final ItemType BLUE_BED = provider().get(key("minecraft:blue_bed"));
 
     /**
+     * {@code minecraft:blue_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType BLUE_BUNDLE = provider().get(key("minecraft:blue_bundle"));
+
+    /**
      * {@code minecraft:blue_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -839,6 +851,12 @@ public final class ItemTypes {
     public static final ItemType BOOKSHELF = provider().get(key("minecraft:bookshelf"));
 
     /**
+     * {@code minecraft:bordure_indented_banner_pattern}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType BORDURE_INDENTED_BANNER_PATTERN = provider().get(key("minecraft:bordure_indented_banner_pattern"));
+
+    /**
      * {@code minecraft:bow}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -939,6 +957,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType BROWN_BED = provider().get(key("minecraft:brown_bed"));
+
+    /**
+     * {@code minecraft:brown_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType BROWN_BUNDLE = provider().get(key("minecraft:brown_bundle"));
 
     /**
      * {@code minecraft:brown_candle}
@@ -1367,6 +1391,12 @@ public final class ItemTypes {
     public static final ItemType CHISELED_RED_SANDSTONE = provider().get(key("minecraft:chiseled_red_sandstone"));
 
     /**
+     * {@code minecraft:chiseled_resin_bricks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType CHISELED_RESIN_BRICKS = provider().get(key("minecraft:chiseled_resin_bricks"));
+
+    /**
      * {@code minecraft:chiseled_sandstone}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -1425,6 +1455,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType CLOCK = provider().get(key("minecraft:clock"));
+
+    /**
+     * {@code minecraft:closed_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType CLOSED_EYEBLOSSOM = provider().get(key("minecraft:closed_eyeblossom"));
 
     /**
      * {@code minecraft:coal}
@@ -1715,6 +1751,18 @@ public final class ItemTypes {
     public static final ItemType CRAFTING_TABLE = provider().get(key("minecraft:crafting_table"));
 
     /**
+     * {@code minecraft:creaking_heart}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType CREAKING_HEART = provider().get(key("minecraft:creaking_heart"));
+
+    /**
+     * {@code minecraft:creaking_spawn_egg}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType CREAKING_SPAWN_EGG = provider().get(key("minecraft:creaking_spawn_egg"));
+
+    /**
      * {@code minecraft:creeper_banner_pattern}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -1893,6 +1941,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType CYAN_BED = provider().get(key("minecraft:cyan_bed"));
+
+    /**
+     * {@code minecraft:cyan_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType CYAN_BUNDLE = provider().get(key("minecraft:cyan_bundle"));
 
     /**
      * {@code minecraft:cyan_candle}
@@ -2759,6 +2813,12 @@ public final class ItemTypes {
     public static final ItemType FERN = provider().get(key("minecraft:fern"));
 
     /**
+     * {@code minecraft:field_masoned_banner_pattern}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType FIELD_MASONED_BANNER_PATTERN = provider().get(key("minecraft:field_masoned_banner_pattern"));
+
+    /**
      * {@code minecraft:filled_map}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -3149,6 +3209,12 @@ public final class ItemTypes {
     public static final ItemType GRAY_BED = provider().get(key("minecraft:gray_bed"));
 
     /**
+     * {@code minecraft:gray_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType GRAY_BUNDLE = provider().get(key("minecraft:gray_bundle"));
+
+    /**
      * {@code minecraft:gray_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -3225,6 +3291,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType GREEN_BED = provider().get(key("minecraft:green_bed"));
+
+    /**
+     * {@code minecraft:green_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType GREEN_BUNDLE = provider().get(key("minecraft:green_bundle"));
 
     /**
      * {@code minecraft:green_candle}
@@ -3869,6 +3941,12 @@ public final class ItemTypes {
     public static final ItemType LIGHT_BLUE_BED = provider().get(key("minecraft:light_blue_bed"));
 
     /**
+     * {@code minecraft:light_blue_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType LIGHT_BLUE_BUNDLE = provider().get(key("minecraft:light_blue_bundle"));
+
+    /**
      * {@code minecraft:light_blue_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -3945,6 +4023,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType LIGHT_GRAY_BED = provider().get(key("minecraft:light_gray_bed"));
+
+    /**
+     * {@code minecraft:light_gray_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType LIGHT_GRAY_BUNDLE = provider().get(key("minecraft:light_gray_bundle"));
 
     /**
      * {@code minecraft:light_gray_candle}
@@ -4055,6 +4139,12 @@ public final class ItemTypes {
     public static final ItemType LIME_BED = provider().get(key("minecraft:lime_bed"));
 
     /**
+     * {@code minecraft:lime_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType LIME_BUNDLE = provider().get(key("minecraft:lime_bundle"));
+
+    /**
      * {@code minecraft:lime_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -4161,6 +4251,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType MAGENTA_BED = provider().get(key("minecraft:magenta_bed"));
+
+    /**
+     * {@code minecraft:magenta_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType MAGENTA_BUNDLE = provider().get(key("minecraft:magenta_bundle"));
 
     /**
      * {@code minecraft:magenta_candle}
@@ -4973,6 +5069,12 @@ public final class ItemTypes {
     public static final ItemType OMINOUS_TRIAL_KEY = provider().get(key("minecraft:ominous_trial_key"));
 
     /**
+     * {@code minecraft:open_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType OPEN_EYEBLOSSOM = provider().get(key("minecraft:open_eyeblossom"));
+
+    /**
      * {@code minecraft:orange_banner}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -4983,6 +5085,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType ORANGE_BED = provider().get(key("minecraft:orange_bed"));
+
+    /**
+     * {@code minecraft:orange_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType ORANGE_BUNDLE = provider().get(key("minecraft:orange_bundle"));
 
     /**
      * {@code minecraft:orange_candle}
@@ -5135,6 +5243,126 @@ public final class ItemTypes {
     public static final ItemType PAINTING = provider().get(key("minecraft:painting"));
 
     /**
+     * {@code minecraft:pale_hanging_moss}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_HANGING_MOSS = provider().get(key("minecraft:pale_hanging_moss"));
+
+    /**
+     * {@code minecraft:pale_moss_block}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_MOSS_BLOCK = provider().get(key("minecraft:pale_moss_block"));
+
+    /**
+     * {@code minecraft:pale_moss_carpet}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_MOSS_CARPET = provider().get(key("minecraft:pale_moss_carpet"));
+
+    /**
+     * {@code minecraft:pale_oak_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_BOAT = provider().get(key("minecraft:pale_oak_boat"));
+
+    /**
+     * {@code minecraft:pale_oak_button}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_BUTTON = provider().get(key("minecraft:pale_oak_button"));
+
+    /**
+     * {@code minecraft:pale_oak_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_CHEST_BOAT = provider().get(key("minecraft:pale_oak_chest_boat"));
+
+    /**
+     * {@code minecraft:pale_oak_door}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_DOOR = provider().get(key("minecraft:pale_oak_door"));
+
+    /**
+     * {@code minecraft:pale_oak_fence}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_FENCE = provider().get(key("minecraft:pale_oak_fence"));
+
+    /**
+     * {@code minecraft:pale_oak_fence_gate}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_FENCE_GATE = provider().get(key("minecraft:pale_oak_fence_gate"));
+
+    /**
+     * {@code minecraft:pale_oak_hanging_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_HANGING_SIGN = provider().get(key("minecraft:pale_oak_hanging_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_leaves}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_LEAVES = provider().get(key("minecraft:pale_oak_leaves"));
+
+    /**
+     * {@code minecraft:pale_oak_log}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_LOG = provider().get(key("minecraft:pale_oak_log"));
+
+    /**
+     * {@code minecraft:pale_oak_planks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_PLANKS = provider().get(key("minecraft:pale_oak_planks"));
+
+    /**
+     * {@code minecraft:pale_oak_pressure_plate}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_PRESSURE_PLATE = provider().get(key("minecraft:pale_oak_pressure_plate"));
+
+    /**
+     * {@code minecraft:pale_oak_sapling}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_SAPLING = provider().get(key("minecraft:pale_oak_sapling"));
+
+    /**
+     * {@code minecraft:pale_oak_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_SIGN = provider().get(key("minecraft:pale_oak_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_slab}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_SLAB = provider().get(key("minecraft:pale_oak_slab"));
+
+    /**
+     * {@code minecraft:pale_oak_stairs}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_STAIRS = provider().get(key("minecraft:pale_oak_stairs"));
+
+    /**
+     * {@code minecraft:pale_oak_trapdoor}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_TRAPDOOR = provider().get(key("minecraft:pale_oak_trapdoor"));
+
+    /**
+     * {@code minecraft:pale_oak_wood}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PALE_OAK_WOOD = provider().get(key("minecraft:pale_oak_wood"));
+
+    /**
      * {@code minecraft:panda_spawn_egg}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -5229,6 +5457,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType PINK_BED = provider().get(key("minecraft:pink_bed"));
+
+    /**
+     * {@code minecraft:pink_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PINK_BUNDLE = provider().get(key("minecraft:pink_bundle"));
 
     /**
      * {@code minecraft:pink_candle}
@@ -5681,6 +5915,12 @@ public final class ItemTypes {
     public static final ItemType PURPLE_BED = provider().get(key("minecraft:purple_bed"));
 
     /**
+     * {@code minecraft:purple_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType PURPLE_BUNDLE = provider().get(key("minecraft:purple_bundle"));
+
+    /**
      * {@code minecraft:purple_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -5909,6 +6149,12 @@ public final class ItemTypes {
     public static final ItemType RED_BED = provider().get(key("minecraft:red_bed"));
 
     /**
+     * {@code minecraft:red_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RED_BUNDLE = provider().get(key("minecraft:red_bundle"));
+
+    /**
      * {@code minecraft:red_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -6093,6 +6339,48 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType REPEATING_COMMAND_BLOCK = provider().get(key("minecraft:repeating_command_block"));
+
+    /**
+     * {@code minecraft:resin_block}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BLOCK = provider().get(key("minecraft:resin_block"));
+
+    /**
+     * {@code minecraft:resin_brick}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BRICK = provider().get(key("minecraft:resin_brick"));
+
+    /**
+     * {@code minecraft:resin_brick_slab}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BRICK_SLAB = provider().get(key("minecraft:resin_brick_slab"));
+
+    /**
+     * {@code minecraft:resin_brick_stairs}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BRICK_STAIRS = provider().get(key("minecraft:resin_brick_stairs"));
+
+    /**
+     * {@code minecraft:resin_brick_wall}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BRICK_WALL = provider().get(key("minecraft:resin_brick_wall"));
+
+    /**
+     * {@code minecraft:resin_bricks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_BRICKS = provider().get(key("minecraft:resin_bricks"));
+
+    /**
+     * {@code minecraft:resin_clump}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType RESIN_CLUMP = provider().get(key("minecraft:resin_clump"));
 
     /**
      * {@code minecraft:respawn_anchor}
@@ -6929,6 +7217,18 @@ public final class ItemTypes {
     public static final ItemType STRIPPED_OAK_WOOD = provider().get(key("minecraft:stripped_oak_wood"));
 
     /**
+     * {@code minecraft:stripped_pale_oak_log}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType STRIPPED_PALE_OAK_LOG = provider().get(key("minecraft:stripped_pale_oak_log"));
+
+    /**
+     * {@code minecraft:stripped_pale_oak_wood}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType STRIPPED_PALE_OAK_WOOD = provider().get(key("minecraft:stripped_pale_oak_wood"));
+
+    /**
      * {@code minecraft:stripped_spruce_log}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -7727,6 +8027,12 @@ public final class ItemTypes {
     public static final ItemType WHITE_BED = provider().get(key("minecraft:white_bed"));
 
     /**
+     * {@code minecraft:white_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType WHITE_BUNDLE = provider().get(key("minecraft:white_bundle"));
+
+    /**
      * {@code minecraft:white_candle}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -7905,6 +8211,12 @@ public final class ItemTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemType YELLOW_BED = provider().get(key("minecraft:yellow_bed"));
+
+    /**
+     * {@code minecraft:yellow_bundle}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final ItemType YELLOW_BUNDLE = provider().get(key("minecraft:yellow_bundle"));
 
     /**
      * {@code minecraft:yellow_candle}

@@ -12,8 +12,20 @@ import me.glicz.airflow.api.generator.GenerationVersion;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class EntityTypes {
+    /**
+     * {@code minecraft:acacia_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> ACACIA_BOAT = provider().get(key("minecraft:acacia_boat"));
+
+    /**
+     * {@code minecraft:acacia_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> ACACIA_CHEST_BOAT = provider().get(key("minecraft:acacia_chest_boat"));
+
     /**
      * {@code minecraft:allay}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
@@ -51,6 +63,18 @@ public final class EntityTypes {
     public static final EntityType<Mob> AXOLOTL = provider().get(key("minecraft:axolotl"));
 
     /**
+     * {@code minecraft:bamboo_chest_raft}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> BAMBOO_CHEST_RAFT = provider().get(key("minecraft:bamboo_chest_raft"));
+
+    /**
+     * {@code minecraft:bamboo_raft}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> BAMBOO_RAFT = provider().get(key("minecraft:bamboo_raft"));
+
+    /**
      * {@code minecraft:bat}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -63,6 +87,18 @@ public final class EntityTypes {
     public static final EntityType<Mob> BEE = provider().get(key("minecraft:bee"));
 
     /**
+     * {@code minecraft:birch_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> BIRCH_BOAT = provider().get(key("minecraft:birch_boat"));
+
+    /**
+     * {@code minecraft:birch_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> BIRCH_CHEST_BOAT = provider().get(key("minecraft:birch_chest_boat"));
+
+    /**
      * {@code minecraft:blaze}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -73,12 +109,6 @@ public final class EntityTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final EntityType<Entity> BLOCK_DISPLAY = provider().get(key("minecraft:block_display"));
-
-    /**
-     * {@code minecraft:boat}
-     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
-     */
-    public static final EntityType<Entity> BOAT = provider().get(key("minecraft:boat"));
 
     /**
      * {@code minecraft:bogged}
@@ -117,10 +147,16 @@ public final class EntityTypes {
     public static final EntityType<Mob> CAVE_SPIDER = provider().get(key("minecraft:cave_spider"));
 
     /**
-     * {@code minecraft:chest_boat}
+     * {@code minecraft:cherry_boat}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
-    public static final EntityType<Entity> CHEST_BOAT = provider().get(key("minecraft:chest_boat"));
+    public static final EntityType<Entity> CHERRY_BOAT = provider().get(key("minecraft:cherry_boat"));
+
+    /**
+     * {@code minecraft:cherry_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> CHERRY_CHEST_BOAT = provider().get(key("minecraft:cherry_chest_boat"));
 
     /**
      * {@code minecraft:chest_minecart}
@@ -153,10 +189,28 @@ public final class EntityTypes {
     public static final EntityType<Mob> COW = provider().get(key("minecraft:cow"));
 
     /**
+     * {@code minecraft:creaking}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Mob> CREAKING = provider().get(key("minecraft:creaking"));
+
+    /**
      * {@code minecraft:creeper}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final EntityType<Mob> CREEPER = provider().get(key("minecraft:creeper"));
+
+    /**
+     * {@code minecraft:dark_oak_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> DARK_OAK_BOAT = provider().get(key("minecraft:dark_oak_boat"));
+
+    /**
+     * {@code minecraft:dark_oak_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> DARK_OAK_CHEST_BOAT = provider().get(key("minecraft:dark_oak_chest_boat"));
 
     /**
      * {@code minecraft:dolphin}
@@ -399,6 +453,18 @@ public final class EntityTypes {
     public static final EntityType<Entity> ITEM_FRAME = provider().get(key("minecraft:item_frame"));
 
     /**
+     * {@code minecraft:jungle_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> JUNGLE_BOAT = provider().get(key("minecraft:jungle_boat"));
+
+    /**
+     * {@code minecraft:jungle_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> JUNGLE_CHEST_BOAT = provider().get(key("minecraft:jungle_chest_boat"));
+
+    /**
      * {@code minecraft:leash_knot}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -429,6 +495,18 @@ public final class EntityTypes {
     public static final EntityType<Mob> MAGMA_CUBE = provider().get(key("minecraft:magma_cube"));
 
     /**
+     * {@code minecraft:mangrove_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> MANGROVE_BOAT = provider().get(key("minecraft:mangrove_boat"));
+
+    /**
+     * {@code minecraft:mangrove_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> MANGROVE_CHEST_BOAT = provider().get(key("minecraft:mangrove_chest_boat"));
+
+    /**
      * {@code minecraft:marker}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -453,6 +531,18 @@ public final class EntityTypes {
     public static final EntityType<Mob> MULE = provider().get(key("minecraft:mule"));
 
     /**
+     * {@code minecraft:oak_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> OAK_BOAT = provider().get(key("minecraft:oak_boat"));
+
+    /**
+     * {@code minecraft:oak_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> OAK_CHEST_BOAT = provider().get(key("minecraft:oak_chest_boat"));
+
+    /**
      * {@code minecraft:ocelot}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -469,6 +559,18 @@ public final class EntityTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final EntityType<Entity> PAINTING = provider().get(key("minecraft:painting"));
+
+    /**
+     * {@code minecraft:pale_oak_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> PALE_OAK_BOAT = provider().get(key("minecraft:pale_oak_boat"));
+
+    /**
+     * {@code minecraft:pale_oak_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> PALE_OAK_CHEST_BOAT = provider().get(key("minecraft:pale_oak_chest_boat"));
 
     /**
      * {@code minecraft:panda}
@@ -637,6 +739,18 @@ public final class EntityTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final EntityType<Mob> SPIDER = provider().get(key("minecraft:spider"));
+
+    /**
+     * {@code minecraft:spruce_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> SPRUCE_BOAT = provider().get(key("minecraft:spruce_boat"));
+
+    /**
+     * {@code minecraft:spruce_chest_boat}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final EntityType<Entity> SPRUCE_CHEST_BOAT = provider().get(key("minecraft:spruce_chest_boat"));
 
     /**
      * {@code minecraft:squid}

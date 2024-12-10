@@ -12,7 +12,7 @@ import me.glicz.airflow.api.inventory.menu.view.MenuView;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class MenuTypes {
     /**
      * {@code minecraft:anvil}

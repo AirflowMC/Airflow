@@ -33,8 +33,9 @@ public abstract class FieldBasedGenerator extends Generator {
                     try {
                         builder.addField(createField(field));
                     } catch (Exception e) {
-                        //noinspection RedundantCast
-                        logger.error("Failed to generate field {}.{}", source.getName(), field.getName(), (Throwable) (Main.DEBUG ? e : null));
+                        logger.atError()
+                                .setCause(Main.DEBUG ? e : null)
+                                .log("Failed to generate field {}.{}", source.getName(), field.getName());
                     }
                 });
     }

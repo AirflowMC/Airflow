@@ -12,7 +12,7 @@ import net.kyori.adventure.text.Component;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class ItemComponentTypes {
     /**
      * {@code minecraft:creative_slot_lock}
@@ -39,10 +39,10 @@ public final class ItemComponentTypes {
     public static final ItemComponentType.Valued<Boolean> ENCHANTMENT_GLINT_OVERRIDE = provider().getValued(key("minecraft:enchantment_glint_override"));
 
     /**
-     * {@code minecraft:fire_resistant}
+     * {@code minecraft:glider}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
-    public static final ItemComponentType.NonValued FIRE_RESISTANT = provider().getNonValued(key("minecraft:fire_resistant"));
+    public static final ItemComponentType.NonValued GLIDER = provider().getNonValued(key("minecraft:glider"));
 
     /**
      * {@code minecraft:hide_additional_tooltip}
@@ -85,12 +85,6 @@ public final class ItemComponentTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final ItemComponentType.Valued<Integer> MAX_STACK_SIZE = provider().getValued(key("minecraft:max_stack_size"));
-
-    /**
-     * {@code minecraft:ominous_bottle_amplifier}
-     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
-     */
-    public static final ItemComponentType.Valued<Integer> OMINOUS_BOTTLE_AMPLIFIER = provider().getValued(key("minecraft:ominous_bottle_amplifier"));
 
     /**
      * {@code minecraft:repair_cost}

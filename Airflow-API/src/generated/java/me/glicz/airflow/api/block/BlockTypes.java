@@ -8,7 +8,7 @@ import me.glicz.airflow.api.generator.GenerationVersion;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class BlockTypes {
     /**
      * {@code minecraft:acacia_button}
@@ -1151,6 +1151,12 @@ public final class BlockTypes {
     public static final BlockType CHISELED_RED_SANDSTONE = provider().get(key("minecraft:chiseled_red_sandstone"));
 
     /**
+     * {@code minecraft:chiseled_resin_bricks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType CHISELED_RESIN_BRICKS = provider().get(key("minecraft:chiseled_resin_bricks"));
+
+    /**
      * {@code minecraft:chiseled_sandstone}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -1191,6 +1197,12 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType CLAY = provider().get(key("minecraft:clay"));
+
+    /**
+     * {@code minecraft:closed_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType CLOSED_EYEBLOSSOM = provider().get(key("minecraft:closed_eyeblossom"));
 
     /**
      * {@code minecraft:coal_block}
@@ -1377,6 +1389,12 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType CRAFTING_TABLE = provider().get(key("minecraft:crafting_table"));
+
+    /**
+     * {@code minecraft:creaking_heart}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType CREAKING_HEART = provider().get(key("minecraft:creaking_heart"));
 
     /**
      * {@code minecraft:creeper_head}
@@ -3737,6 +3755,12 @@ public final class BlockTypes {
     public static final BlockType OCHRE_FROGLIGHT = provider().get(key("minecraft:ochre_froglight"));
 
     /**
+     * {@code minecraft:open_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType OPEN_EYEBLOSSOM = provider().get(key("minecraft:open_eyeblossom"));
+
+    /**
      * {@code minecraft:orange_banner}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -3897,6 +3921,126 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType PACKED_MUD = provider().get(key("minecraft:packed_mud"));
+
+    /**
+     * {@code minecraft:pale_hanging_moss}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_HANGING_MOSS = provider().get(key("minecraft:pale_hanging_moss"));
+
+    /**
+     * {@code minecraft:pale_moss_block}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_MOSS_BLOCK = provider().get(key("minecraft:pale_moss_block"));
+
+    /**
+     * {@code minecraft:pale_moss_carpet}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_MOSS_CARPET = provider().get(key("minecraft:pale_moss_carpet"));
+
+    /**
+     * {@code minecraft:pale_oak_button}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_BUTTON = provider().get(key("minecraft:pale_oak_button"));
+
+    /**
+     * {@code minecraft:pale_oak_door}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_DOOR = provider().get(key("minecraft:pale_oak_door"));
+
+    /**
+     * {@code minecraft:pale_oak_fence}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_FENCE = provider().get(key("minecraft:pale_oak_fence"));
+
+    /**
+     * {@code minecraft:pale_oak_fence_gate}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_FENCE_GATE = provider().get(key("minecraft:pale_oak_fence_gate"));
+
+    /**
+     * {@code minecraft:pale_oak_hanging_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_HANGING_SIGN = provider().get(key("minecraft:pale_oak_hanging_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_leaves}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_LEAVES = provider().get(key("minecraft:pale_oak_leaves"));
+
+    /**
+     * {@code minecraft:pale_oak_log}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_LOG = provider().get(key("minecraft:pale_oak_log"));
+
+    /**
+     * {@code minecraft:pale_oak_planks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_PLANKS = provider().get(key("minecraft:pale_oak_planks"));
+
+    /**
+     * {@code minecraft:pale_oak_pressure_plate}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_PRESSURE_PLATE = provider().get(key("minecraft:pale_oak_pressure_plate"));
+
+    /**
+     * {@code minecraft:pale_oak_sapling}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_SAPLING = provider().get(key("minecraft:pale_oak_sapling"));
+
+    /**
+     * {@code minecraft:pale_oak_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_SIGN = provider().get(key("minecraft:pale_oak_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_slab}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_SLAB = provider().get(key("minecraft:pale_oak_slab"));
+
+    /**
+     * {@code minecraft:pale_oak_stairs}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_STAIRS = provider().get(key("minecraft:pale_oak_stairs"));
+
+    /**
+     * {@code minecraft:pale_oak_trapdoor}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_TRAPDOOR = provider().get(key("minecraft:pale_oak_trapdoor"));
+
+    /**
+     * {@code minecraft:pale_oak_wall_hanging_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_WALL_HANGING_SIGN = provider().get(key("minecraft:pale_oak_wall_hanging_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_wall_sign}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_WALL_SIGN = provider().get(key("minecraft:pale_oak_wall_sign"));
+
+    /**
+     * {@code minecraft:pale_oak_wood}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType PALE_OAK_WOOD = provider().get(key("minecraft:pale_oak_wood"));
 
     /**
      * {@code minecraft:pearlescent_froglight}
@@ -4313,6 +4457,12 @@ public final class BlockTypes {
     public static final BlockType POTTED_CHERRY_SAPLING = provider().get(key("minecraft:potted_cherry_sapling"));
 
     /**
+     * {@code minecraft:potted_closed_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType POTTED_CLOSED_EYEBLOSSOM = provider().get(key("minecraft:potted_closed_eyeblossom"));
+
+    /**
      * {@code minecraft:potted_cornflower}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -4385,6 +4535,12 @@ public final class BlockTypes {
     public static final BlockType POTTED_OAK_SAPLING = provider().get(key("minecraft:potted_oak_sapling"));
 
     /**
+     * {@code minecraft:potted_open_eyeblossom}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType POTTED_OPEN_EYEBLOSSOM = provider().get(key("minecraft:potted_open_eyeblossom"));
+
+    /**
      * {@code minecraft:potted_orange_tulip}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -4395,6 +4551,12 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType POTTED_OXEYE_DAISY = provider().get(key("minecraft:potted_oxeye_daisy"));
+
+    /**
+     * {@code minecraft:potted_pale_oak_sapling}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType POTTED_PALE_OAK_SAPLING = provider().get(key("minecraft:potted_pale_oak_sapling"));
 
     /**
      * {@code minecraft:potted_pink_tulip}
@@ -4899,6 +5061,42 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType REPEATING_COMMAND_BLOCK = provider().get(key("minecraft:repeating_command_block"));
+
+    /**
+     * {@code minecraft:resin_block}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_BLOCK = provider().get(key("minecraft:resin_block"));
+
+    /**
+     * {@code minecraft:resin_brick_slab}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_BRICK_SLAB = provider().get(key("minecraft:resin_brick_slab"));
+
+    /**
+     * {@code minecraft:resin_brick_stairs}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_BRICK_STAIRS = provider().get(key("minecraft:resin_brick_stairs"));
+
+    /**
+     * {@code minecraft:resin_brick_wall}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_BRICK_WALL = provider().get(key("minecraft:resin_brick_wall"));
+
+    /**
+     * {@code minecraft:resin_bricks}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_BRICKS = provider().get(key("minecraft:resin_bricks"));
+
+    /**
+     * {@code minecraft:resin_clump}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType RESIN_CLUMP = provider().get(key("minecraft:resin_clump"));
 
     /**
      * {@code minecraft:respawn_anchor}
@@ -5481,6 +5679,18 @@ public final class BlockTypes {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockType STRIPPED_OAK_WOOD = provider().get(key("minecraft:stripped_oak_wood"));
+
+    /**
+     * {@code minecraft:stripped_pale_oak_log}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType STRIPPED_PALE_OAK_LOG = provider().get(key("minecraft:stripped_pale_oak_log"));
+
+    /**
+     * {@code minecraft:stripped_pale_oak_wood}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockType STRIPPED_PALE_OAK_WOOD = provider().get(key("minecraft:stripped_pale_oak_wood"));
 
     /**
      * {@code minecraft:stripped_spruce_log}

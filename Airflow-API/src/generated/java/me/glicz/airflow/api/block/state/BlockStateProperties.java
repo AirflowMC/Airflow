@@ -8,8 +8,14 @@ import me.glicz.airflow.api.generator.GenerationVersion;
 /**
  * @apiNote This class was automatically generated based on internal Minecraft registries. Its content might change in future versions.
  */
-@GenerationVersion("1.21.1")
+@GenerationVersion("1.21.4")
 public final class BlockStateProperties {
+    /**
+     * {@code active}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockStateProperty.Boolean ACTIVE = provider().getBoolean("ACTIVE");
+
     /**
      * {@code age}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
@@ -341,6 +347,12 @@ public final class BlockStateProperties {
     public static final BlockStateProperty.Integer MOISTURE = provider().getInteger("MOISTURE");
 
     /**
+     * {@code natural}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockStateProperty.Boolean NATURAL = provider().getBoolean("NATURAL");
+
+    /**
      * {@code north}
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
@@ -447,6 +459,12 @@ public final class BlockStateProperties {
      * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
      */
     public static final BlockStateProperty.Integer STAGE = provider().getInteger("STAGE");
+
+    /**
+     * {@code tip}
+     * @apiNote This field was automatically generated based on internal Minecraft registries. It might be removed in future versions.
+     */
+    public static final BlockStateProperty.Boolean TIP = provider().getBoolean("TIP");
 
     /**
      * {@code triggered}

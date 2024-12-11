@@ -4,6 +4,7 @@ configurate = "4.2.0-SNAPSHOT"
 guice = "6.0.0"
 jline = "3.21.0"
 log4j = "2.22.1"
+paperclip = "3.0.3"
 terminal-console-appender = "1.3.0"
 
 [libraries]
@@ -16,6 +17,7 @@ configurate = { module = "org.spongepowered:configurate-yaml", version.ref = "co
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
 jline-terminal = { module = "org.jline:jline-terminal-jansi", version.ref = "jline" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+paperclip = { module = "io.papermc:paperclip", version.ref = "paperclip" }
 terminalConsoleAppender = { module = "net.minecrell:terminalconsoleappender", version.ref = "terminal-console-appender" }
 
 [bundles]

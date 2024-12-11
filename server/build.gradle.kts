@@ -15,8 +15,8 @@ configurations.apiElements {
 
 dependencies {
     mache(paperMache(properties["mache-build"] as String))
-    paperclip("io.papermc:paperclip:3.0.3")
-    implementation(project(":airflow-api"))
+    paperclip(libs.paperclip)
+    implementation(project(":api"))
     implementation(libs.adventure.text.serializer.ansi)
     implementation(libs.jline.terminal)
     implementation(libs.terminalConsoleAppender)
@@ -40,7 +40,7 @@ airplane {
 
     // export some of the dependencies to api in order to avoid version mismatch
     exportFilteredDependencies = mapOf(
-        project(":airflow-api") to listOf(
+        project(":api") to listOf(
             "com.google.guava:guava",
             "org.slf4j:slf4j-api",
             "com.mojang:brigadier"
@@ -57,7 +57,7 @@ tasks {
 afterEvaluate {
     tasks {
         withType<PaperclipJar> {
-            dependsOn(":airflow-api:jar")
+            dependsOn(":api:jar")
         }
 
         named<JavaExec>("runServer") {

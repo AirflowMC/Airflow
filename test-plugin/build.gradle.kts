@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly(project(":airflow-api"))
+    compileOnly(project(":api"))
 }

@@ -119,4 +119,4 @@ run/
 !gradle-wrapper.jar
 
 # Airflow
-Airflow-Server/src/internals/
+server/src/internals/
